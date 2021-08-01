@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>二叉树前序遍历 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="二叉树前序遍历题：12345题:给定一个二叉树，返回它的前序遍历。例:输入: [1,null,2,3]输出: [1,2,3]
+
+解(c++)12345678910111213141516171819vector&amp;lt;int&amp;gt; preorderTraversal(TreeNode* root)" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="二叉树前序遍历" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-01T08:33:29.763Z"><a href="/2021/08/01/二叉树前序遍历/">2021-08-01</a></time>
+      
+      
+  
+    <h1 class="title">二叉树前序遍历</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="二叉树前序遍历"><a href="#二叉树前序遍历" class="headerlink" title="二叉树前序遍历"></a>二叉树前序遍历</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">题:</span><br><span class="line">给定一个二叉树，返回它的前序遍历。</span><br><span class="line">例:</span><br><span class="line">输入: [<span class="number">1</span>,<span class="keyword">null</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="解-c"><a href="#解-c" class="headerlink" title="解(c++)"></a>解(c++)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(root)&#123;</span><br><span class="line">        TreeNode *cur=<span class="literal">NULL</span>;</span><br><span class="line">        stack&lt;TreeNode*&gt; sk;</span><br><span class="line">        sk.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(sk.<span class="built_in">size</span>())&#123;     </span><br><span class="line">            cur=sk.<span class="built_in">top</span>();</span><br><span class="line">            sk.<span class="built_in">pop</span>();</span><br><span class="line">            res.<span class="built_in">push_back</span>(cur-&gt;val);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;right)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;right);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;left)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;left);                </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解(java)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">16</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>==root)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        getCurThenLeftAndRight(root,res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCurThenLeftAndRight</span><span class="params">(TreeNode cur,List&lt;Integer&gt; res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res.add(cur.val);</span><br><span class="line">        getCurThenLeftAndRight(cur.left,res);</span><br><span class="line">        getCurThenLeftAndRight(cur.right,res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]">https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]</a>: </p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/算法/">算法</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>3</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/01/二叉树的后序遍历/">二叉树后序遍历</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/01/二叉树的中序遍历/">二叉树中序遍历</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/01/二叉树前序遍历/">二叉树前序遍历</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/01/指令/">常用指令</a>
+      </li>
+    
+      <li>
+        <a href="/2021/05/22/计算机术语/">计算机术语</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
