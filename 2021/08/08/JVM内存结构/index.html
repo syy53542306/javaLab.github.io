@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>JVM内存结构 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="JVM内存结构JVM进程在操作系统中的内存结构：1234567JVM虚拟机数据区(JVM分配管理的内存)：    线程独享: 程序计数器，java虚拟机栈，本地方法栈    线程共享: 堆--新生代(eden,from survior,to survior),老年代本地内存(操心系统分配管理的内存)" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="JVM内存结构" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-08T06:29:49.967Z"><a href="/2021/08/08/JVM内存结构/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title">JVM内存结构</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h2><h3 id="JVM进程在操作系统中的内存结构："><a href="#JVM进程在操作系统中的内存结构：" class="headerlink" title="JVM进程在操作系统中的内存结构："></a>JVM进程在操作系统中的内存结构：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">JVM虚拟机数据区(JVM分配管理的内存)：</span></span><br><span class="line">    <span class="string">线程独享:</span> <span class="string">程序计数器，java虚拟机栈，本地方法栈</span></span><br><span class="line">    <span class="string">线程共享:</span> <span class="string">堆--新生代(eden,from</span> <span class="string">survior,to</span> <span class="string">survior),老年代</span></span><br><span class="line"><span class="string">本地内存(操心系统分配管理的内存):</span></span><br><span class="line">	<span class="string">线程共享：</span></span><br><span class="line">        <span class="string">元数据区-方法区(取代JDK1.7的永久代):加载类信息,常量,静态变量,即时编译器编译后代码</span></span><br><span class="line">        <span class="string">直接内存</span>    </span><br></pre></td></tr></table></figure>
+
+<h3 id="JVM虚拟机栈内容："><a href="#JVM虚拟机栈内容：" class="headerlink" title="JVM虚拟机栈内容："></a>JVM虚拟机栈内容：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">1:</span> <span class="string">局部变量表(八大原始类型,对象引用,返回地址)</span></span><br><span class="line"><span class="attr">2:</span> <span class="string">操作数栈</span></span><br><span class="line"><span class="attr">3:</span> <span class="string">动态链接</span></span><br><span class="line"><span class="attr">4:</span> <span class="string">方法出口信息</span></span><br><span class="line"><span class="attr">5:</span> <span class="string">...</span></span><br></pre></td></tr></table></figure>
+
+<p>直接内存vs堆内存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存。</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#x39;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JVM/">JVM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JVM/">JVM</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/Kafka/">Kafka</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/RabbitMQ/">RabbitMQ</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/消息队列/">消息队列</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/07/堆排序/">堆排序</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
