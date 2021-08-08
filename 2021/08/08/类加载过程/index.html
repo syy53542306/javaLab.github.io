@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>类加载 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="类加载类的生命周期1加载、验证、准备、解析、初始化、使用、卸载（FullGC)
+
+加载1231.类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类2.将二进制字节流所代表的静态结构" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="类加载" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-08T09:47:22.815Z"><a href="/2021/08/08/类加载过程/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title">类加载</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">加载、验证、准备、解析、初始化、使用、卸载（FullGC)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类</span><br><span class="line"><span class="number">2.</span>将二进制字节流所代表的静态结构转化为方法区的运行时数据结构</span><br><span class="line"><span class="number">3.</span>在内存中创建一个代表该类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>文件格式验证：验证字节流是否符合 Class 文件格式的规范，并且能被当前版本的虚拟机处理</span><br><span class="line"><span class="number">2.</span>元数据验证：对字节码描述信息进行语义分析，确保其符合 Java 语法规范</span><br><span class="line"><span class="number">3.</span>方法体验证：对方法体进行语义分析，保证方法在运行时不会出现危害虚拟机的事件。</span><br><span class="line"><span class="number">4.</span>符号引用验证: 本阶段发生在解析阶段，确保解析正常执行</span><br></pre></td></tr></table></figure>
+
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">在方法区中进行分配静态变量并设置初始值为0，常量直接赋初值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;">&#57;&#51;&#x32;&#54;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JVM/">JVM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/08/类加载过程/">类加载</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/JC/">JC</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/Kafka/">Kafka</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/RabbitMQ/">RabbitMQ</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
