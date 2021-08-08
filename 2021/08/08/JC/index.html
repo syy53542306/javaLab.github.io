@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>JC | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="JC如何判断一个对象是否存活12345671.引用计数法(难以解决对象之间循环引用)	2.可达性分析法	GC Root: 		a.Java虚拟机栈中(栈帧中的本地变量表)引用的对象		b.本地方法栈中引用的对象		c.方法区常量引用的对象		b.方法区类静态变量引用的对象        
+
+引用分类" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="JC" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-08T07:04:29.393Z"><a href="/2021/08/08/JC/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title">JC</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="JC"><a href="#JC" class="headerlink" title="JC"></a>JC</h2><h3 id="如何判断一个对象是否存活"><a href="#如何判断一个对象是否存活" class="headerlink" title="如何判断一个对象是否存活"></a>如何判断一个对象是否存活</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.引用计数法(难以解决对象之间循环引用)</span>	</span><br><span class="line"><span class="number">2</span><span class="string">.可达性分析法</span></span><br><span class="line">	<span class="attr">GC Root:</span> </span><br><span class="line">		<span class="string">a.Java虚拟机栈中(栈帧中的本地变量表)引用的对象</span></span><br><span class="line">		<span class="string">b.本地方法栈中引用的对象</span></span><br><span class="line">		<span class="string">c.方法区常量引用的对象</span></span><br><span class="line">		<span class="string">b.方法区类静态变量引用的对象</span>        </span><br></pre></td></tr></table></figure>
+
+<h3 id="引用分类"><a href="#引用分类" class="headerlink" title="引用分类"></a>引用分类</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.强引用:</span> <span class="string">当内存空间不足时,Java虚拟机宁愿抛出OutOfMemoryError错误,使程序异常终止,也不会靠随意回收具有强引用的对象来解决内存不足问题</span></span><br><span class="line"><span class="number">2</span><span class="string">.软引用:</span> <span class="string">当JVM认为内存不足时,才会去试图回收软引用指向的对象.JVM会确保在抛OutOfMemoryError之前,清理软引用指向的对象</span></span><br><span class="line"><span class="number">3</span><span class="string">.弱引用:</span> <span class="string">当</span> <span class="string">JVM</span> <span class="string">进行垃圾回收时，无论内存是否充足，都会回收只被弱引用关联的对象</span></span><br><span class="line"><span class="number">4</span><span class="string">.虚引用:</span> <span class="string">PhantomReference在堆对象被释放之前就被添加到它的ReferenceQueue,内存还没有释放。</span></span><br><span class="line"><span class="string">而软引用和弱引用在添加到对应的ReferenceQueue的时候，其指向真实内存的引用已经被置为空了，相关的内存也已经被释放掉了</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="回收方法区内存："><a href="#回收方法区内存：" class="headerlink" title="回收方法区内存："></a>回收方法区内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>回收废弃常量</span><br><span class="line">    只要常量池中的常量不被任何变量或对象引用，那么这些常量就会被清除掉。</span><br><span class="line"><span class="number">2.</span>无用的类(满足以下三个条件)</span><br><span class="line">	a.该类的所有对象都已经被清除</span><br><span class="line">	b.加载该类的ClassLoader已经被回收</span><br><span class="line">	c.该类的java.lang.Class对象没有在任何地方被引用,无法在任何地方通过反射访问该类的方法</span><br></pre></td></tr></table></figure>
+
+<h3 id="垃圾收集算法："><a href="#垃圾收集算法：" class="headerlink" title="垃圾收集算法："></a>垃圾收集算法：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">新生代:</span> <span class="string">复制算法</span></span><br><span class="line"><span class="string">老年代:</span> <span class="string">标记-清除算法、标记-整理算法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
+<p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JVM/">JVM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JVM/">JVM</a><small>2</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/08/JC/">JC</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/Kafka/">Kafka</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/RabbitMQ/">RabbitMQ</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/消息队列/">消息队列</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
