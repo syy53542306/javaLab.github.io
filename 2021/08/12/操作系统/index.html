@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>操作系统 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="操作系统CPU组成：12345678910111.控制单元:	指令寄存器IR（Instruction Register）	指令译码器ID（Instruction Decoder）	操作控制器OC（Operation Controller）-发信号	...2.运算单元(接收信号): 	算术运算（包括加" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="操作系统" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-12T13:15:08.655Z"><a href="/2021/08/12/操作系统/">2021-08-12</a></time>
+      
+      
+  
+    <h1 class="title">操作系统</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="CPU组成："><a href="#CPU组成：" class="headerlink" title="CPU组成："></a>CPU组成：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.控制单元:</span></span><br><span class="line">	<span class="string">指令寄存器IR（Instruction</span> <span class="string">Register）</span></span><br><span class="line">	<span class="string">指令译码器ID（Instruction</span> <span class="string">Decoder）</span></span><br><span class="line">	<span class="string">操作控制器OC（Operation</span> <span class="string">Controller）-发信号</span></span><br><span class="line">	<span class="string">...</span></span><br><span class="line"><span class="number">2</span><span class="string">.运算单元(接收信号):</span> </span><br><span class="line">	<span class="string">算术运算（包括加减乘数等基本运算及其附加运算）</span></span><br><span class="line">	<span class="string">逻辑运算（包括移位、逻辑测试或两个值比较）</span></span><br><span class="line"><span class="number">3</span><span class="string">.存储单元:</span> </span><br><span class="line">	<span class="string">CPU片内缓存Cache(我理解的是L1,L2)</span></span><br><span class="line">	<span class="string">寄存器组(专用寄存器、通用寄存器)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CPU缓存结构-i5-8265u"><a href="#CPU缓存结构-i5-8265u" class="headerlink" title="CPU缓存结构(i5-8265u)"></a>CPU缓存结构(i5-8265u)</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">寄存器</span></span><br><span class="line"><span class="attr">L1:</span> <span class="string">分为数据缓存和指令缓存，逻辑核独占(256K)</span></span><br><span class="line"><span class="attr">L2:</span> <span class="string">物理核独占，逻辑核共享(1MB)</span></span><br><span class="line"><span class="attr">L3:</span> <span class="string">所有物理核共享(6MB)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="局部性原理："><a href="#局部性原理：" class="headerlink" title="局部性原理："></a>局部性原理：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.时间局部性（Temporal</span> <span class="string">Locality）:</span> <span class="string">如果一个信息项正在被访问，那么在近期它很可能还会被再次访问,比如循环、递归、方法的反复调用等。</span></span><br><span class="line"><span class="number">2</span><span class="string">.空间局部性（Spatial</span> <span class="string">Locality）:</span> <span class="string">如果一个存储器的位置被引用，那么将来他附近的位置也会被引用,比如顺序执行的代码、连续创建的两个对象、数组等。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CPU运行级别："><a href="#CPU运行级别：" class="headerlink" title="CPU运行级别："></a>CPU运行级别：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ring0,ring1,ring2,ring3</span></span><br><span class="line"><span class="string">Linux与Windows只用到了2个级别</span></span><br><span class="line"><span class="attr">ring0:</span> <span class="string">操作系统内部内部程序指令运行所需级别</span></span><br><span class="line"><span class="attr">ring3:</span> <span class="string">第三方程序运行所需级别</span></span><br><span class="line"><span class="string">第三方程序如果要调用操作系统内部函数功能，由于运行安全级别不够,必须切换CPU运行状态从ring3切换到ring0,然后执行系统函数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存空间："><a href="#内存空间：" class="headerlink" title="内存空间："></a>内存空间：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.用户空间(用户态usermode):</span> <span class="string">低地址，一般的堆栈(用户空间的堆栈)</span></span><br><span class="line"><span class="number">2</span><span class="string">.内核空间(内核态kernelmode):</span> <span class="string">高地址，固定大小的堆栈（内核空间的堆栈，一般为一个内存页的大小）</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/操作系统/">操作系统</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/12/线程/">进程与线程</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/操作系统/">操作系统</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/类加载过程/">类加载</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/JC/">JC</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

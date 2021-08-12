@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>计算机术语 | JavaYYLab</title>
+  <title>进程与线程 | JavaYYLab</title>
   <meta name="author" content="John Doe" />
 
+  
+  <meta name="description" content="进程与线程JVM创建线程过程：1234567step1: CPU从ring3切换ring0创建线程step2: 创建完毕,CPU从ring0切换回ring3step3: 线程执行JVM程序step4: 线程执行完毕，销毁还得切会ring0进程与线程其实有两个堆栈，分别运行与用户态与内核态。进程是OS" />
   
 
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-  
+  <meta property="og:title" content="进程与线程" />
   <meta property="og:site_name" content="JavaYYLab" />
 
   
@@ -55,25 +57,50 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">计算机术语</h2>
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-12T13:47:27.280Z"><a href="/2021/08/12/线程/">2021-08-12</a></time>
+      
+      
+  
+    <h1 class="title">进程与线程</h1>
+  
 
+    </header>
+    <div class="entry">
+      
+        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br></pre></td></tr></table></figure>
 
-  <div class="archive">
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2021-05-22T07:44:21.242Z"><a href="/2021/05/22/计算机术语/">2021-05-22</a></time>
-            
-              <h1 class="title"><a href="/2021/05/22/计算机术语/">计算机术语</a></h1>
-            
-          </header>
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
         </div>
-      </article>
-    
+        
+  
+  <div class="categories">
+    <a href="/categories/操作系统/">操作系统</a>
   </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
