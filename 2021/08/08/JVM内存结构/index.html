@@ -80,7 +80,7 @@
 <h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -119,6 +119,8 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
+    <li><a href="/categories/JMM/">JMM</a><small>2</small></li>
+  
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
@@ -141,6 +143,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/08/14/Java内存模型1/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型/">Java内存模型</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/12/线程/">进程与线程</a>
       </li>
     
@@ -150,14 +160,6 @@
     
       <li>
         <a href="/2021/08/08/类加载过程/">类加载</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/JC/">JC</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
       </li>
     
   </ul>

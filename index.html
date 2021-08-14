@@ -62,6 +62,176 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-14T08:46:21.947Z"><a href="/2021/08/14/Java内存模型1/">2021-08-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/14/Java内存模型1/">Java内存模型</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
+
+<h3 id="happens-before八大原则："><a href="#happens-before八大原则：" class="headerlink" title="happens-before八大原则："></a>happens-before八大原则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.程序顺序性:</span> <span class="string">一个线程内必须保证语义串行</span></span><br><span class="line"><span class="number">2</span><span class="string">.锁:</span> <span class="string">加锁before解锁</span></span><br><span class="line"><span class="attr">3.volatile:</span> <span class="string">写before读，读主存，写主存，可见性</span></span><br><span class="line"><span class="number">4</span><span class="string">.线程启动:</span> <span class="string">线程start方法before线程run方法，run方法可见start方法之前修改的变量</span></span><br><span class="line"><span class="number">5</span><span class="string">.线程终止:</span> <span class="string">线程run方法before线程join方法，join方法之后可见run方法内修改的变量</span></span><br><span class="line"><span class="number">6</span><span class="string">.线程中断:</span> <span class="string">线程interrupt方法before线程interrupted和isInterrupted方法</span></span><br><span class="line"><span class="number">7</span><span class="string">.传递性:</span> </span><br><span class="line"><span class="number">8</span><span class="string">.对象终结:</span> <span class="string">对象构造函数before对象finalize方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存屏障（Intel）："><a href="#内存屏障（Intel）：" class="headerlink" title="内存屏障（Intel）："></a>内存屏障（Intel）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">硬件层（Intel）:</span></span><br><span class="line">    <span class="attr">1.lfence:</span> <span class="string">Load</span> <span class="string">Barrier</span> <span class="string">读屏障</span></span><br><span class="line">    <span class="attr">2.sfence:</span> <span class="string">Store</span> <span class="string">Barrier</span> <span class="string">写屏障</span></span><br><span class="line">    <span class="attr">3.mfence:</span> <span class="string">全能型的屏障，具备</span> <span class="string">lfence</span> <span class="string">和</span> <span class="string">sfence</span> <span class="string">的能力</span></span><br><span class="line">    <span class="number">4.</span><span class="string">Lock前缀:</span> <span class="string">不是内存屏障，能完成类似功能。Lock会对CPU总线和高速缓存加锁，可以理解为CPU指令级的一种锁</span></span><br><span class="line"><span class="string">JVM(屏蔽硬件差异,保证顺序,写到主存,可见性):</span></span><br><span class="line">	<span class="number">1.</span><span class="string">Load1;LoadLoad;Load2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadLoad屏障</span></span><br><span class="line">	<span class="number">2.</span><span class="string">Store1;StoreStore;Store2:</span> <span class="string">在每个volatile写操作的前面插入一个StoreStore屏障</span></span><br><span class="line">	<span class="number">3.</span><span class="string">Load1;LoadStore;Store2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadStore屏障</span></span><br><span class="line">	<span class="number">4.</span><span class="string">Store1;StoreLoad;Load2:</span> <span class="string">在每个volatile写操作的后面插入一个StoreLoad屏障</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="JVM之volatile-重排序规则表"><a href="#JVM之volatile-重排序规则表" class="headerlink" title="JVM之volatile 重排序规则表"></a>JVM之volatile 重排序规则表</h3><table>
+<thead>
+<tr>
+<th>第一个操作</th>
+<th>第二个操作：volatile读</th>
+<th>第二个操作：普通读写</th>
+<th>第二个操作：volatile写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通读写</td>
+<td>可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile读</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile写</td>
+<td>不可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+</tbody></table>
+<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">Cpu1读取变量-&gt;Cpu1改状态为E-&gt;Cpu2读取变量2-&gt;Cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JMM/">JMM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-14T06:05:10.448Z"><a href="/2021/08/14/Java内存模型/">2021-08-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/14/Java内存模型/">Java内存模型</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
+
+<h3 id="happens-before八大原则："><a href="#happens-before八大原则：" class="headerlink" title="happens-before八大原则："></a>happens-before八大原则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.程序顺序性:</span> <span class="string">一个线程内必须保证语义串行</span></span><br><span class="line"><span class="number">2</span><span class="string">.锁:</span> <span class="string">加锁before解锁</span></span><br><span class="line"><span class="attr">3.volatile:</span> <span class="string">写before读，读主存，写主存，可见性</span></span><br><span class="line"><span class="number">4</span><span class="string">.线程启动:</span> <span class="string">线程start方法before线程run方法，run方法可见start方法之前修改的变量</span></span><br><span class="line"><span class="number">5</span><span class="string">.线程终止:</span> <span class="string">线程run方法before线程join方法，join方法之后可见run方法内修改的变量</span></span><br><span class="line"><span class="number">6</span><span class="string">.线程中断:</span> <span class="string">线程interrupt方法before线程interrupted和isInterrupted方法</span></span><br><span class="line"><span class="number">7</span><span class="string">.传递性:</span> </span><br><span class="line"><span class="number">8</span><span class="string">.对象终结:</span> <span class="string">对象构造函数before对象finalize方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存屏障（Intel）："><a href="#内存屏障（Intel）：" class="headerlink" title="内存屏障（Intel）："></a>内存屏障（Intel）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">硬件层（Intel）:</span></span><br><span class="line">    <span class="attr">1.lfence:</span> <span class="string">Load</span> <span class="string">Barrier</span> <span class="string">读屏障</span></span><br><span class="line">    <span class="attr">2.sfence:</span> <span class="string">Store</span> <span class="string">Barrier</span> <span class="string">写屏障</span></span><br><span class="line">    <span class="attr">3.mfence:</span> <span class="string">全能型的屏障，具备</span> <span class="string">lfence</span> <span class="string">和</span> <span class="string">sfence</span> <span class="string">的能力</span></span><br><span class="line">    <span class="number">4.</span><span class="string">Lock前缀:</span> <span class="string">不是内存屏障，能完成类似功能。Lock会对CPU总线和高速缓存加锁，可以理解为CPU指令级的一种锁</span></span><br><span class="line"><span class="string">JVM(屏蔽硬件差异,保证顺序,写到主存,可见性):</span></span><br><span class="line">	<span class="number">1.</span><span class="string">Load1;LoadLoad;Load2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadLoad屏障</span></span><br><span class="line">	<span class="number">2.</span><span class="string">Store1;StoreStore;Store2:</span> <span class="string">在每个volatile写操作的前面插入一个StoreStore屏障</span></span><br><span class="line">	<span class="number">3.</span><span class="string">Load1;LoadStore;Store2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadStore屏障</span></span><br><span class="line">	<span class="number">4.</span><span class="string">Store1;StoreLoad;Load2:</span> <span class="string">在每个volatile写操作的后面插入一个StoreLoad屏障</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="JVM之volatile-重排序规则表"><a href="#JVM之volatile-重排序规则表" class="headerlink" title="JVM之volatile 重排序规则表"></a>JVM之volatile 重排序规则表</h3><table>
+<thead>
+<tr>
+<th>第一个操作</th>
+<th>第二个操作：volatile读</th>
+<th>第二个操作：普通读写</th>
+<th>第二个操作：volatile写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通读写</td>
+<td>可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile读</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile写</td>
+<td>不可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+</tbody></table>
+<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">Cpu1读取变量-&gt;Cpu1改状态为E-&gt;Cpu2读取变量2-&gt;Cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JMM/">JMM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-12T13:47:27.280Z"><a href="/2021/08/12/线程/">2021-08-12</a></time>
       
       
@@ -72,10 +242,10 @@
     </header>
     <div class="entry">
       
-        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br></pre></td></tr></table></figure>
+        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -131,7 +301,7 @@
 
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -187,7 +357,7 @@
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -244,7 +414,7 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#109;">&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -294,7 +464,7 @@
 <h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -395,7 +565,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;">&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -498,7 +668,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#111;&#x6d;">&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -604,7 +774,7 @@
 
 <p><img src="https://github.com/doocs/advanced-java/raw/main/docs/high-concurrency/images/kafka-order-02.png" alt="kafka-order-02"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]">https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#57;&#51;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -618,106 +788,6 @@
   
   <div class="categories">
     <a href="/categories/消息队列/">消息队列</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-07T10:34:45.537Z"><a href="/2021/08/07/堆排序/">2021-08-07</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/07/堆排序/">堆排序</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="堆排序–查找数组中第K大的元素"><a href="#堆排序–查找数组中第K大的元素" class="headerlink" title="堆排序–查找数组中第K大的元素"></a>堆排序–查找数组中第K大的元素</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。</span><br><span class="line">请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。</span><br><span class="line">输入: [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>] 和 k = <span class="number">2</span></span><br><span class="line">输出: <span class="number">5</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="思"><a href="#思" class="headerlink" title="思:"></a>思:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最大堆: 每个子树根节点是最大的</span><br></pre></td></tr></table></figure>
-
-<h3 id="解-java"><a href="#解-java" class="headerlink" title="解(java)"></a>解(java)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> pos1, <span class="keyword">int</span> pos2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = arr[pos1];</span><br><span class="line">    arr[pos1] = arr[pos2];</span><br><span class="line">    arr[pos2] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findKthLargest</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(k&lt;<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    buildMaxHeap(nums);</span><br><span class="line">    <span class="keyword">int</span> size=nums.length;</span><br><span class="line">    <span class="keyword">if</span>(size==<span class="number">0</span>||size&lt;k)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;k;++i)&#123;</span><br><span class="line">        res=nums[<span class="number">0</span>];</span><br><span class="line">        swap(nums,size-<span class="number">1</span>-i,<span class="number">0</span>);</span><br><span class="line">        adjustDown(nums,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">adjustDown</span><span class="params">(<span class="keyword">int</span>[] vr,<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp=vr[k];</span><br><span class="line">    <span class="keyword">int</span> size=len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>*k+<span class="number">1</span>;i&lt;size;i=i*<span class="number">2</span>+<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i+<span class="number">1</span>&lt;size&amp;&amp;vr[i+<span class="number">1</span>]&gt;vr[i])</span><br><span class="line">            i=i+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(tmp&gt;=vr[i])</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        vr[k]=vr[i];</span><br><span class="line">        k=i;</span><br><span class="line">    &#125;</span><br><span class="line">    vr[k]=tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span>[] vr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=vr.length/<span class="number">2</span>-<span class="number">1</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">        adjustDown(vr,i,vr.length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span>[] vr)</span></span>&#123;</span><br><span class="line">    buildMaxHeap(vr);</span><br><span class="line">    <span class="keyword">int</span> size=vr.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;++i)&#123;</span><br><span class="line">        swap(vr,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">        adjustDown(vr,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/]">https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-07T08:08:18.179Z"><a href="/2021/08/07/快排/">2021-08-07</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/07/快排/">快排</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="快排-查找数组中最小K个数"><a href="#快排-查找数组中最小K个数" class="headerlink" title="快排-查找数组中最小K个数"></a>快排-查找数组中最小K个数</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入整数数组 arr ，找出其中最小的 k 个数。例如，输入<span class="number">4</span>、<span class="number">5</span>、<span class="number">1</span>、<span class="number">6</span>、<span class="number">2</span>、<span class="number">7</span>、<span class="number">3</span>、<span class="number">8</span>这<span class="number">8</span>个数字，则最小的<span class="number">4</span>个数字是<span class="number">1</span>、<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>。</span><br><span class="line">输入：arr = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>], k = <span class="number">2</span></span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">2</span>] 或者 [<span class="number">2</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="思："><a href="#思：" class="headerlink" title="思："></a>思：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>先挖走一个元素作为比较对象，留下一个坑，从右边找出小的，替换比较对象，生成新坑，再从左边找出大的替换，再换到右边，最后左边后右边碰上后结束，再把比较对象放回坑内（最边都比比较对象小，右边都比比较对象大，数组相对有序）</span><br><span class="line"><span class="number">2.</span>递归比较对象左边和右边的数组</span><br><span class="line"><span class="number">3.</span>递归截止判断条件为数组只有一个元素时候，一个元素肯定有序了</span><br></pre></td></tr></table></figure>
-
-<h3 id="解-java"><a href="#解-java" class="headerlink" title="解(java)"></a>解(java)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">public</span> <span class="keyword">int</span>[] getLeastNumbers(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> k) &#123;</span><br><span class="line">       <span class="keyword">int</span>[] res=<span class="keyword">null</span>;</span><br><span class="line">       <span class="keyword">if</span>(k==<span class="number">0</span>)&#123;</span><br><span class="line">           res=<span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">           <span class="keyword">return</span> res;</span><br><span class="line">       &#125;        </span><br><span class="line">       <span class="keyword">if</span>(<span class="keyword">null</span>==arr||arr.length==<span class="number">0</span>||k&gt;=arr.length)&#123;</span><br><span class="line">           <span class="keyword">return</span> arr;</span><br><span class="line">       &#125;</span><br><span class="line">       res=<span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">       <span class="keyword">int</span> beg=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> end=arr.length-<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span> restfindCount=k;</span><br><span class="line">       <span class="keyword">int</span> mid=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">           mid=partition(arr,beg,end);</span><br><span class="line">           <span class="keyword">if</span>(mid==k-<span class="number">1</span>)&#123;</span><br><span class="line">               System.arraycopy(arr,<span class="number">0</span>,res,<span class="number">0</span>,k);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">           &#125;<span class="keyword">else</span> <span class="keyword">if</span>(mid&gt;k-<span class="number">1</span>)&#123;</span><br><span class="line">               end=mid-<span class="number">1</span>;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               beg=mid+<span class="number">1</span>;</span><br><span class="line">               restfindCount=restfindCount-(mid+<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> pos1, <span class="keyword">int</span> pos2)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> tmp = arr[pos1];</span><br><span class="line">       arr[pos1] = arr[pos2];</span><br><span class="line">       arr[pos2] = tmp;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> beg,<span class="keyword">int</span> end)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (beg == end) &#123;</span><br><span class="line">           <span class="keyword">return</span> beg;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">int</span> left=beg;</span><br><span class="line">       <span class="keyword">int</span> right=end;</span><br><span class="line">       <span class="keyword">int</span> cur=arr[beg];</span><br><span class="line">       <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">           <span class="keyword">while</span>(left&lt;right&amp;&amp;arr[right]&gt;=cur)right--;</span><br><span class="line">           swap(arr,left,right);</span><br><span class="line">           <span class="keyword">while</span>(left&lt;right&amp;&amp;arr[left]&lt;=cur)left++;</span><br><span class="line">           swap(arr,right,left);</span><br><span class="line">       &#125;</span><br><span class="line">       arr[left]=cur;</span><br><span class="line">       <span class="keyword">return</span> left;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//快排</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> beg,<span class="keyword">int</span> end)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(end&gt;beg)&#123;</span><br><span class="line">           <span class="keyword">int</span> mid=partition(arr,beg,end);</span><br><span class="line">           quickSort(arr,beg,mid);</span><br><span class="line">           quickSort(arr,mid+<span class="number">1</span>,end);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/]">https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
   </div>
 
         
@@ -753,6 +823,8 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
+    <li><a href="/categories/JMM/">JMM</a><small>2</small></li>
+  
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
@@ -775,6 +847,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/08/14/Java内存模型1/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型/">Java内存模型</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/12/线程/">进程与线程</a>
       </li>
     
@@ -784,14 +864,6 @@
     
       <li>
         <a href="/2021/08/08/类加载过程/">类加载</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/JC/">JC</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/JVM内存结构/">JVM内存结构</a>
       </li>
     
   </ul>

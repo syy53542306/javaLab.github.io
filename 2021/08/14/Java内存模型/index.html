@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Java内存模型 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="Java内存模型(JMM)JMM定义：1234规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式特性: 原子性、有序性、可见性主存: 堆和方法区工作内存: 线程私有数据区域
+
+数据同步八大原子操作：123lock-&amp;gt;read-&amp;gt;load-&amp;gt;use-&amp;g" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="Java内存模型" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-14T06:05:10.448Z"><a href="/2021/08/14/Java内存模型/">2021-08-14</a></time>
+      
+      
+  
+    <h1 class="title">Java内存模型</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
+
+<h3 id="happens-before八大原则："><a href="#happens-before八大原则：" class="headerlink" title="happens-before八大原则："></a>happens-before八大原则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.程序顺序性:</span> <span class="string">一个线程内必须保证语义串行</span></span><br><span class="line"><span class="number">2</span><span class="string">.锁:</span> <span class="string">加锁before解锁</span></span><br><span class="line"><span class="attr">3.volatile:</span> <span class="string">写before读，读主存，写主存，可见性</span></span><br><span class="line"><span class="number">4</span><span class="string">.线程启动:</span> <span class="string">线程start方法before线程run方法，run方法可见start方法之前修改的变量</span></span><br><span class="line"><span class="number">5</span><span class="string">.线程终止:</span> <span class="string">线程run方法before线程join方法，join方法之后可见run方法内修改的变量</span></span><br><span class="line"><span class="number">6</span><span class="string">.线程中断:</span> <span class="string">线程interrupt方法before线程interrupted和isInterrupted方法</span></span><br><span class="line"><span class="number">7</span><span class="string">.传递性:</span> </span><br><span class="line"><span class="number">8</span><span class="string">.对象终结:</span> <span class="string">对象构造函数before对象finalize方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存屏障（Intel）："><a href="#内存屏障（Intel）：" class="headerlink" title="内存屏障（Intel）："></a>内存屏障（Intel）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">硬件层（Intel）:</span></span><br><span class="line">    <span class="attr">1.lfence:</span> <span class="string">Load</span> <span class="string">Barrier</span> <span class="string">读屏障</span></span><br><span class="line">    <span class="attr">2.sfence:</span> <span class="string">Store</span> <span class="string">Barrier</span> <span class="string">写屏障</span></span><br><span class="line">    <span class="attr">3.mfence:</span> <span class="string">全能型的屏障，具备</span> <span class="string">lfence</span> <span class="string">和</span> <span class="string">sfence</span> <span class="string">的能力</span></span><br><span class="line">    <span class="number">4.</span><span class="string">Lock前缀:</span> <span class="string">不是内存屏障，能完成类似功能。Lock会对CPU总线和高速缓存加锁，可以理解为CPU指令级的一种锁</span></span><br><span class="line"><span class="string">JVM(屏蔽硬件差异,保证顺序,写到主存,可见性):</span></span><br><span class="line">	<span class="number">1.</span><span class="string">Load1;LoadLoad;Load2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadLoad屏障</span></span><br><span class="line">	<span class="number">2.</span><span class="string">Store1;StoreStore;Store2:</span> <span class="string">在每个volatile写操作的前面插入一个StoreStore屏障</span></span><br><span class="line">	<span class="number">3.</span><span class="string">Load1;LoadStore;Store2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadStore屏障</span></span><br><span class="line">	<span class="number">4.</span><span class="string">Store1;StoreLoad;Load2:</span> <span class="string">在每个volatile写操作的后面插入一个StoreLoad屏障</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="JVM之volatile-重排序规则表"><a href="#JVM之volatile-重排序规则表" class="headerlink" title="JVM之volatile 重排序规则表"></a>JVM之volatile 重排序规则表</h3><table>
+<thead>
+<tr>
+<th>第一个操作</th>
+<th>第二个操作：volatile读</th>
+<th>第二个操作：普通读写</th>
+<th>第二个操作：volatile写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通读写</td>
+<td>可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile读</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+<td>不可以重排</td>
+</tr>
+<tr>
+<td>volatile写</td>
+<td>不可以重排</td>
+<td>可以重排</td>
+<td>不可以重排</td>
+</tr>
+</tbody></table>
+<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">Cpu1读取变量-&gt;Cpu1改状态为E-&gt;Cpu2读取变量2-&gt;Cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JMM/">JMM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JMM/">JMM</a><small>2</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型1/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/线程/">进程与线程</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/操作系统/">操作系统</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/08/类加载过程/">类加载</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
