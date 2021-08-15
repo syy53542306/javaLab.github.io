@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>ElasticSearch | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="ElasticSearchES 搜索数据过程12341.请求到一个节点，该节点成为协调节点coordinate node2.协调节点将搜索请求转发到所有的shard对应的primary shard或replica shard3.query phase: 每个shard将自己的搜索结果（其实就是一些d" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="ElasticSearch" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch/">2021-08-15</a></time>
+      
+      
+  
+    <h1 class="title">ElasticSearch</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES写数据过程"><a href="#ES写数据过程" class="headerlink" title="ES写数据过程"></a>ES写数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.写入内存buffer,同时将操作写入(append)到translog日志文件</span></span><br><span class="line"><span class="number">2.</span><span class="string">buffer满了或者到一定时间且buffer有数据，reflesh数据刷到os</span> <span class="string">cache(由系统决定什么时候生成对应的segment文件)，</span></span><br><span class="line"><span class="string">每隔一秒进行fsync生成segment文件</span></span><br><span class="line"><span class="number">3.</span><span class="string">translog每隔5秒fsync到磁盘，每隔30分钟或者文件大小超过阈值会进行flush/commit(buffer</span> <span class="string">reflesh,生成所有segment</span> <span class="string">file对应的commit</span> <span class="string">point文件，fsync</span> <span class="string">os</span> <span class="string">cache</span> <span class="string">中所有数据到磁盘，清空translog文件)</span></span><br><span class="line"><span class="number">4</span><span class="string">.相关参数</span></span><br><span class="line"><span class="attr">index.translog.sync_interval:</span> <span class="string">控制</span> <span class="string">translog</span> <span class="string">多久</span> <span class="string">fsync</span> <span class="string">到磁盘,最小为</span> <span class="string">100ms</span></span><br><span class="line"><span class="attr">index.translog.durability:</span> <span class="string">request/async</span> <span class="string">translog每次请求or定时fsync</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES删除数据过程"><a href="#ES删除数据过程" class="headerlink" title="ES删除数据过程"></a>ES删除数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">commit时生成.del文件，将doc标识为deleted状态</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果是更新操作，将原来的</span> <span class="string">doc</span> <span class="string">标识为</span> <span class="string">deleted</span> <span class="string">状态，然后新写入一条数据</span></span><br><span class="line"><span class="number">3</span><span class="string">.定期执行</span> <span class="string">merge，合并多个segment</span> <span class="string">file同时将标识为deleted的doc物理删除，将新的segment</span> <span class="string">file写入磁盘(fsync)，并写一个commit</span> <span class="string">point，然后打开</span> <span class="string">segment</span> <span class="string">file</span> <span class="string">供搜索使用，同时删除旧的</span> <span class="string">segment</span> <span class="string">file</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">A-Z-&gt;JAVA-&gt;doc</span> <span class="string">id</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES优化"><a href="#ES优化" class="headerlink" title="ES优化"></a>ES优化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">es</span> <span class="string">性能要好，最佳的情况下，就是你的机器的内存，至少可以容纳你的总数据量的一半</span></span><br><span class="line"><span class="number">2</span><span class="string">.将索引数据控制在所有data节点filesystem</span> <span class="string">cach(分配的内存大小)之和范围内</span></span><br><span class="line"><span class="number">2</span><span class="string">.一般是建议用</span> <span class="string">es</span> <span class="string">+</span> <span class="string">hbase</span> <span class="string">，es存搜索字段和主键，然后根据主键去hbase拿完整的数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/ElasticSearch/">ElasticSearch</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/15/Redis/">Redis</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/线程/">进程与线程</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/操作系统/">操作系统</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

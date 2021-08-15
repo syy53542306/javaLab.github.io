@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Redis | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="Redis缓存作用1231.高性能: 查询耗时小，性能提升百倍2.高并发: mysql单机最多也就2000个qps，redis可以高达几万几十万3.缓存是走内存的，内存天然就支撑高并发
+
+Redis和Memcached 区别1231.数据结构: redis多，操作多2.集群模式: redis3.X原" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="Redis" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-15T08:01:48.072Z"><a href="/2021/08/15/Redis/">2021-08-15</a></time>
+      
+      
+  
+    <h1 class="title">Redis</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="缓存作用"><a href="#缓存作用" class="headerlink" title="缓存作用"></a>缓存作用</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.高性能:</span> <span class="string">查询耗时小，性能提升百倍</span></span><br><span class="line"><span class="number">2</span><span class="string">.高并发:</span> <span class="string">mysql单机最多也就2000个qps，redis可以高达几万几十万</span></span><br><span class="line"><span class="number">3</span><span class="string">.缓存是走内存的，内存天然就支撑高并发</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis和Memcached-区别"><a href="#Redis和Memcached-区别" class="headerlink" title="Redis和Memcached 区别"></a>Redis和Memcached 区别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.数据结构:</span> <span class="string">redis多，操作多</span></span><br><span class="line"><span class="number">2</span><span class="string">.集群模式:</span> <span class="string">redis3.X原生支持,Memcached不支持，需要依靠客户端来实现往集群中分片写入数据</span></span><br><span class="line"><span class="number">3</span><span class="string">.性能对比:</span> <span class="string">Memcached多核，redis单核，数据量大时候Memcached</span> <span class="string">性能要高于</span> <span class="string">Redis</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis单线程模型"><a href="#Redis单线程模型" class="headerlink" title="Redis单线程模型"></a>Redis单线程模型</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.内部使用文件事件处理器</span> <span class="string">file</span> <span class="string">event</span> <span class="string">handler(socket</span> <span class="string">也是fd)</span></span><br><span class="line"><span class="number">2.</span><span class="string">IO</span> <span class="string">多路复用机制同时监听多个</span> <span class="string">socket</span></span><br><span class="line"><span class="number">3</span><span class="string">.将产生事件的</span> <span class="string">socket</span> <span class="string">压入内存队列中，文件事件分派器根据</span> <span class="string">socket</span> <span class="string">上的事件类型来选择对应的事件处理器进行处理</span></span><br><span class="line"><span class="number">4</span><span class="string">.一次连接过程：</span></span><br><span class="line">    <span class="string">a.初始化server</span> <span class="string">socket</span> <span class="string">的AE_READABLE绑定文件事件派发器</span></span><br><span class="line">    <span class="string">b.接收服务端丽连接产生AE_READABLE事件，派发器交给连接应答处理器处理</span></span><br><span class="line">    <span class="string">c.连接应答处理器创建一个能与客户端通信的socket01并绑定由命令请求处理器处理的AE_READABLE事件</span></span><br><span class="line">    <span class="string">d.客户端发送命令请求到socket01，派发器交给命令请求处理器吹</span></span><br><span class="line">    <span class="string">e.命令请求处理器处理命令，将</span> <span class="string">socket01</span> <span class="string">的</span> <span class="string">AE_WRITABLE</span> <span class="string">事件与命令回复处理器关联</span></span><br><span class="line">    <span class="string">f.命令处理完成后在socket01上生成AE_WRITABLE事件，派发器交给命令回复处理器处理</span></span><br><span class="line">    <span class="string">g.命令回复处理器对socket01输入本次命令操作结果，并解除socket01的AE_WRITABLE事件与命令回复处理器的关联</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis单线程模型效率高原因"><a href="#Redis单线程模型效率高原因" class="headerlink" title="Redis单线程模型效率高原因"></a>Redis单线程模型效率高原因</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.纯内存操作</span></span><br><span class="line"><span class="number">2</span><span class="string">.核心是基于非阻塞的</span> <span class="string">IO</span> <span class="string">多路复用机制</span></span><br><span class="line"><span class="number">3.</span><span class="string">C语言实现的程序“距离”操作系统更近，执行速度相对会更快</span></span><br><span class="line"><span class="number">4</span><span class="string">.单线程反而避免了多线程的频繁上下文切换问题，预防了多线程可能产生的竞争问题</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-6-0-开始引入多线程"><a href="#Redis-6-0-开始引入多线程" class="headerlink" title="Redis 6.0 开始引入多线程"></a>Redis 6.0 开始引入多线程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">Redis的多线程部分只是用来处理网络数据的读写和协议解析，执行命令仍然是单线程</span></span><br><span class="line"><span class="number">2</span><span class="string">.不想</span> <span class="string">Redis</span> <span class="string">因为多线程而变得复杂，需要去控制</span> <span class="string">key、lua、事务、LPUSH/LPOP</span> <span class="string">等等的并发问题</span></span><br><span class="line"><span class="number">3</span><span class="string">.大键值对的删除操作，通过多线程非阻塞地释放内存空间也能减少对</span> <span class="string">Redis</span> <span class="string">主线程阻塞的时间，提高执行的效率</span></span><br><span class="line"><span class="number">4.</span><span class="string">CPU不是Redis服务器的瓶颈，使用多线程模型带来的性能提升并不能抵消它带来的开发成本和维护成本，系统的性能瓶颈主要在网络和磁盘I/O操作上</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-过期策略和内存淘汰机制"><a href="#Redis-过期策略和内存淘汰机制" class="headerlink" title="Redis 过期策略和内存淘汰机制"></a>Redis 过期策略和内存淘汰机制</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.定时删除</span>	</span><br><span class="line"><span class="number">2</span><span class="string">.惰性删除</span></span><br><span class="line"><span class="number">3</span><span class="string">.内存淘汰寄宿制(当内存不足以容纳新写入数据时)</span></span><br><span class="line">    <span class="attr">noeviction:</span> <span class="string">新写入操作会报错</span></span><br><span class="line">    <span class="attr">allkeys-lru:</span> <span class="string">在键空间中，移除最近最少使用的</span> <span class="string">key</span></span><br><span class="line">    <span class="attr">allkeys-random:</span> <span class="string">在键空间中，随机移除某个key</span></span><br><span class="line">    <span class="attr">volatile-lru:</span> <span class="string">在设置了过期时间的键空间中，移除最近最少使用的</span> <span class="string">key</span></span><br><span class="line">    <span class="attr">volatile-random:</span> <span class="string">在设置了过期时间的键空间中，随机移除某个</span> <span class="string">key。</span></span><br><span class="line">    <span class="attr">volatile-ttl:</span> <span class="string">在设置了过期时间的键空间中，有更早过期时间的</span> <span class="string">key</span> <span class="string">优先移除</span></span><br></pre></td></tr></table></figure>
+
+<p>Java实现LRU: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">LinkedHashMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(capacity, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K, V&gt; eldest)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size() &gt; capacity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-高并发"><a href="#Redis-高并发" class="headerlink" title="Redis 高并发"></a>Redis 高并发</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.主从架构(master-slave):</span> <span class="string">主负责写，并且将数据复制到其它的</span> <span class="string">slave</span> <span class="string">节点，从节点负责读</span></span><br><span class="line"><span class="number">2</span><span class="string">.读写分离，读请求全部走从节点</span></span><br><span class="line"><span class="number">3</span><span class="string">.水平扩容支撑读高并发</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-Replication（主从复制）"><a href="#Redis-Replication（主从复制）" class="headerlink" title="Redis Replication（主从复制）"></a>Redis Replication（主从复制）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.异步复制</span></span><br><span class="line"><span class="number">2.</span><span class="string">slave</span> <span class="string">node</span> <span class="string">做复制的时候，不会</span> <span class="string">block</span> <span class="string">master</span> <span class="string">node</span> <span class="string">的正常工作</span></span><br><span class="line"><span class="number">3.</span><span class="string">slave</span> <span class="string">node</span> <span class="string">复制时，用旧的数据集提供查询服务，复制完成，暂停对外服务，删除旧数据集，加载新数据集</span></span><br><span class="line"><span class="number">4</span><span class="string">.第一次full</span> <span class="string">resynchronization</span> <span class="string">全量复制，后面增量复制:</span> </span><br><span class="line"><span class="string">a.当启动一个</span> <span class="string">slave</span> <span class="string">node</span> <span class="string">的时候，发送一个</span> <span class="string">PSYNC</span> <span class="string">命令给</span> <span class="string">master</span> <span class="string">node</span></span><br><span class="line"><span class="string">b.如果slave初次连接到master,进行full</span> <span class="string">resynchronization全量复制,master启动后台线程生成RDB快照文件，同时将从客户端新收到的所有写命令缓存在内存,RDB文件生成完毕后,发送给slave,slave先写入本地磁盘,再从磁盘加载到存,master再将内存中缓存的写命令发送到slave,slave同步这些数据,如果rdb复制时间超过60秒(repl-timeout),缓存区持续超过256MB或者一次超过56MB,复制失败,可以修改参数client-output-buffer-limit</span> <span class="string">slave</span> <span class="string">256MB</span> <span class="string">64MB</span> <span class="number">60</span></span><br><span class="line"><span class="string">c.如果slave开启AOF,立即执行BGREWRITEAOF重写AOF,slave复制断开，自动重连后master仅复制给slave缺少的数据</span></span><br><span class="line"><span class="number">5</span><span class="string">.断点续传:</span> <span class="string">master在内存中维护一个backlog,master和slave都会保存replica</span> <span class="string">offset以及master</span> <span class="string">run</span> <span class="string">id，offset就是保存在backlog中的。如果</span> <span class="string">master</span> <span class="string">和</span> <span class="string">slave</span> <span class="string">网络连接断掉了，slave</span> <span class="string">会让</span> <span class="string">master</span> <span class="string">从上次replica</span> <span class="string">offset开始继续复制，如果没有找到对应的</span> <span class="string">offset，那么就会执行一次</span> <span class="string">resynchronization，默认</span> <span class="string">backlog</span> <span class="string">就是</span> <span class="string">1MB</span></span><br><span class="line"><span class="number">6</span><span class="string">.无磁盘化复制:</span> </span><br><span class="line">    <span class="string">a.参数设置repl-diskless-sync</span> <span class="literal">yes</span><span class="string">(master在内存中创建RDB发送给slave)</span></span><br><span class="line">    <span class="string">b.参数设置repl-diskless-sync-delay</span> <span class="number">5</span><span class="string">(等待5s后再开始复制,等更多slave重新连接)</span></span><br><span class="line"><span class="number">7</span><span class="string">.过期key处理:</span> <span class="string">slave不会过期key,master过期或者淘汰一个key(淘汰策略)，模拟一条del命令发送给slave</span></span><br><span class="line"><span class="number">8</span><span class="string">.心跳:</span> <span class="string">master</span> <span class="string">默认每隔</span> <span class="number">10</span> <span class="string">秒发送一次</span> <span class="string">heartbeat，slave</span> <span class="string">node</span> <span class="string">每隔</span> <span class="number">1</span> <span class="string">秒发送一个</span> <span class="string">heartbeat</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/Redis/">Redis</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/15/Redis/">Redis</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/14/Java内存模型/">Java内存模型</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/线程/">进程与线程</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/12/操作系统/">操作系统</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

@@ -76,7 +76,7 @@
         <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#x32;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -115,9 +115,13 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/JMM/">JMM</a><small>2</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
@@ -139,7 +143,11 @@
   <ul class="entry">
     
       <li>
-        <a href="/2021/08/14/Java内存模型1/">Java内存模型</a>
+        <a href="/2021/08/15/Redis/">Redis</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/ElasticSearch/">ElasticSearch</a>
       </li>
     
       <li>
@@ -152,10 +160,6 @@
     
       <li>
         <a href="/2021/08/12/操作系统/">操作系统</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/类加载过程/">类加载</a>
       </li>
     
   </ul>

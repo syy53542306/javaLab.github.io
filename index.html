@@ -62,59 +62,39 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-14T08:46:21.947Z"><a href="/2021/08/14/Java内存模型1/">2021-08-14</a></time>
+        <time datetime="2021-08-15T08:01:48.072Z"><a href="/2021/08/15/Redis/">2021-08-15</a></time>
       
       
   
-    <h1 class="title"><a href="/2021/08/14/Java内存模型1/">Java内存模型</a></h1>
+    <h1 class="title"><a href="/2021/08/15/Redis/">Redis</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="缓存作用"><a href="#缓存作用" class="headerlink" title="缓存作用"></a>缓存作用</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.高性能:</span> <span class="string">查询耗时小，性能提升百倍</span></span><br><span class="line"><span class="number">2</span><span class="string">.高并发:</span> <span class="string">mysql单机最多也就2000个qps，redis可以高达几万几十万</span></span><br><span class="line"><span class="number">3</span><span class="string">.缓存是走内存的，内存天然就支撑高并发</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+<h3 id="Redis和Memcached-区别"><a href="#Redis和Memcached-区别" class="headerlink" title="Redis和Memcached 区别"></a>Redis和Memcached 区别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.数据结构:</span> <span class="string">redis多，操作多</span></span><br><span class="line"><span class="number">2</span><span class="string">.集群模式:</span> <span class="string">redis3.X原生支持,Memcached不支持，需要依靠客户端来实现往集群中分片写入数据</span></span><br><span class="line"><span class="number">3</span><span class="string">.性能对比:</span> <span class="string">Memcached多核，redis单核，数据量大时候Memcached</span> <span class="string">性能要高于</span> <span class="string">Redis</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
+<h3 id="Redis单线程模型"><a href="#Redis单线程模型" class="headerlink" title="Redis单线程模型"></a>Redis单线程模型</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.内部使用文件事件处理器</span> <span class="string">file</span> <span class="string">event</span> <span class="string">handler(socket</span> <span class="string">也是fd)</span></span><br><span class="line"><span class="number">2.</span><span class="string">IO</span> <span class="string">多路复用机制同时监听多个</span> <span class="string">socket</span></span><br><span class="line"><span class="number">3</span><span class="string">.将产生事件的</span> <span class="string">socket</span> <span class="string">压入内存队列中，文件事件分派器根据</span> <span class="string">socket</span> <span class="string">上的事件类型来选择对应的事件处理器进行处理</span></span><br><span class="line"><span class="number">4</span><span class="string">.一次连接过程：</span></span><br><span class="line">    <span class="string">a.初始化server</span> <span class="string">socket</span> <span class="string">的AE_READABLE绑定文件事件派发器</span></span><br><span class="line">    <span class="string">b.接收服务端丽连接产生AE_READABLE事件，派发器交给连接应答处理器处理</span></span><br><span class="line">    <span class="string">c.连接应答处理器创建一个能与客户端通信的socket01并绑定由命令请求处理器处理的AE_READABLE事件</span></span><br><span class="line">    <span class="string">d.客户端发送命令请求到socket01，派发器交给命令请求处理器吹</span></span><br><span class="line">    <span class="string">e.命令请求处理器处理命令，将</span> <span class="string">socket01</span> <span class="string">的</span> <span class="string">AE_WRITABLE</span> <span class="string">事件与命令回复处理器关联</span></span><br><span class="line">    <span class="string">f.命令处理完成后在socket01上生成AE_WRITABLE事件，派发器交给命令回复处理器处理</span></span><br><span class="line">    <span class="string">g.命令回复处理器对socket01输入本次命令操作结果，并解除socket01的AE_WRITABLE事件与命令回复处理器的关联</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="happens-before八大原则："><a href="#happens-before八大原则：" class="headerlink" title="happens-before八大原则："></a>happens-before八大原则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.程序顺序性:</span> <span class="string">一个线程内必须保证语义串行</span></span><br><span class="line"><span class="number">2</span><span class="string">.锁:</span> <span class="string">加锁before解锁</span></span><br><span class="line"><span class="attr">3.volatile:</span> <span class="string">写before读，读主存，写主存，可见性</span></span><br><span class="line"><span class="number">4</span><span class="string">.线程启动:</span> <span class="string">线程start方法before线程run方法，run方法可见start方法之前修改的变量</span></span><br><span class="line"><span class="number">5</span><span class="string">.线程终止:</span> <span class="string">线程run方法before线程join方法，join方法之后可见run方法内修改的变量</span></span><br><span class="line"><span class="number">6</span><span class="string">.线程中断:</span> <span class="string">线程interrupt方法before线程interrupted和isInterrupted方法</span></span><br><span class="line"><span class="number">7</span><span class="string">.传递性:</span> </span><br><span class="line"><span class="number">8</span><span class="string">.对象终结:</span> <span class="string">对象构造函数before对象finalize方法</span></span><br></pre></td></tr></table></figure>
+<h3 id="Redis单线程模型效率高原因"><a href="#Redis单线程模型效率高原因" class="headerlink" title="Redis单线程模型效率高原因"></a>Redis单线程模型效率高原因</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.纯内存操作</span></span><br><span class="line"><span class="number">2</span><span class="string">.核心是基于非阻塞的</span> <span class="string">IO</span> <span class="string">多路复用机制</span></span><br><span class="line"><span class="number">3.</span><span class="string">C语言实现的程序“距离”操作系统更近，执行速度相对会更快</span></span><br><span class="line"><span class="number">4</span><span class="string">.单线程反而避免了多线程的频繁上下文切换问题，预防了多线程可能产生的竞争问题</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="内存屏障（Intel）："><a href="#内存屏障（Intel）：" class="headerlink" title="内存屏障（Intel）："></a>内存屏障（Intel）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">硬件层（Intel）:</span></span><br><span class="line">    <span class="attr">1.lfence:</span> <span class="string">Load</span> <span class="string">Barrier</span> <span class="string">读屏障</span></span><br><span class="line">    <span class="attr">2.sfence:</span> <span class="string">Store</span> <span class="string">Barrier</span> <span class="string">写屏障</span></span><br><span class="line">    <span class="attr">3.mfence:</span> <span class="string">全能型的屏障，具备</span> <span class="string">lfence</span> <span class="string">和</span> <span class="string">sfence</span> <span class="string">的能力</span></span><br><span class="line">    <span class="number">4.</span><span class="string">Lock前缀:</span> <span class="string">不是内存屏障，能完成类似功能。Lock会对CPU总线和高速缓存加锁，可以理解为CPU指令级的一种锁</span></span><br><span class="line"><span class="string">JVM(屏蔽硬件差异,保证顺序,写到主存,可见性):</span></span><br><span class="line">	<span class="number">1.</span><span class="string">Load1;LoadLoad;Load2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadLoad屏障</span></span><br><span class="line">	<span class="number">2.</span><span class="string">Store1;StoreStore;Store2:</span> <span class="string">在每个volatile写操作的前面插入一个StoreStore屏障</span></span><br><span class="line">	<span class="number">3.</span><span class="string">Load1;LoadStore;Store2:</span> <span class="string">在每个volatile读操作的后面插入一个LoadStore屏障</span></span><br><span class="line">	<span class="number">4.</span><span class="string">Store1;StoreLoad;Load2:</span> <span class="string">在每个volatile写操作的后面插入一个StoreLoad屏障</span></span><br></pre></td></tr></table></figure>
+<h3 id="Redis-6-0-开始引入多线程"><a href="#Redis-6-0-开始引入多线程" class="headerlink" title="Redis 6.0 开始引入多线程"></a>Redis 6.0 开始引入多线程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">Redis的多线程部分只是用来处理网络数据的读写和协议解析，执行命令仍然是单线程</span></span><br><span class="line"><span class="number">2</span><span class="string">.不想</span> <span class="string">Redis</span> <span class="string">因为多线程而变得复杂，需要去控制</span> <span class="string">key、lua、事务、LPUSH/LPOP</span> <span class="string">等等的并发问题</span></span><br><span class="line"><span class="number">3</span><span class="string">.大键值对的删除操作，通过多线程非阻塞地释放内存空间也能减少对</span> <span class="string">Redis</span> <span class="string">主线程阻塞的时间，提高执行的效率</span></span><br><span class="line"><span class="number">4.</span><span class="string">CPU不是Redis服务器的瓶颈，使用多线程模型带来的性能提升并不能抵消它带来的开发成本和维护成本，系统的性能瓶颈主要在网络和磁盘I/O操作上</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="JVM之volatile-重排序规则表"><a href="#JVM之volatile-重排序规则表" class="headerlink" title="JVM之volatile 重排序规则表"></a>JVM之volatile 重排序规则表</h3><table>
-<thead>
-<tr>
-<th>第一个操作</th>
-<th>第二个操作：volatile读</th>
-<th>第二个操作：普通读写</th>
-<th>第二个操作：volatile写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>普通读写</td>
-<td>可以重排</td>
-<td>可以重排</td>
-<td>不可以重排</td>
-</tr>
-<tr>
-<td>volatile读</td>
-<td>不可以重排</td>
-<td>不可以重排</td>
-<td>不可以重排</td>
-</tr>
-<tr>
-<td>volatile写</td>
-<td>不可以重排</td>
-<td>可以重排</td>
-<td>不可以重排</td>
-</tr>
-</tbody></table>
-<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">Cpu1读取变量-&gt;Cpu1改状态为E-&gt;Cpu2读取变量2-&gt;Cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
+<h3 id="Redis-过期策略和内存淘汰机制"><a href="#Redis-过期策略和内存淘汰机制" class="headerlink" title="Redis 过期策略和内存淘汰机制"></a>Redis 过期策略和内存淘汰机制</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.定时删除</span>	</span><br><span class="line"><span class="number">2</span><span class="string">.惰性删除</span></span><br><span class="line"><span class="number">3</span><span class="string">.内存淘汰寄宿制(当内存不足以容纳新写入数据时)</span></span><br><span class="line">    <span class="attr">noeviction:</span> <span class="string">新写入操作会报错</span></span><br><span class="line">    <span class="attr">allkeys-lru:</span> <span class="string">在键空间中，移除最近最少使用的</span> <span class="string">key</span></span><br><span class="line">    <span class="attr">allkeys-random:</span> <span class="string">在键空间中，随机移除某个key</span></span><br><span class="line">    <span class="attr">volatile-lru:</span> <span class="string">在设置了过期时间的键空间中，移除最近最少使用的</span> <span class="string">key</span></span><br><span class="line">    <span class="attr">volatile-random:</span> <span class="string">在设置了过期时间的键空间中，随机移除某个</span> <span class="string">key。</span></span><br><span class="line">    <span class="attr">volatile-ttl:</span> <span class="string">在设置了过期时间的键空间中，有更早过期时间的</span> <span class="string">key</span> <span class="string">优先移除</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
-<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
+<p>Java实现LRU: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">LinkedHashMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(capacity, <span class="number">0.75f</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K, V&gt; eldest)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size() &gt; capacity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-高并发"><a href="#Redis-高并发" class="headerlink" title="Redis 高并发"></a>Redis 高并发</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.主从架构(master-slave):</span> <span class="string">主负责写，并且将数据复制到其它的</span> <span class="string">slave</span> <span class="string">节点，从节点负责读</span></span><br><span class="line"><span class="number">2</span><span class="string">.读写分离，读请求全部走从节点</span></span><br><span class="line"><span class="number">3</span><span class="string">.水平扩容支撑读高并发</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-Replication（主从复制）"><a href="#Redis-Replication（主从复制）" class="headerlink" title="Redis Replication（主从复制）"></a>Redis Replication（主从复制）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.异步复制</span></span><br><span class="line"><span class="number">2.</span><span class="string">slave</span> <span class="string">node</span> <span class="string">做复制的时候，不会</span> <span class="string">block</span> <span class="string">master</span> <span class="string">node</span> <span class="string">的正常工作</span></span><br><span class="line"><span class="number">3.</span><span class="string">slave</span> <span class="string">node</span> <span class="string">复制时，用旧的数据集提供查询服务，复制完成，暂停对外服务，删除旧数据集，加载新数据集</span></span><br><span class="line"><span class="number">4</span><span class="string">.第一次full</span> <span class="string">resynchronization</span> <span class="string">全量复制，后面增量复制:</span> </span><br><span class="line"><span class="string">a.当启动一个</span> <span class="string">slave</span> <span class="string">node</span> <span class="string">的时候，发送一个</span> <span class="string">PSYNC</span> <span class="string">命令给</span> <span class="string">master</span> <span class="string">node</span></span><br><span class="line"><span class="string">b.如果slave初次连接到master,进行full</span> <span class="string">resynchronization全量复制,master启动后台线程生成RDB快照文件，同时将从客户端新收到的所有写命令缓存在内存,RDB文件生成完毕后,发送给slave,slave先写入本地磁盘,再从磁盘加载到存,master再将内存中缓存的写命令发送到slave,slave同步这些数据,如果rdb复制时间超过60秒(repl-timeout),缓存区持续超过256MB或者一次超过56MB,复制失败,可以修改参数client-output-buffer-limit</span> <span class="string">slave</span> <span class="string">256MB</span> <span class="string">64MB</span> <span class="number">60</span></span><br><span class="line"><span class="string">c.如果slave开启AOF,立即执行BGREWRITEAOF重写AOF,slave复制断开，自动重连后master仅复制给slave缺少的数据</span></span><br><span class="line"><span class="number">5</span><span class="string">.断点续传:</span> <span class="string">master在内存中维护一个backlog,master和slave都会保存replica</span> <span class="string">offset以及master</span> <span class="string">run</span> <span class="string">id，offset就是保存在backlog中的。如果</span> <span class="string">master</span> <span class="string">和</span> <span class="string">slave</span> <span class="string">网络连接断掉了，slave</span> <span class="string">会让</span> <span class="string">master</span> <span class="string">从上次replica</span> <span class="string">offset开始继续复制，如果没有找到对应的</span> <span class="string">offset，那么就会执行一次</span> <span class="string">resynchronization，默认</span> <span class="string">backlog</span> <span class="string">就是</span> <span class="string">1MB</span></span><br><span class="line"><span class="number">6</span><span class="string">.无磁盘化复制:</span> </span><br><span class="line">    <span class="string">a.参数设置repl-diskless-sync</span> <span class="literal">yes</span><span class="string">(master在内存中创建RDB发送给slave)</span></span><br><span class="line">    <span class="string">b.参数设置repl-diskless-sync-delay</span> <span class="number">5</span><span class="string">(等待5s后再开始复制,等更多slave重新连接)</span></span><br><span class="line"><span class="number">7</span><span class="string">.过期key处理:</span> <span class="string">slave不会过期key,master过期或者淘汰一个key(淘汰策略)，模拟一条del命令发送给slave</span></span><br><span class="line"><span class="number">8</span><span class="string">.心跳:</span> <span class="string">master</span> <span class="string">默认每隔</span> <span class="number">10</span> <span class="string">秒发送一次</span> <span class="string">heartbeat，slave</span> <span class="string">node</span> <span class="string">每隔</span> <span class="number">1</span> <span class="string">秒发送一个</span> <span class="string">heartbeat</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -127,7 +107,61 @@
         
   
   <div class="categories">
-    <a href="/categories/JMM/">JMM</a>
+    <a href="/categories/Redis/">Redis</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch/">2021-08-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/15/ElasticSearch/">ElasticSearch</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES写数据过程"><a href="#ES写数据过程" class="headerlink" title="ES写数据过程"></a>ES写数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.写入内存buffer,同时将操作写入(append)到translog日志文件</span></span><br><span class="line"><span class="number">2.</span><span class="string">buffer满了或者到一定时间且buffer有数据，reflesh数据刷到os</span> <span class="string">cache(由系统决定什么时候生成对应的segment文件)，</span></span><br><span class="line"><span class="string">每隔一秒进行fsync生成segment文件</span></span><br><span class="line"><span class="number">3.</span><span class="string">translog每隔5秒fsync到磁盘，每隔30分钟或者文件大小超过阈值会进行flush/commit(buffer</span> <span class="string">reflesh,生成所有segment</span> <span class="string">file对应的commit</span> <span class="string">point文件，fsync</span> <span class="string">os</span> <span class="string">cache</span> <span class="string">中所有数据到磁盘，清空translog文件)</span></span><br><span class="line"><span class="number">4</span><span class="string">.相关参数</span></span><br><span class="line"><span class="attr">index.translog.sync_interval:</span> <span class="string">控制</span> <span class="string">translog</span> <span class="string">多久</span> <span class="string">fsync</span> <span class="string">到磁盘,最小为</span> <span class="string">100ms</span></span><br><span class="line"><span class="attr">index.translog.durability:</span> <span class="string">request/async</span> <span class="string">translog每次请求or定时fsync</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES删除数据过程"><a href="#ES删除数据过程" class="headerlink" title="ES删除数据过程"></a>ES删除数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">commit时生成.del文件，将doc标识为deleted状态</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果是更新操作，将原来的</span> <span class="string">doc</span> <span class="string">标识为</span> <span class="string">deleted</span> <span class="string">状态，然后新写入一条数据</span></span><br><span class="line"><span class="number">3</span><span class="string">.定期执行</span> <span class="string">merge，合并多个segment</span> <span class="string">file同时将标识为deleted的doc物理删除，将新的segment</span> <span class="string">file写入磁盘(fsync)，并写一个commit</span> <span class="string">point，然后打开</span> <span class="string">segment</span> <span class="string">file</span> <span class="string">供搜索使用，同时删除旧的</span> <span class="string">segment</span> <span class="string">file</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">A-Z-&gt;JAVA-&gt;doc</span> <span class="string">id</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ES优化"><a href="#ES优化" class="headerlink" title="ES优化"></a>ES优化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">es</span> <span class="string">性能要好，最佳的情况下，就是你的机器的内存，至少可以容纳你的总数据量的一半</span></span><br><span class="line"><span class="number">2</span><span class="string">.将索引数据控制在所有data节点filesystem</span> <span class="string">cach(分配的内存大小)之和范围内</span></span><br><span class="line"><span class="number">2</span><span class="string">.一般是建议用</span> <span class="string">es</span> <span class="string">+</span> <span class="string">hbase</span> <span class="string">，es存搜索字段和主键，然后根据主键去hbase拿完整的数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/ElasticSearch/">ElasticSearch</a>
   </div>
 
         
@@ -195,11 +229,11 @@
 <td>不可以重排</td>
 </tr>
 </tbody></table>
-<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">Cpu1读取变量-&gt;Cpu1改状态为E-&gt;Cpu2读取变量2-&gt;Cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
+<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">M:</span> <span class="string">修改（Modified)</span></span><br><span class="line"><span class="attr">E:</span> <span class="string">独享互斥（Exclusive)</span></span><br><span class="line"><span class="attr">S:</span> <span class="string">共享（share)</span></span><br><span class="line"><span class="attr">I:</span> <span class="string">无效</span></span><br><span class="line"><span class="string">顺序：</span> <span class="string">cpu1读取变量-&gt;cpu1改状态为E-&gt;cpu2读取变量2-&gt;cpu2通知cpu1(事件队列)-&gt;cpu1,cpu2修改状态为S</span></span><br><span class="line"><span class="string">-&gt;cpu1通知cpu2要修改-&gt;cpu2改状态为I,cpu1修改状态M,修改变量-&gt;cpu2通知cpu1要读取-&gt;cpu1写变量到主存,改状态为E</span></span><br><span class="line"><span class="string">MESI协议最多只是保证了对于一个变量，在多个核上的读写顺序，对于多个变量而言是没有任何保证的，即无法阻止重排序</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -245,7 +279,7 @@
         <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#x32;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -301,7 +335,7 @@
 
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#x39;&#51;&#x32;&#54;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -357,7 +391,7 @@
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -414,7 +448,7 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -464,7 +498,7 @@
 <h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a></p>
 
       
     </div>
@@ -565,7 +599,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;">&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#99;&#111;&#109;">&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -668,113 +702,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/消息队列/">消息队列</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-08T02:35:33.110Z"><a href="/2021/08/08/消息队列/">2021-08-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/08/消息队列/">消息队列</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h3 id="消息队列的用处"><a href="#消息队列的用处" class="headerlink" title="消息队列的用处:"></a>消息队列的用处:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解耦、异步、削峰</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="消息队列如何选型（神图）："><a href="#消息队列如何选型（神图）：" class="headerlink" title="消息队列如何选型（神图）："></a>消息队列如何选型（神图）：</h3><table>
-<thead>
-<tr>
-<th>特性</th>
-<th>ActiveMQ</th>
-<th>RabbitMQ</th>
-<th>RocketMQ</th>
-<th>Kafka</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单机吞吐量</td>
-<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
-<td>同 ActiveMQ</td>
-<td>10 万级，支撑高吞吐</td>
-<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
-</tr>
-<tr>
-<td>topic 数量对吞吐量的影响</td>
-<td></td>
-<td></td>
-<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
-<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
-</tr>
-<tr>
-<td>时效性</td>
-<td>ms 级</td>
-<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
-<td>ms 级</td>
-<td>延迟在 ms 级以内</td>
-</tr>
-<tr>
-<td>可用性</td>
-<td>高，基于主从架构实现高可用</td>
-<td>同 ActiveMQ</td>
-<td>非常高，分布式架构</td>
-<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
-</tr>
-<tr>
-<td>消息可靠性</td>
-<td>有较低的概率丢失数据</td>
-<td>基本不丢</td>
-<td>经过参数优化配置，可以做到 0 丢失</td>
-<td>同 RocketMQ</td>
-</tr>
-<tr>
-<td>功能支持</td>
-<td>MQ 领域的功能极其完备</td>
-<td>基于 erlang 开发，并发能力很强，性能极好，延时很低，适用于做订阅通知</td>
-<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
-<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
-</tr>
-</tbody></table>
-<h3 id="消息队列如何保证不重复消费："><a href="#消息队列如何保证不重复消费：" class="headerlink" title="消息队列如何保证不重复消费："></a>消息队列如何保证不重复消费：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>如果处理逻辑是入库的，则解决一下主键和唯一键冲突即可</span><br><span class="line"><span class="number">2.</span>如果是通知订阅的，事件处理的，且接收到通知只能处理一次，这种可以增加一个事件ID(分布式全局唯一)，然后处理完之后存redis，重复消费时候查缓存已经有了就不处理了</span><br></pre></td></tr></table></figure>
-
-<h3 id="如何保证消息的顺序性："><a href="#如何保证消息的顺序性：" class="headerlink" title="如何保证消息的顺序性："></a>如何保证消息的顺序性：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">设置路由字段</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/doocs/advanced-java/raw/main/docs/high-concurrency/images/kafka-order-02.png" alt="kafka-order-02"></p>
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]">https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#57;&#51;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#109;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -823,9 +751,13 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/JMM/">JMM</a><small>2</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
@@ -847,7 +779,11 @@
   <ul class="entry">
     
       <li>
-        <a href="/2021/08/14/Java内存模型1/">Java内存模型</a>
+        <a href="/2021/08/15/Redis/">Redis</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/ElasticSearch/">ElasticSearch</a>
       </li>
     
       <li>
@@ -860,10 +796,6 @@
     
       <li>
         <a href="/2021/08/12/操作系统/">操作系统</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/08/类加载过程/">类加载</a>
       </li>
     
   </ul>
