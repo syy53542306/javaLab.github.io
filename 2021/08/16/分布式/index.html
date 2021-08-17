@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>分布式 | JavaYYLab</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="分布式分布式事务方案：123456789101112131.两阶段提交/XA方案2.TCC:: 适用于对于一致性要求高、短流程、并发高的场景,如支付、交易(金融核心系统),严格保证分布式事务,严格保证资金正确性,手写回滚逻辑,或者是补偿逻辑,难维护	a.Try阶段: 对各个服务的资源做检测以及对资源" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="分布式" />
+  <meta property="og:site_name" content="JavaYYLab" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaYYLab</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-16T13:37:11.910Z"><a href="/2021/08/16/分布式/">2021-08-16</a></time>
+      
+      
+  
+    <h1 class="title">分布式</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><h3 id="分布式事务方案："><a href="#分布式事务方案：" class="headerlink" title="分布式事务方案："></a>分布式事务方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.两阶段提交/XA方案</span></span><br><span class="line"><span class="attr">2.TCC::</span> <span class="string">适用于对于一致性要求高、短流程、并发高的场景,如支付、交易(金融核心系统),严格保证分布式事务,严格保证资金正确性,手写回滚逻辑,或者是补偿逻辑,难维护</span></span><br><span class="line">	<span class="string">a.Try阶段:</span> <span class="string">对各个服务的资源做检测以及对资源进行锁定或者预留</span></span><br><span class="line">	<span class="string">b.Confirm阶段:</span> <span class="string">各个服务中执行实际的操作</span></span><br><span class="line">	<span class="string">c.Cancel阶段:</span> <span class="string">任何一个服务的业务方法执行出错，需要进行补偿，就是执行已经执行成功的业务逻辑的回滚操作</span>	</span><br><span class="line"><span class="attr">3.Saga:</span> <span class="string">分阶段反向操作(补偿),保证最终一致性,金融核心以上的业务（渠道层、产品层、系统集成层）,特点是最终一致即可、流程多、流程长,事务边界太长，加锁时间长,调用其它服务,不保证事务隔离性,特点如下</span></span><br><span class="line">    <span class="string">a.一阶段提交本地事务，无锁，高性能</span></span><br><span class="line">    <span class="string">b.参与者可异步执行，高吞吐</span></span><br><span class="line">    <span class="string">c.补偿服务易于实现，因为一个更新操作的反向操作是比较容易理解的</span></span><br><span class="line"><span class="number">4</span><span class="string">.最大努力通知方案:</span> </span><br><span class="line">	<span class="string">a.系统A本地事务执行完之后,发送个消息到MQ</span></span><br><span class="line">	<span class="string">b.专门消费MQ的最大努力通知服务,消费MQ并记录到数据库,或者是放入个内存队列也可以,接着调用系统B的接口</span></span><br><span class="line">	<span class="string">c.系统B执行成功就结束,系统B执行失败,最大努力通知服务就定时重新调用系统B,反复N次,最后还是不行就放弃</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分布式锁方案："><a href="#分布式锁方案：" class="headerlink" title="分布式锁方案："></a>分布式锁方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">zookeeper</span></span><br><span class="line"><span class="number">2.</span><span class="string">redis</span></span><br><span class="line"><span class="number">3.</span><span class="string">mysql</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分布式锁session方案："><a href="#分布式锁session方案：" class="headerlink" title="分布式锁session方案："></a>分布式锁session方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">JWT</span> <span class="string">Token(无session)</span></span><br><span class="line"><span class="number">2.</span><span class="string">Tomcat</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(Tomcat</span> <span class="string">RedisSessionManager)</span></span><br><span class="line"><span class="number">3.</span><span class="string">Spring</span> <span class="string">Session</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(RedisHttpSessionConfiguration,)</span> <span class="string">spring-session-data-redis</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#57;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/分布式/">分布式</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
+  
+    <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>1</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2021/08/17/MySQL/">MySQL</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/16/Zookeeper/">Zookeeper</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/16/分布式/">分布式</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/Redis/">Redis</a>
+      </li>
+    
+      <li>
+        <a href="/2021/08/15/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2021 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
