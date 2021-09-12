@@ -7,7 +7,7 @@
   <meta name="author" content="John Doe" />
 
   
-  <meta name="description" content="Kafka如何保证不丢数据（可靠性）：123456781.生产端:设置 acks=all ：这个是要求每条数据，必须是写入所有 replica 之后，才能认为是写成功了设置 retries=MAX （无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。2.服务端：给 topic 设置" />
+  <meta name="description" content="Kafka如何保证不丢数据（可靠性）：123456781.生产端:设置 acks=all ：这个是要求每条数据，必须是写入所有 replica 之后，才能认为是写成功了设置 retries=MAX （无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。2.服务端:给 topic 设置" />
   
 
   
@@ -73,9 +73,9 @@
     </header>
     <div class="entry">
       
-        <h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h3 id="如何保证不丢数据（可靠性）："><a href="#如何保证不丢数据（可靠性）：" class="headerlink" title="如何保证不丢数据（可靠性）："></a>如何保证不丢数据（可靠性）：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>生产端:</span><br><span class="line">设置 acks=all ：这个是要求每条数据，必须是写入所有 replica 之后，才能认为是写成功了</span><br><span class="line">设置 retries=MAX （无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。</span><br><span class="line"><span class="number">2.</span>服务端：</span><br><span class="line">给 topic 设置 replication.factor 值必须大于 <span class="number">1</span>，要求每个 partition 必须有至少 <span class="number">2</span> 个副本。</span><br><span class="line">设置 min.insync.replicas 值必须大于 <span class="number">1</span>，这个是要求一个 leader 至少感知到有至少一个 follower 还跟自己保持联系，没掉队，这样才能确保 leader 挂了还有一个 同步的follower可以选举为leader</span><br><span class="line"><span class="number">3.</span>消费端：</span><br><span class="line">手动提交offset，即处理完了再提交</span><br></pre></td></tr></table></figure>
+        <h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h3 id="如何保证不丢数据（可靠性）："><a href="#如何保证不丢数据（可靠性）：" class="headerlink" title="如何保证不丢数据（可靠性）："></a>如何保证不丢数据（可靠性）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.生产端:</span></span><br><span class="line"><span class="string">设置</span> <span class="string">acks=all</span> <span class="string">：这个是要求每条数据，必须是写入所有</span> <span class="string">replica</span> <span class="string">之后，才能认为是写成功了</span></span><br><span class="line"><span class="string">设置</span> <span class="string">retries=MAX</span> <span class="string">（无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。</span></span><br><span class="line"><span class="number">2</span><span class="string">.服务端:</span></span><br><span class="line"><span class="string">给</span> <span class="string">topic</span> <span class="string">设置</span> <span class="string">replication.factor</span> <span class="string">值必须大于</span> <span class="number">1</span><span class="string">，要求每个</span> <span class="string">partition</span> <span class="string">必须有至少</span> <span class="number">2</span> <span class="string">个副本。</span></span><br><span class="line"><span class="string">设置</span> <span class="string">min.insync.replicas</span> <span class="string">值必须大于</span> <span class="number">1</span><span class="string">，这个是要求一个</span> <span class="string">leader</span> <span class="string">至少感知到有至少一个</span> <span class="string">follower</span> <span class="string">还跟自己保持联系，没掉队，这样才能确保</span> <span class="string">leader</span> <span class="string">挂了还有一个</span> <span class="string">同步的follower可以选举为leader</span></span><br><span class="line"><span class="number">3</span><span class="string">.消费端:</span></span><br><span class="line"><span class="string">手动提交offset，即处理完了再提交</span></span><br></pre></td></tr></table></figure>
 
-
+<h3 id="Producer写入超时"><a href="#Producer写入超时" class="headerlink" title="Producer写入超时"></a>Producer写入超时</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">异常:</span> <span class="attr">org.apache.kafka.common.errors.TimeoutException:</span> <span class="string">Expiring</span> <span class="number">2</span> <span class="string">record(s)</span> <span class="string">for</span> <span class="string">testTopic-0</span> <span class="string">due</span> <span class="string">to</span> <span class="number">64534</span> <span class="string">ms</span> <span class="string">has</span> <span class="string">passed</span> <span class="string">since</span> <span class="string">batch</span> <span class="string">creation</span> <span class="string">plus</span> <span class="string">linger</span> <span class="string">time</span></span><br><span class="line"><span class="string">原因:</span> <span class="string">producer往broker发送数据时是串行的，只有上次batch全部写入broker，并且全部callback函数执行完毕后，才会继续下一次发送。如果上一次发送全部callback函数执行时间超过了request.timeout.ms(默认30s)，就会导致后续batch的message发送时间大于创建时间30s以上，然后被producer丢弃并抛出异常</span></span><br><span class="line"><span class="string">解决:</span> <span class="string">加大request.timeout.ms值或者调整callback，使得batch的callback执行时间在request.timeout.ms之内</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="消息队列如何选型（神图）："><a href="#消息队列如何选型（神图）：" class="headerlink" title="消息队列如何选型（神图）："></a>消息队列如何选型（神图）：</h3><table>
 <thead>
@@ -131,7 +131,8 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://my.oschina.net/u/134474/blog/1531556]">https://my.oschina.net/u/134474/blog/1531556]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -184,6 +185,8 @@
   
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
   
+    <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
+  
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
     <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
@@ -206,6 +209,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/08/29/大数据/">大数据</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/22/价值投资/">价值投资</a>
       </li>
     
@@ -219,10 +226,6 @@
     
       <li>
         <a href="/2021/08/16/分布式/">分布式</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/15/Redis/">Redis</a>
       </li>
     
   </ul>

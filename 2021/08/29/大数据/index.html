@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>JVM内存结构 | JavaYYLab</title>
+  <title>大数据 | JavaYYLab</title>
   <meta name="author" content="John Doe" />
 
   
-  <meta name="description" content="JVM内存结构JVM进程在操作系统中的内存结构：1234567JVM虚拟机数据区(JVM分配管理的内存)：    线程独享: 程序计数器，java虚拟机栈，本地方法栈    线程共享: 堆--新生代(eden,from survior,to survior),老年代本地内存(操心系统分配管理的内存)" />
+  <meta name="description" content="大数据Hive与HBase的区别123456Hive: 主要解决数据处理和计算问题1.可以认为是map-reduce的一个包装，hive的意义就是把好写的hive的sql转换为复杂难写的map-reduce程序。2.不存储和计算数据，只是一个数据仓库工具，将结构化的HDFS数据存储文件映射为一张数据" />
   
 
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-  <meta property="og:title" content="JVM内存结构" />
+  <meta property="og:title" content="大数据" />
   <meta property="og:site_name" content="JavaYYLab" />
 
   
@@ -63,24 +63,22 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-08T06:29:49.967Z"><a href="/2021/08/08/JVM内存结构/">2021-08-08</a></time>
+        <time datetime="2021-08-29T07:21:34.631Z"><a href="/2021/08/29/大数据/">2021-08-29</a></time>
       
       
   
-    <h1 class="title">JVM内存结构</h1>
+    <h1 class="title">大数据</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h2><h3 id="JVM进程在操作系统中的内存结构："><a href="#JVM进程在操作系统中的内存结构：" class="headerlink" title="JVM进程在操作系统中的内存结构："></a>JVM进程在操作系统中的内存结构：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">JVM虚拟机数据区(JVM分配管理的内存)：</span></span><br><span class="line">    <span class="string">线程独享:</span> <span class="string">程序计数器，java虚拟机栈，本地方法栈</span></span><br><span class="line">    <span class="string">线程共享:</span> <span class="string">堆--新生代(eden,from</span> <span class="string">survior,to</span> <span class="string">survior),老年代</span></span><br><span class="line"><span class="string">本地内存(操心系统分配管理的内存):</span></span><br><span class="line">	<span class="string">线程共享：</span></span><br><span class="line">        <span class="string">元数据区-方法区(取代JDK1.7的永久代):加载类信息,常量,静态变量,即时编译器编译后代码</span></span><br><span class="line">        <span class="string">直接内存</span>    </span><br></pre></td></tr></table></figure>
+        <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><h3 id="Hive与HBase的区别"><a href="#Hive与HBase的区别" class="headerlink" title="Hive与HBase的区别"></a>Hive与HBase的区别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Hive:</span> <span class="string">主要解决数据处理和计算问题</span></span><br><span class="line"><span class="number">1</span><span class="string">.可以认为是map-reduce的一个包装，hive的意义就是把好写的hive的sql转换为复杂难写的map-reduce程序。</span></span><br><span class="line"><span class="number">2</span><span class="string">.不存储和计算数据，只是一个数据仓库工具，将结构化的HDFS数据存储文件映射为一张数据库逻辑表，并提供简单的sql查询功能，完全依赖于HDFS和MapReduce计算框架</span></span><br><span class="line"><span class="attr">HBase:</span> <span class="string">主要解决实时数据查询问题</span></span><br><span class="line"><span class="number">1</span><span class="string">.可以认为是hdfs的一个包装，本质是数据存储，是个NoSql数据库，部署于hdfs之上，且克服hdfs在随机读写方面的缺点</span></span><br><span class="line"><span class="number">2.</span><span class="string">hbase是物理表，不是逻辑表，提供一个超大的内存hash表，搜索引擎通过它来存储索引，方便查询操作</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="JVM虚拟机栈内容："><a href="#JVM虚拟机栈内容：" class="headerlink" title="JVM虚拟机栈内容："></a>JVM虚拟机栈内容：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">1:</span> <span class="string">局部变量表(八大原始类型,对象引用,返回地址)</span></span><br><span class="line"><span class="attr">2:</span> <span class="string">操作数栈</span></span><br><span class="line"><span class="attr">3:</span> <span class="string">动态链接</span></span><br><span class="line"><span class="attr">4:</span> <span class="string">方法出口信息</span></span><br><span class="line"><span class="attr">5:</span> <span class="string">...</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于Hive与HBase的大数据架构"><a href="#基于Hive与HBase的大数据架构" class="headerlink" title="基于Hive与HBase的大数据架构"></a>基于Hive与HBase的大数据架构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">流程:</span></span><br><span class="line"><span class="number">1</span><span class="string">.通过ETL工具将数据源(OLTP系统)抽取到HDFS存储</span></span><br><span class="line"><span class="number">2</span><span class="string">.通过Hive清洗、处理和计算原始数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">HIve清洗处理后的结果，如果是面向海量数据随机查询场景的可存入Hbase</span></span><br><span class="line"><span class="number">4</span><span class="string">.数据应用从HBase查询数据</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]">https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;">&#57;&#51;&#50;&#54;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -93,7 +91,7 @@
         
   
   <div class="categories">
-    <a href="/categories/JVM/">JVM</a>
+    <a href="/categories/大数据/">大数据</a>
   </div>
 
         
