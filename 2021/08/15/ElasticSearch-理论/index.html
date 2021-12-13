@@ -7,7 +7,7 @@
   <meta name="author" content="John Doe" />
 
   
-  <meta name="description" content="ElasticSearchES 搜索数据过程12341.请求到一个节点，该节点成为协调节点coordinate node2.协调节点将搜索请求转发到所有的shard对应的primary shard或replica shard3.query phase: 每个shard将自己的搜索结果（其实就是一些d" />
+  <meta name="description" content="ElasticSearch-理论ES 搜索数据过程12341.请求到一个节点，该节点成为协调节点coordinate node2.协调节点将搜索请求转发到所有的shard对应的primary shard或replica shard3.query phase: 每个shard将自己的搜索结果（其实就是" />
   
 
   
@@ -63,7 +63,7 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch/">2021-08-15</a></time>
+        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch-理论/">2021-08-15</a></time>
       
       
   
@@ -73,7 +73,7 @@
     </header>
     <div class="entry">
       
-        <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
+        <h2 id="ElasticSearch-理论"><a href="#ElasticSearch-理论" class="headerlink" title="ElasticSearch-理论"></a>ElasticSearch-理论</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="ES写数据过程"><a href="#ES写数据过程" class="headerlink" title="ES写数据过程"></a>ES写数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.写入内存buffer,同时将操作写入(append)到translog日志文件</span></span><br><span class="line"><span class="number">2.</span><span class="string">buffer满了或者到一定时间且buffer有数据，reflesh数据刷到os</span> <span class="string">cache(由系统决定什么时候生成对应的segment文件)，</span></span><br><span class="line"><span class="string">每隔一秒进行fsync生成segment文件</span></span><br><span class="line"><span class="number">3.</span><span class="string">translog每隔5秒fsync到磁盘，每隔30分钟或者文件大小超过阈值会进行flush/commit(buffer</span> <span class="string">reflesh,生成所有segment</span> <span class="string">file对应的commit</span> <span class="string">point文件，fsync</span> <span class="string">os</span> <span class="string">cache</span> <span class="string">中所有数据到磁盘，清空translog文件)</span></span><br><span class="line"><span class="number">4</span><span class="string">.相关参数</span></span><br><span class="line"><span class="attr">index.translog.sync_interval:</span> <span class="string">控制</span> <span class="string">translog</span> <span class="string">多久</span> <span class="string">fsync</span> <span class="string">到磁盘,最小为</span> <span class="string">100ms</span></span><br><span class="line"><span class="attr">index.translog.durability:</span> <span class="string">request/async</span> <span class="string">translog每次请求or定时fsync</span></span><br></pre></td></tr></table></figure>
 
@@ -84,7 +84,7 @@
 <h3 id="ES优化"><a href="#ES优化" class="headerlink" title="ES优化"></a>ES优化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">es</span> <span class="string">性能要好，最佳的情况下，就是你的机器的内存，至少可以容纳你的总数据量的一半</span></span><br><span class="line"><span class="number">2</span><span class="string">.将索引数据控制在所有data节点filesystem</span> <span class="string">cach(分配的内存大小)之和范围内</span></span><br><span class="line"><span class="number">2</span><span class="string">.一般是建议用</span> <span class="string">es</span> <span class="string">+</span> <span class="string">hbase</span> <span class="string">，es存搜索字段和主键，然后根据主键去hbase拿完整的数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#x39;&#51;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -123,7 +123,7 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>3</small></li>
   
     <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
@@ -161,6 +161,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/12/13/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
@@ -170,14 +178,6 @@
     
       <li>
         <a href="/2021/08/17/MySQL/">MySQL</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/Zookeeper/">Zookeeper</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/分布式/">分布式</a>
       </li>
     
   </ul>

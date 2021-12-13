@@ -62,6 +62,121 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-12-13T13:43:56.750Z"><a href="/2021/12/13/ElasticSearch/">2021-12-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/12/13/ElasticSearch/">ElasticSearch</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="ElasticSearch-理论"><a href="#ElasticSearch-理论" class="headerlink" title="ElasticSearch-理论"></a>ElasticSearch-理论</h2><h3 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h3><h4 id="ES写数据过程"><a href="#ES写数据过程" class="headerlink" title="ES写数据过程"></a>ES写数据过程</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.写入内存buffer,同时将操作写入(append)到translog日志文件</span></span><br><span class="line"><span class="number">2.</span><span class="string">buffer满了或者到一定时间且buffer有数据，reflesh数据刷到os</span> <span class="string">cache(由系统决定什么时候生成对应的segment文件)，</span></span><br><span class="line"><span class="string">每隔一秒进行fsync生成segment文件</span></span><br><span class="line"><span class="number">3.</span><span class="string">translog每隔5秒fsync到磁盘，每隔30分钟或者文件大小超过阈值会进行flush/commit(buffer</span> <span class="string">reflesh,生成所有segment</span> <span class="string">file对应的commit</span> <span class="string">point文件，fsync</span> <span class="string">os</span> <span class="string">cache</span> <span class="string">中所有数据到磁盘，清空translog文件)</span></span><br><span class="line"><span class="number">4</span><span class="string">.相关参数</span></span><br><span class="line"><span class="attr">index.translog.sync_interval:</span> <span class="string">控制</span> <span class="string">translog</span> <span class="string">多久</span> <span class="string">fsync</span> <span class="string">到磁盘,最小为</span> <span class="string">100ms</span></span><br><span class="line"><span class="attr">index.translog.durability:</span> <span class="string">request/async</span> <span class="string">translog每次请求or定时fsync</span></span><br></pre></td></tr></table></figure>
+
+<p>ES索引动态映射</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">当Dynamic设置为true时，一旦有新增字段的文档写入，Mapping也同时被更新</span></span><br><span class="line"><span class="string">当Dynamic设置为false时，索引Mapping不会被更新，数据能插入，新增字段无法作为查询条件，新增字段会出现_source中</span></span><br><span class="line"><span class="string">当Dynamic设置为strict时，文档写入会失败</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Read"><a href="#Read" class="headerlink" title="Read"></a>Read</h3><h4 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h3><h4 id="ES删除数据过程"><a href="#ES删除数据过程" class="headerlink" title="ES删除数据过程"></a>ES删除数据过程</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">commit时生成.del文件，将doc标识为deleted状态</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果是更新操作，将原来的</span> <span class="string">doc</span> <span class="string">标识为</span> <span class="string">deleted</span> <span class="string">状态，然后新写入一条数据</span></span><br><span class="line"><span class="number">3</span><span class="string">.定期执行</span> <span class="string">merge，合并多个segment</span> <span class="string">file同时将标识为deleted的doc物理删除，将新的segment</span> <span class="string">file写入磁盘(fsync)，并写一个commit</span> <span class="string">point，然后打开</span> <span class="string">segment</span> <span class="string">file</span> <span class="string">供搜索使用，同时删除旧的</span> <span class="string">segment</span> <span class="string">file</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><h4 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">A-Z-&gt;JAVA-&gt;doc</span> <span class="string">id</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="ES优化"><a href="#ES优化" class="headerlink" title="ES优化"></a>ES优化</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">es</span> <span class="string">性能要好，最佳的情况下，就是你的机器的内存，至少可以容纳你的总数据量的一半</span></span><br><span class="line"><span class="number">2</span><span class="string">.将索引数据控制在所有data节点filesystem</span> <span class="string">cach(分配的内存大小)之和范围内</span></span><br><span class="line"><span class="number">3</span><span class="string">.一般是建议用</span> <span class="string">es</span> <span class="string">+</span> <span class="string">hbase</span> <span class="string">，es存搜索字段和主键，然后根据主键去hbase拿完整的数据</span></span><br><span class="line"><span class="number">4</span><span class="string">.重建索引时候新索引上临时关闭自动刷新refresh_interval</span> <span class="string">=</span> <span class="number">-1</span><span class="string">，设置副本数为number_of_replicas</span> <span class="string">=</span> <span class="number">0</span><span class="string">，以加速重建</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cooper20/article/details/108780376]">https://blog.csdn.net/cooper20/article/details/108780376]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/ElasticSearch/">ElasticSearch</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-12-13T13:16:34.166Z"><a href="/2021/12/13/ElasticSearch-实践/">2021-12-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="ElasticSearch-实践"><a href="#ElasticSearch-实践" class="headerlink" title="ElasticSearch-实践"></a>ElasticSearch-实践</h2><h3 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Read"><a href="#Read" class="headerlink" title="Read"></a>Read</h3><h3 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">mapping</span> <span class="string">不能删除字段，只能通过重建</span></span><br><span class="line"><span class="number">2</span><span class="string">.文档删除字段，通过脚本更新，利用ctx._source.remove(‘fieldName’)删除</span></span><br><span class="line"><span class="string">POST</span> <span class="string">indexName/_doc/_update_by_query</span></span><br><span class="line">&#123;</span><br><span class="line">	  <span class="attr">&quot;script&quot;:</span> <span class="string">&quot;ctx._source.remove(&#x27;fieldName&#x27;)&quot;</span>,</span><br><span class="line">	  <span class="attr">&quot;query&quot;:</span> &#123;</span><br><span class="line">	    <span class="attr">&quot;bool&quot;:</span> &#123;</span><br><span class="line">	      <span class="attr">&quot;must&quot;:</span> [</span><br><span class="line">	        &#123;</span><br><span class="line">	          <span class="attr">&quot;exists&quot;:</span> &#123;</span><br><span class="line">	            <span class="attr">&quot;field&quot;:</span> <span class="string">&quot;fieldName&quot;</span></span><br><span class="line">	          &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	      ]</span><br><span class="line">	    &#125;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">ctx._source.remove</span></span><br><span class="line"><span class="number">2.</span><span class="string">ctx._source.containsKey</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">GET</span> <span class="string">ip:port,ip:port/_tasks?detailed=true</span></span><br><span class="line"><span class="number">2.</span><span class="string">GET</span> <span class="string">ip:port,ip:port/_tasks/task_id?detailed=true&amp;&amp;group_by=nodes</span></span><br><span class="line"><span class="number">3.</span><span class="string">task_id格式为node_id:task_number</span></span><br><span class="line"><span class="number">4.</span><span class="string">group_by对返回结果进行分组，可选值为nodes（按节点分组）、none（禁用分组）、parents（按父任务分组），默认为nodes)</span></span><br><span class="line"><span class="number">5.</span><span class="string">POST</span> <span class="string">ip:port,ip:port/_tasks/&lt;task_id&gt;/_cancel</span></span><br><span class="line"><span class="number">6.</span><span class="string">POST</span> <span class="string">_tasks/_cancel?nodes=?&amp;actions=?</span></span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cooper20/article/details/108780376]">https://blog.csdn.net/cooper20/article/details/108780376]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/asty9000/article/details/100903593]">https://blog.csdn.net/asty9000/article/details/100903593]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;">&#57;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/ElasticSearch/">ElasticSearch</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-29T07:21:34.631Z"><a href="/2021/08/29/大数据/">2021-08-29</a></time>
       
       
@@ -77,7 +192,7 @@
 <h3 id="基于Hive与HBase的大数据架构"><a href="#基于Hive与HBase的大数据架构" class="headerlink" title="基于Hive与HBase的大数据架构"></a>基于Hive与HBase的大数据架构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">流程:</span></span><br><span class="line"><span class="number">1</span><span class="string">.通过ETL工具将数据源(OLTP系统)抽取到HDFS存储</span></span><br><span class="line"><span class="number">2</span><span class="string">.通过Hive清洗、处理和计算原始数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">HIve清洗处理后的结果，如果是面向海量数据随机查询场景的可存入Hbase</span></span><br><span class="line"><span class="number">4</span><span class="string">.数据应用从HBase查询数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]">https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;">&#57;&#51;&#50;&#54;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -120,13 +235,15 @@
     </header>
     <div class="entry">
       
-        <h2 id="价值投资"><a href="#价值投资" class="headerlink" title="价值投资"></a>价值投资</h2><h3 id="芯片半导体电子电力："><a href="#芯片半导体电子电力：" class="headerlink" title="芯片半导体电子电力："></a>芯片半导体电子电力：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">长电科技-600584(芯片封测):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量正常,趋势不稳):</span> <span class="number">34.91</span><span class="string">(210823以35.09买入，止损31.13)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.41</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.32</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">34.33</span><span class="string">(加仓价位30.09)</span></span><br><span class="line"><span class="string">生益科技-600183(覆铜板):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价23.91)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价24.01)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">22.94</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">23.73</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="string">长江电力-600900(水电):</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.06</span><span class="string">(理想价位18.40)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.40</span><span class="string">(理想价位18.42)</span></span><br></pre></td></tr></table></figure>
+        <h2 id="价值投资"><a href="#价值投资" class="headerlink" title="价值投资"></a>价值投资</h2><h3 id="芯片半导体电子电力："><a href="#芯片半导体电子电力：" class="headerlink" title="芯片半导体电子电力："></a>芯片半导体电子电力：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">长江电力-600900(水电):</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.06</span><span class="string">(理想价位18.40)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.40</span><span class="string">(理想价位18.42)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.31</span><span class="string">(理想价位18.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.31</span><span class="string">(理想价位18.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">22.00</span><span class="string">(理想价位18.50)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.85</span><span class="string">(理想价位18.50)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">21.00</span><span class="string">(理想价位18.76)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="食品白酒家电医药"><a href="#食品白酒家电医药" class="headerlink" title="食品白酒家电医药:"></a>食品白酒家电医药:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">口子窖-603589(高档):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中下-扩张中,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">51.44</span><span class="string">(理想价位45.97)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.16</span><span class="string">(理想价位45.98)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">51.55</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.75</span><span class="string">(理想价位46.41)</span></span><br><span class="line"><span class="string">美的集团-000333:</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">67.80</span><span class="string">(理想价位64.94)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">70.04</span><span class="string">(理想价位65.12)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">72.40</span><span class="string">(理想价位65.34)</span></span><br><span class="line"><span class="string">云南白药-000538:</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">85.30</span><span class="string">(理想价位83.58)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">91.87</span><span class="string">(理想价位84.24)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">93.89</span><span class="string">(理想价位84.41)</span></span><br></pre></td></tr></table></figure>
+<h3 id="食品白酒家电医药黄金"><a href="#食品白酒家电医药黄金" class="headerlink" title="食品白酒家电医药黄金:"></a>食品白酒家电医药黄金:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">口子窖-603589(高档):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中下-扩张中,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">51.44</span><span class="string">(理想价位45.97)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.16</span><span class="string">(理想价位45.98)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">51.55</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.75</span><span class="string">(理想价位46.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">50.33</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">50.48</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">55.19</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">57.97</span><span class="string">(理想价位47.15)</span></span><br><span class="line"><span class="string">美的集团-000333:</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">67.80</span><span class="string">(理想价位64.94)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">70.04</span><span class="string">(理想价位65.12)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">72.40</span><span class="string">(理想价位65.34)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">68.26</span><span class="string">(理想价位65.53)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">69.60</span><span class="string">(理想价位65.90)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">71.00</span><span class="string">(理想价位65.90)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">74.50</span><span class="string">(理想价位66.53)</span></span><br><span class="line"><span class="string">云南白药-000538:</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">85.30</span><span class="string">(理想价位83.58)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">91.87</span><span class="string">(理想价位84.24)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">93.89</span><span class="string">(理想价位84.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">96.01</span><span class="string">(理想价位84.43)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">97.79</span><span class="string">(理想价位85)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">94.54</span><span class="string">(理想价位85)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">94.00</span><span class="string">(理想价位85)</span></span><br><span class="line"><span class="string">中金黄金-600489:</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.78</span><span class="string">(理想价位8.64)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.37</span><span class="string">(210924-8.66购买)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.68</span><span class="string">(210924-8.66购买)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.66</span><span class="string">(210924-8.66购买)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="基本面消息面技术面"><a href="#基本面消息面技术面" class="headerlink" title="基本面消息面技术面:"></a>基本面消息面技术面:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.平均市盈率</span></span><br><span class="line"><span class="number">2</span><span class="string">.股东变动</span></span><br><span class="line"><span class="number">3</span><span class="string">.净利润变化图二表(2)</span></span><br><span class="line"><span class="number">4</span><span class="string">.经营者,产品,分布,地区,销售额</span></span><br><span class="line"><span class="number">5</span><span class="string">.估值图表</span></span><br><span class="line"><span class="number">6</span><span class="string">.分红</span></span><br><span class="line"><span class="number">7</span><span class="string">.二图总结,公告,财务总结(2)</span></span><br><span class="line"><span class="number">8</span><span class="string">.库存,在建工程,非流动负债,长期借款</span></span><br><span class="line"><span class="number">9</span><span class="string">.营业总成本,研发费用</span></span><br><span class="line"><span class="number">10</span><span class="string">.现金流</span></span><br><span class="line"><span class="number">11</span><span class="string">.消息</span></span><br><span class="line"><span class="number">12</span><span class="string">.成交量,趋势</span></span><br></pre></td></tr></table></figure>
+<h3 id="已操作："><a href="#已操作：" class="headerlink" title="已操作："></a>已操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">生益科技-600183(覆铜板):</span> <span class="number">-1001</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价23.91)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价24.01)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">22.94</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">23.73</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势不稳):</span> <span class="number">22.32</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势不稳):</span> <span class="number">21.66</span><span class="string">(210831以23.58买入，已止损21.52)</span></span><br><span class="line"><span class="string">盈亏:</span> <span class="number">-1001</span></span><br><span class="line"><span class="string">长电科技-600584(芯片封测):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量正常,趋势不稳):</span> <span class="number">34.91</span><span class="string">(210823以35.09买入，止损31.13)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.41</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.32</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">34.33</span><span class="string">(加仓价位30.09)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">32.12</span><span class="string">(加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">32.07</span><span class="string">(止损31.13，加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.25</span><span class="string">(止损31.13，加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">31.19</span><span class="string">(止损31.11)</span></span><br><span class="line"><span class="string">盈亏:</span> <span class="number">-1208</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>价值投资，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="基本面消息面技术面"><a href="#基本面消息面技术面" class="headerlink" title="基本面消息面技术面:"></a>基本面消息面技术面:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.平均市盈率</span></span><br><span class="line"><span class="number">2</span><span class="string">.股东变动</span></span><br><span class="line"><span class="number">3</span><span class="string">.净利润变化图二表(2)</span></span><br><span class="line"><span class="number">4</span><span class="string">.经营者,产品,分布,地区,销售额</span></span><br><span class="line"><span class="number">5</span><span class="string">.估值图表</span></span><br><span class="line"><span class="number">6</span><span class="string">.分红</span></span><br><span class="line"><span class="number">7</span><span class="string">.二图总结,公告,财务总结(2)</span></span><br><span class="line"><span class="number">8</span><span class="string">.库存,在建工程,非流动负债,长期借款</span></span><br><span class="line"><span class="number">9</span><span class="string">.营业总成本,研发费用</span></span><br><span class="line"><span class="number">10</span><span class="string">.现金流</span></span><br><span class="line"><span class="number">11</span><span class="string">.消息(2)</span></span><br><span class="line"><span class="number">12</span><span class="string">.成交量,趋势</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>价值投资，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -176,7 +293,7 @@
 <h3 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化:"></a>MySQL优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#49;&#55;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x39;&#51;&#50;&#54;&#49;&#55;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -222,7 +339,7 @@
         <h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h3 id="Zookeeper的功能："><a href="#Zookeeper的功能：" class="headerlink" title="Zookeeper的功能："></a>Zookeeper的功能：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.分布式协调:</span> <span class="string">节点值监听器</span></span><br><span class="line"><span class="number">2</span><span class="string">.分布式锁:</span> <span class="string">创建znode</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据/配置信息管理:</span> <span class="string">kafka,dubbo</span></span><br><span class="line"><span class="number">4.</span><span class="string">HA高可用:</span> <span class="string">hadoop、hdfs、yarn主进程挂了切换到备用进程(active</span> <span class="string">node,监听器)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a></p>
 
       
     </div>
@@ -272,7 +389,7 @@
 <h3 id="分布式锁session方案："><a href="#分布式锁session方案：" class="headerlink" title="分布式锁session方案："></a>分布式锁session方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">JWT</span> <span class="string">Token(无session)</span></span><br><span class="line"><span class="number">2.</span><span class="string">Tomcat</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(Tomcat</span> <span class="string">RedisSessionManager)</span></span><br><span class="line"><span class="number">3.</span><span class="string">Spring</span> <span class="string">Session</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(RedisHttpSessionConfiguration,)</span> <span class="string">spring-session-data-redis</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -349,7 +466,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -382,17 +499,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch/">2021-08-15</a></time>
+        <time datetime="2021-08-15T07:06:31.156Z"><a href="/2021/08/15/ElasticSearch-理论/">2021-08-15</a></time>
       
       
   
-    <h1 class="title"><a href="/2021/08/15/ElasticSearch/">ElasticSearch</a></h1>
+    <h1 class="title"><a href="/2021/08/15/ElasticSearch-理论/">ElasticSearch</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
+        <h2 id="ElasticSearch-理论"><a href="#ElasticSearch-理论" class="headerlink" title="ElasticSearch-理论"></a>ElasticSearch-理论</h2><h3 id="ES-搜索数据过程"><a href="#ES-搜索数据过程" class="headerlink" title="ES 搜索数据过程"></a>ES 搜索数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求到一个节点，该节点成为协调节点coordinate</span> <span class="string">node</span></span><br><span class="line"><span class="number">2</span><span class="string">.协调节点将搜索请求转发到所有的shard对应的primary</span> <span class="string">shard或replica</span> <span class="string">shard</span></span><br><span class="line"><span class="attr">3.query phase:</span> <span class="string">每个shard将自己的搜索结果（其实就是一些doc</span> <span class="string">id）返回给协调节点,协调节点进行数据的合并、排序、分页等操作,产出最终结果</span></span><br><span class="line"><span class="attr">4.fetch phase:</span> <span class="string">协调节点根据doc</span> <span class="string">id去各个节点上拉取实际的document数据,最终返回给客户端</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="ES写数据过程"><a href="#ES写数据过程" class="headerlink" title="ES写数据过程"></a>ES写数据过程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.写入内存buffer,同时将操作写入(append)到translog日志文件</span></span><br><span class="line"><span class="number">2.</span><span class="string">buffer满了或者到一定时间且buffer有数据，reflesh数据刷到os</span> <span class="string">cache(由系统决定什么时候生成对应的segment文件)，</span></span><br><span class="line"><span class="string">每隔一秒进行fsync生成segment文件</span></span><br><span class="line"><span class="number">3.</span><span class="string">translog每隔5秒fsync到磁盘，每隔30分钟或者文件大小超过阈值会进行flush/commit(buffer</span> <span class="string">reflesh,生成所有segment</span> <span class="string">file对应的commit</span> <span class="string">point文件，fsync</span> <span class="string">os</span> <span class="string">cache</span> <span class="string">中所有数据到磁盘，清空translog文件)</span></span><br><span class="line"><span class="number">4</span><span class="string">.相关参数</span></span><br><span class="line"><span class="attr">index.translog.sync_interval:</span> <span class="string">控制</span> <span class="string">translog</span> <span class="string">多久</span> <span class="string">fsync</span> <span class="string">到磁盘,最小为</span> <span class="string">100ms</span></span><br><span class="line"><span class="attr">index.translog.durability:</span> <span class="string">request/async</span> <span class="string">translog每次请求or定时fsync</span></span><br></pre></td></tr></table></figure>
 
@@ -403,7 +520,7 @@
 <h3 id="ES优化"><a href="#ES优化" class="headerlink" title="ES优化"></a>ES优化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">es</span> <span class="string">性能要好，最佳的情况下，就是你的机器的内存，至少可以容纳你的总数据量的一半</span></span><br><span class="line"><span class="number">2</span><span class="string">.将索引数据控制在所有data节点filesystem</span> <span class="string">cach(分配的内存大小)之和范围内</span></span><br><span class="line"><span class="number">2</span><span class="string">.一般是建议用</span> <span class="string">es</span> <span class="string">+</span> <span class="string">hbase</span> <span class="string">，es存搜索字段和主键，然后根据主键去hbase拿完整的数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#x39;&#51;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -488,7 +605,7 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#x33;&#x32;&#54;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -502,108 +619,6 @@
   
   <div class="categories">
     <a href="/categories/JMM/">JMM</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-12T13:47:27.280Z"><a href="/2021/08/12/线程/">2021-08-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/12/线程/">进程与线程</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/操作系统/">操作系统</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-12T13:15:08.655Z"><a href="/2021/08/12/操作系统/">2021-08-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/12/操作系统/">操作系统</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="CPU组成："><a href="#CPU组成：" class="headerlink" title="CPU组成："></a>CPU组成：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.控制单元:</span></span><br><span class="line">	<span class="string">指令寄存器IR（Instruction</span> <span class="string">Register）</span></span><br><span class="line">	<span class="string">指令译码器ID（Instruction</span> <span class="string">Decoder）</span></span><br><span class="line">	<span class="string">操作控制器OC（Operation</span> <span class="string">Controller）-发信号</span></span><br><span class="line">	<span class="string">...</span></span><br><span class="line"><span class="number">2</span><span class="string">.运算单元(接收信号):</span> </span><br><span class="line">	<span class="string">算术运算（包括加减乘数等基本运算及其附加运算）</span></span><br><span class="line">	<span class="string">逻辑运算（包括移位、逻辑测试或两个值比较）</span></span><br><span class="line"><span class="number">3</span><span class="string">.存储单元:</span> </span><br><span class="line">	<span class="string">CPU片内缓存Cache(我理解的是L1,L2)</span></span><br><span class="line">	<span class="string">寄存器组(专用寄存器、通用寄存器)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="CPU缓存结构-i5-8265u"><a href="#CPU缓存结构-i5-8265u" class="headerlink" title="CPU缓存结构(i5-8265u)"></a>CPU缓存结构(i5-8265u)</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">寄存器</span></span><br><span class="line"><span class="attr">L1:</span> <span class="string">分为数据缓存和指令缓存，逻辑核独占(256K)</span></span><br><span class="line"><span class="attr">L2:</span> <span class="string">物理核独占，逻辑核共享(1MB)</span></span><br><span class="line"><span class="attr">L3:</span> <span class="string">所有物理核共享(6MB)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="局部性原理："><a href="#局部性原理：" class="headerlink" title="局部性原理："></a>局部性原理：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.时间局部性（Temporal</span> <span class="string">Locality）:</span> <span class="string">如果一个信息项正在被访问，那么在近期它很可能还会被再次访问,比如循环、递归、方法的反复调用等。</span></span><br><span class="line"><span class="number">2</span><span class="string">.空间局部性（Spatial</span> <span class="string">Locality）:</span> <span class="string">如果一个存储器的位置被引用，那么将来他附近的位置也会被引用,比如顺序执行的代码、连续创建的两个对象、数组等。</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="CPU运行级别："><a href="#CPU运行级别：" class="headerlink" title="CPU运行级别："></a>CPU运行级别：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ring0,ring1,ring2,ring3</span></span><br><span class="line"><span class="string">Linux与Windows只用到了2个级别</span></span><br><span class="line"><span class="attr">ring0:</span> <span class="string">操作系统内部内部程序指令运行所需级别</span></span><br><span class="line"><span class="attr">ring3:</span> <span class="string">第三方程序运行所需级别</span></span><br><span class="line"><span class="string">第三方程序如果要调用操作系统内部函数功能，由于运行安全级别不够,必须切换CPU运行状态从ring3切换到ring0,然后执行系统函数</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="内存空间："><a href="#内存空间：" class="headerlink" title="内存空间："></a>内存空间：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.用户空间(用户态usermode):</span> <span class="string">低地址，一般的堆栈(用户空间的堆栈)</span></span><br><span class="line"><span class="number">2</span><span class="string">.内核空间(内核态kernelmode):</span> <span class="string">高地址，固定大小的堆栈（内核空间的堆栈，一般为一个内存页的大小）</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/操作系统/">操作系统</a>
   </div>
 
         
@@ -639,7 +654,7 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>3</small></li>
   
     <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
@@ -677,6 +692,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/12/13/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
@@ -686,14 +709,6 @@
     
       <li>
         <a href="/2021/08/17/MySQL/">MySQL</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/Zookeeper/">Zookeeper</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/分布式/">分布式</a>
       </li>
     
   </ul>

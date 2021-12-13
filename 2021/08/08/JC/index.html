@@ -87,9 +87,11 @@
 
 <h3 id="Full-GC触发条件："><a href="#Full-GC触发条件：" class="headerlink" title="Full GC触发条件："></a>Full GC触发条件：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>System.gc()方法调用(添加参数使得不起效-XX:+ DisableExplicitGC)</span><br><span class="line"><span class="number">2.</span>老年代空间不足</span><br><span class="line"><span class="number">3.</span>永久代空间不足</span><br><span class="line"><span class="number">4.</span>空间分配担保失败</span><br><span class="line"><span class="number">5.</span>统计得到的 Minor GC 晋升到旧生代的平均大小大于老年代的剩余空间</span><br></pre></td></tr></table></figure>
 
+<h3 id="JC日志详解"><a href="#JC日志详解" class="headerlink" title="JC日志详解"></a>JC日志详解</h3><p><img src="http://ww4.sinaimg.cn/large/6c8effc1tw1dmbux7knpoj.jpg" alt="img"></p>
+<p><img src="http://ww1.sinaimg.cn/large/6c8effc1tw1dmc55axrbsj.jpg" alt="img"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#x36;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#109;</a></p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#109;">&#57;&#51;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -128,7 +130,7 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>1</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>3</small></li>
   
     <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
@@ -166,6 +168,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/12/13/ElasticSearch/">ElasticSearch</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch</a>
+      </li>
+    
+      <li>
         <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
@@ -175,14 +185,6 @@
     
       <li>
         <a href="/2021/08/17/MySQL/">MySQL</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/Zookeeper/">Zookeeper</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/16/分布式/">分布式</a>
       </li>
     
   </ul>
