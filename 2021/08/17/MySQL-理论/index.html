@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>MySQL | JavaYYLab</title>
+  <title>MySQL-理论 | JavaYYLab</title>
   <meta name="author" content="John Doe" />
 
   
-  <meta name="description" content="MySQLB+树和B树特点：12341.多叉平衡搜索树,每个非叶子节点只有索引条件2.只有叶子节点存储数据(B树每个节点都可以保存数据)3.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)4.少量数据B树查询效率高(ETCD中的MVCC)
+  <meta name="description" content="MySQL-理论B+树和B树特点：12341.多叉平衡搜索树,B+树每个非叶子节点只有索引条件2.只有叶子节点存储数据(B树每个节点都可以保存数据)3.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)4.少量数据B树查询效率高(ETCD中的MVCC)
 
-锁：1234567891.全局" />
+锁：1234567" />
   
 
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-  <meta property="og:title" content="MySQL" />
+  <meta property="og:title" content="MySQL-理论" />
   <meta property="og:site_name" content="JavaYYLab" />
 
   
@@ -65,24 +65,24 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-17T14:01:27.665Z"><a href="/2021/08/17/MySQL/">2021-08-17</a></time>
+        <time datetime="2021-08-17T14:01:27.665Z"><a href="/2021/08/17/MySQL-理论/">2021-08-17</a></time>
       
       
   
-    <h1 class="title">MySQL</h1>
+    <h1 class="title">MySQL-理论</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="B-树和B树特点："><a href="#B-树和B树特点：" class="headerlink" title="B+树和B树特点："></a>B+树和B树特点：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.多叉平衡搜索树,每个非叶子节点只有索引条件</span></span><br><span class="line"><span class="number">2</span><span class="string">.只有叶子节点存储数据(B树每个节点都可以保存数据)</span></span><br><span class="line"><span class="number">3</span><span class="string">.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)</span></span><br><span class="line"><span class="number">4</span><span class="string">.少量数据B树查询效率高(ETCD中的MVCC)</span></span><br></pre></td></tr></table></figure>
+        <h2 id="MySQL-理论"><a href="#MySQL-理论" class="headerlink" title="MySQL-理论"></a>MySQL-理论</h2><h3 id="B-树和B树特点："><a href="#B-树和B树特点：" class="headerlink" title="B+树和B树特点："></a>B+树和B树特点：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.多叉平衡搜索树,B+树每个非叶子节点只有索引条件</span></span><br><span class="line"><span class="number">2</span><span class="string">.只有叶子节点存储数据(B树每个节点都可以保存数据)</span></span><br><span class="line"><span class="number">3</span><span class="string">.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)</span></span><br><span class="line"><span class="number">4</span><span class="string">.少量数据B树查询效率高(ETCD中的MVCC)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="锁："><a href="#锁：" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化:"></a>MySQL优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#x33;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -121,7 +121,7 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>2</small></li>
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>3</small></li>
   
     <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
   
@@ -135,19 +135,23 @@
   
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
   
+    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
+  
     <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
     <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>1</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
   
   </ul>
 </div>
@@ -159,23 +163,23 @@
   <ul class="entry">
     
       <li>
+        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch/">ElasticSearch-理论</a>
+      </li>
+    
+      <li>
         <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
       </li>
     
       <li>
         <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/29/大数据/">大数据</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/22/价值投资/">价值投资</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/17/MySQL/">MySQL</a>
       </li>
     
   </ul>
