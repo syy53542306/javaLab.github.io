@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>Redis | JavaYYLab</title>
-  <meta name="author" content="John Doe" />
+  <title>Redis | JavaBadNote</title>
+  <meta name="author" content="MagicCoderYang" />
 
   
   <meta name="description" content="Redis缓存作用1231.高性能: 查询耗时小，性能提升百倍2.高并发: mysql单机最多也就2000个qps，redis可以高达几万几十万3.缓存是走内存的，内存天然就支撑高并发
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
   <meta property="og:title" content="Redis" />
-  <meta property="og:site_name" content="JavaYYLab" />
+  <meta property="og:site_name" content="JavaBadNote" />
 
   
   
@@ -30,7 +30,7 @@
   <link href="/css/images/favicon.ico" rel="icon" />
   
 
-  <link rel="alternate" href="/atom.xml" title="JavaYYLab" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="JavaBadNote" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
@@ -44,7 +44,7 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">JavaYYLab</a></h1>
+  <h1><a href="/">JavaBadNote</a></h1>
   <h2><a href="/"></a></h2>
 </div>
 <nav id="main-nav" class="alignright">
@@ -109,7 +109,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -222,7 +222,7 @@
   <footer id="footer" class="inner"><div class="alignleft">
   <p>
   
-  &copy; 2021 John Doe
+  &copy; 2022 MagicCoderYang
   
   All rights reserved.</p>
   <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
