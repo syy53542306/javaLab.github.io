@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>数据库-理论 | JavaBadNote</title>
+  <meta name="author" content="MagicCoderYang" />
+
+  
+  <meta name="description" content="数据库-理论1.概念：12345671.实体（Entity）：客观存在并可相互区别的事物称为实体。2.属性（Attribute）：实体所具有的某一特性称为属性。一个实体可以由若干个属性来刻画。例如学生实体可以由学号、姓名、性别、出生年份、系、入学时间等属性组成,属性组合起来表征了一个学生。3.码（K" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="数据库-理论" />
+  <meta property="og:site_name" content="JavaBadNote" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaBadNote" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaBadNote</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2022-01-02T06:43:04.470Z"><a href="/2022/01/02/数据库-理论/">2022-01-02</a></time>
+      
+      
+  
+    <h1 class="title">数据库-理论</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="数据库-理论"><a href="#数据库-理论" class="headerlink" title="数据库-理论"></a>数据库-理论</h2><h3 id="1-概念："><a href="#1-概念：" class="headerlink" title="1.概念："></a>1.概念：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.实体（Entity）：客观存在并可相互区别的事物称为实体。</span></span><br><span class="line"><span class="number">2</span><span class="string">.属性（Attribute）：实体所具有的某一特性称为属性。一个实体可以由若干个属性来刻画。例如学生实体可以由学号、姓名、性别、出生年份、系、入学时间等属性组成,属性组合起来表征了一个学生。</span></span><br><span class="line"><span class="number">3</span><span class="string">.码（Key）：唯一标识实体的属性集称为码。例如学号是学生实体的码。</span></span><br><span class="line"><span class="number">4</span><span class="string">.域（Domain）：属性的取值范围称为该属性的域。例如，学号的域为8位整数，姓名的域为字符串集合，年龄的域为小于38的整数，性别的域为（男，女）。</span></span><br><span class="line"><span class="number">5</span><span class="string">.实体型（Entity</span> <span class="string">Type）</span> <span class="string">：具有相同属性的实体必然具有共同的特征和性质。用实体名及其属性名集合来抽象和刻画同类实体，称为实体型。例如，学生（学号，姓名，性别，出生年份，系，入学时间）就是一个实体型。</span></span><br><span class="line"><span class="number">6</span><span class="string">.实体集（Entity</span> <span class="string">Set）：同型实体的集合称为实体集。例如，全体学生就是一个实体集。</span></span><br><span class="line"><span class="number">7</span><span class="string">.联系（Relationship）</span> <span class="string">：在现实世界中，事物内部以及事物之间是有联系的，这些联系在信息世界中反映为实体（型）内部的联系和实体（型）之间的联系。实体内部的联系通常是指组成实体的各属性之间的联系。实体之间的联系通常是指不同实体集之间的联系。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-概念模型的表示："><a href="#2-概念模型的表示：" class="headerlink" title="2.概念模型的表示："></a>2.概念模型的表示：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">实体-联系方法，用E-R图来描述现实世界的概念模型，E-R方法也称为E-R模型</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-常见的数据模型："><a href="#3-常见的数据模型：" class="headerlink" title="3.常见的数据模型："></a>3.常见的数据模型：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">层次模型（Hierarchical</span> <span class="string">Model）</span></span><br><span class="line"><span class="string">网状模型（Network</span> <span class="string">Model）</span></span><br><span class="line"><span class="string">关系模型（Relational</span> <span class="string">Model)）</span></span><br><span class="line"><span class="string">面向对象数据模型（Object</span> <span class="string">Oriented</span> <span class="string">Data</span> <span class="string">Model）</span></span><br><span class="line"><span class="string">对象关系数据模型（Object</span> <span class="string">Relational</span> <span class="string">Data</span> <span class="string">Model）</span></span><br><span class="line"><span class="string">半结构化数据模型（Semistruture</span> <span class="string">Data</span> <span class="string">Model）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-常见的数据模型："><a href="#4-常见的数据模型：" class="headerlink" title="4.常见的数据模型："></a>4.常见的数据模型：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">关系型数据库：MySQL、Oracle、DB2、SQL</span> <span class="string">Server</span></span><br><span class="line"><span class="string">非关系型数据库：</span></span><br><span class="line"><span class="string">键值存储数据库：Redis、Memcached、MemcacheDB</span></span><br><span class="line"><span class="string">列存储数据库：HBase、Cassandra</span></span><br><span class="line"><span class="string">面向文档的数据库：MongDB、CouchDB</span></span><br><span class="line"><span class="string">图形数据库：Neo4J</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-SQL语言的分类："><a href="#5-SQL语言的分类：" class="headerlink" title="5.SQL语言的分类："></a>5.SQL语言的分类：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">DQL：数据查询语言：select、from、where</span></span><br><span class="line"><span class="string">DML：数据操作语言：insert、update、delete</span></span><br><span class="line"><span class="string">DDL：数据定义语言：create、alter、drop、truncate</span></span><br><span class="line"><span class="string">DCL：数据控制语言：grant、revoke</span></span><br><span class="line"><span class="string">TCL：事务控制语言：commit、rollback</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/110132192]">https://caochenlei.blog.csdn.net/article/details/110132192]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#x33;&#50;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/数据库/">数据库</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>2</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
+  
+    <li><a href="/categories/价值投资/">价值投资</a><small>1</small></li>
+  
+    <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
+  
+    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
+  
+    <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 MagicCoderYang
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

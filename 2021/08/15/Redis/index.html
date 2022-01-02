@@ -109,7 +109,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -170,7 +170,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -190,6 +190,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
+      </li>
+    
+      <li>
         <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
       </li>
     
@@ -199,14 +207,6 @@
     
       <li>
         <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
   </ul>

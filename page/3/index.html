@@ -62,6 +62,162 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-08T02:35:33.110Z"><a href="/2021/08/08/消息队列/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/08/消息队列/">消息队列</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h3 id="消息队列的用处"><a href="#消息队列的用处" class="headerlink" title="消息队列的用处:"></a>消息队列的用处:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解耦、异步、削峰</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="消息队列如何选型（神图）："><a href="#消息队列如何选型（神图）：" class="headerlink" title="消息队列如何选型（神图）："></a>消息队列如何选型（神图）：</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
+<td>同 ActiveMQ</td>
+<td>10 万级，支撑高吞吐</td>
+<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用</td>
+<td>同 ActiveMQ</td>
+<td>非常高，分布式架构</td>
+<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td>基本不丢</td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>同 RocketMQ</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，并发能力很强，性能极好，延时很低，适用于做订阅通知</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
+</tr>
+</tbody></table>
+<h3 id="消息队列如何保证不重复消费："><a href="#消息队列如何保证不重复消费：" class="headerlink" title="消息队列如何保证不重复消费："></a>消息队列如何保证不重复消费：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>如果处理逻辑是入库的，则解决一下主键和唯一键冲突即可</span><br><span class="line"><span class="number">2.</span>如果是通知订阅的，事件处理的，且接收到通知只能处理一次，这种可以增加一个事件ID(分布式全局唯一)，然后处理完之后存redis，重复消费时候查缓存已经有了就不处理了</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何保证消息的顺序性："><a href="#如何保证消息的顺序性：" class="headerlink" title="如何保证消息的顺序性："></a>如何保证消息的顺序性：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">设置路由字段</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/doocs/advanced-java/raw/main/docs/high-concurrency/images/kafka-order-02.png" alt="kafka-order-02"></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]">https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/消息队列/">消息队列</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-07T10:34:45.537Z"><a href="/2021/08/07/堆排序/">2021-08-07</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/07/堆排序/">堆排序</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="堆排序–查找数组中第K大的元素"><a href="#堆排序–查找数组中第K大的元素" class="headerlink" title="堆排序–查找数组中第K大的元素"></a>堆排序–查找数组中第K大的元素</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。</span><br><span class="line">请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。</span><br><span class="line">输入: [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>] 和 k = <span class="number">2</span></span><br><span class="line">输出: <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="思"><a href="#思" class="headerlink" title="思:"></a>思:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最大堆: 每个子树根节点是最大的</span><br></pre></td></tr></table></figure>
+
+<h3 id="解-java"><a href="#解-java" class="headerlink" title="解(java)"></a>解(java)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> pos1, <span class="keyword">int</span> pos2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = arr[pos1];</span><br><span class="line">    arr[pos1] = arr[pos2];</span><br><span class="line">    arr[pos2] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findKthLargest</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(k&lt;<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    buildMaxHeap(nums);</span><br><span class="line">    <span class="keyword">int</span> size=nums.length;</span><br><span class="line">    <span class="keyword">if</span>(size==<span class="number">0</span>||size&lt;k)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;k;++i)&#123;</span><br><span class="line">        res=nums[<span class="number">0</span>];</span><br><span class="line">        swap(nums,size-<span class="number">1</span>-i,<span class="number">0</span>);</span><br><span class="line">        adjustDown(nums,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">adjustDown</span><span class="params">(<span class="keyword">int</span>[] vr,<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp=vr[k];</span><br><span class="line">    <span class="keyword">int</span> size=len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>*k+<span class="number">1</span>;i&lt;size;i=i*<span class="number">2</span>+<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i+<span class="number">1</span>&lt;size&amp;&amp;vr[i+<span class="number">1</span>]&gt;vr[i])</span><br><span class="line">            i=i+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(tmp&gt;=vr[i])</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        vr[k]=vr[i];</span><br><span class="line">        k=i;</span><br><span class="line">    &#125;</span><br><span class="line">    vr[k]=tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span>[] vr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=vr.length/<span class="number">2</span>-<span class="number">1</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">        adjustDown(vr,i,vr.length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span>[] vr)</span></span>&#123;</span><br><span class="line">    buildMaxHeap(vr);</span><br><span class="line">    <span class="keyword">int</span> size=vr.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;++i)&#123;</span><br><span class="line">        swap(vr,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">        adjustDown(vr,<span class="number">0</span>,size-<span class="number">1</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/]">https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/]</a>: </p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/算法/">算法</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-07T08:08:18.179Z"><a href="/2021/08/07/快排/">2021-08-07</a></time>
       
       
@@ -376,9 +532,12 @@
     </header>
     <div class="entry">
       
-        <h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.后台执行shell脚本</span><br><span class="line">nohup sh  xxx &amp;   or （nohup curl url)</span><br><span class="line">2.定时脚本</span><br><span class="line">crontab -l   //查看</span><br><span class="line">crontabl -e  //编辑</span><br><span class="line">3.查看磁盘状态</span><br><span class="line">df -h</span><br><span class="line">4.查找进程</span><br><span class="line">ps | grep xxxx</span><br></pre></td></tr></table></figure>
+        <h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.后台执行shell脚本</span><br><span class="line">nohup sh  xxx &amp;   or （nohup curl url)</span><br><span class="line">2.定时脚本</span><br><span class="line">crontab -l   //查看</span><br><span class="line">crontabl -e  //编辑</span><br><span class="line">3.查看磁盘状态</span><br><span class="line">df -h</span><br><span class="line">4.查找进程</span><br><span class="line">ps | grep xxxx</span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
 
 <h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start nginx.exe  //启动</span><br><span class="line"></span><br><span class="line">nginx.exe -s stop //停止nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s reload //重新加载nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s quit //退出nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108025749]">https://caochenlei.blog.csdn.net/article/details/108025749]</a>:</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -451,7 +610,7 @@
 
 <h3 id="O"><a href="#O" class="headerlink" title="O"></a>O</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">OC:</span> <span class="string">操作控制器(Operation</span> <span class="string">Controller)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="P"><a href="#P" class="headerlink" title="P"></a>P</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="P"><a href="#P" class="headerlink" title="P"></a>P</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">POJO:</span> <span class="string">简单无规则java对象(plian</span> <span class="string">ordinary</span> <span class="string">java</span> <span class="string">object)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -543,7 +702,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -563,6 +722,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
+      </li>
+    
+      <li>
         <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
       </li>
     
@@ -572,14 +739,6 @@
     
       <li>
         <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
   </ul>

@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>MyBatis | JavaBadNote</title>
+  <meta name="author" content="MagicCoderYang" />
+
+  
+  <meta name="description" content="MyBatis1.#和$的区别12#&amp;#123; &amp;#125;：是预编译处理，MyBatis在处理#&amp;#123; &amp;#125;时，它会将sql中的#&amp;#123; &amp;#125;替换为？，然后调用PreparedStatement的set方法来赋值，传入字符串后，会在值两边加上单引号，使用占位符的方式提" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="MyBatis" />
+  <meta property="og:site_name" content="JavaBadNote" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaBadNote" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaBadNote</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2022-01-02T08:07:37.723Z"><a href="/2022/01/02/MyBatis/">2022-01-02</a></time>
+      
+      
+  
+    <h1 class="title">MyBatis</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><h3 id="1-和-的区别"><a href="#1-和-的区别" class="headerlink" title="1.#和$的区别"></a>1.#和$的区别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#123; &#125;：是预编译处理，MyBatis在处理#&#123; &#125;时，它会将sql中的#&#123; &#125;替换为？，然后调用PreparedStatement的set方法来赋值，传入字符串后，会在值两边加上单引号，使用占位符的方式提高效率，可以防止sql注入。</span></span><br><span class="line"><span class="string">$&#123;</span> <span class="string">&#125;：表示拼接sql串，将接收到参数的内容不加任何修饰拼接在sql中，可能引发sql注入。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-分页查询"><a href="#2-分页查询" class="headerlink" title="2.分页查询"></a>2.分页查询</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">禁用:</span> <span class="string">在</span> <span class="string">mybatis</span> <span class="string">中，使用</span> <span class="string">RowBounds</span> <span class="string">进行分页，非常方便，不需要在</span> <span class="string">sql</span> <span class="string">语句中写</span> <span class="string">limit，即可完成分页功能。但是由于它是在</span> <span class="string">sql</span> <span class="string">查询出所有结果的基础上截取数据的，所以在数据量大的sql中并不适用</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-设置"><a href="#3-设置" class="headerlink" title="3.设置"></a>3.设置</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mapUnderscoreToCamelCaseEnables:</span> <span class="string">是否开启自动驼峰命名规则映射，默认false</span></span><br><span class="line"><span class="attr">localCacheScope:</span> <span class="string">MyBatis</span> <span class="string">利用本地缓存机制（Local</span> <span class="string">Cache）防止循环引用（circular</span> <span class="string">references）和加速关联复嵌套査询。SESSION：这种情况下会缓存一个会话中执行的所有查询;STATEMENT：代表本地会话仅用在语句执行上，对相同</span> <span class="string">SqlScssion</span> <span class="string">的不同调用将不会共享数据。默认session</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-类型处理器TypeHandler的作用"><a href="#4-类型处理器TypeHandler的作用" class="headerlink" title="4.类型处理器TypeHandler的作用"></a>4.类型处理器TypeHandler的作用</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">MyBatis</span> <span class="string">在设置预处理语句（PreparedStatement）中的参数或从结果集中取出一个值时，都会用类型处理器TypeHandler将获取到的值以合适的方式转换成</span> <span class="string">Java</span> <span class="string">类型</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-自定义TypeHandler"><a href="#5-自定义TypeHandler" class="headerlink" title="5.自定义TypeHandler"></a>5.自定义TypeHandler</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现 org.apache.ibatis.type.TypeHandler 接口或继承org.apache.ibatis.type.BaseTypeHandler</span></span><br><span class="line"><span class="meta">@MappedJdbcTypes(JdbcType.VARCHAR)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleTypeHandler</span> <span class="keyword">extends</span> <span class="title">BaseTypeHandler</span>&lt;<span class="title">String</span>&gt; </span>&#123;...&#125;</span><br><span class="line">&lt;!-- mybatis-config.xml 注册TypeHandler --&gt;</span><br><span class="line">&lt;typeHandlers&gt;</span><br><span class="line">    &lt;!-- 单个注册--&gt;</span><br><span class="line">  &lt;typeHandler handler=<span class="string">&quot;org.mybatis.example.ExampleTypeHandler&quot;</span>/&gt;</span><br><span class="line">    &lt;!-- 批量注册--&gt;</span><br><span class="line">  &lt;<span class="keyword">package</span> name=<span class="string">&quot;org.mybatis.example&quot;</span>/&gt;</span><br><span class="line">&lt;/typeHandlers&gt;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericTypeHandler</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">MyObject</span>&gt; <span class="keyword">extends</span> <span class="title">BaseTypeHandler</span>&lt;<span class="title">E</span>&gt; </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-plugins"><a href="#6-plugins" class="headerlink" title="6.plugins"></a>6.plugins</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">允许使用插件来拦截的方法: </span><br><span class="line">    Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)</span><br><span class="line">    ParameterHandler (getParameterObject, setParameters)</span><br><span class="line">    ResultSetHandler (handleResultSets, handleOutputParameters)</span><br><span class="line">    StatementHandler (prepare, parameterize, batch, update, query)</span><br><span class="line">实现: </span><br><span class="line">    <span class="meta">@Intercepts(&#123;@Signature(</span></span><br><span class="line"><span class="meta">  type= Executor.class, // Executor 是负责执行底层映射语句的内部对象。</span></span><br><span class="line"><span class="meta">  method = &quot;update&quot;,</span></span><br><span class="line"><span class="meta">  args = &#123;MappedStatement.class,Object.class&#125;)&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExamplePlugin</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> invocation.proceed();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-缓存"><a href="#6-缓存" class="headerlink" title="6.缓存"></a>6.缓存</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flushCache	将其设置为 <span class="keyword">true</span> 后，只要语句被调用，都会导致本地缓存和二级缓存被清空，默认值：<span class="keyword">false</span>。</span><br><span class="line">useCache	将其设置为 <span class="keyword">true</span> 后，将会导致本条语句的结果被二级缓存缓存起来，默认值：对 select 元素为 <span class="keyword">true</span>。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化:"></a>优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">union关键字默认去重，union</span> <span class="string">all可以包含重复项，尽量用union</span> <span class="string">all</span></span><br><span class="line"><span class="number">4</span><span class="string">.字段尽量不要使用null，null可以用默认值代替</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="子查询定义分类特点"><a href="#子查询定义分类特点" class="headerlink" title="子查询定义分类特点:"></a>子查询定义分类特点:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">定义：嵌套在其它语句内部的select语句称为子查询或内查询，外面的语句可以是insert、delete、update、select等，一般select作为外面语句较多，外面如果为select语句，则此语句称为外查询或主查询</span></span><br><span class="line"><span class="string">分类：标量子查询（单行子查询）：结果集为一行一列；列子查询（多行子查询）：结果集为多行一列；</span></span><br><span class="line">      <span class="string">行子查询：结果集为多行多列；表子查询：结果集为多行多列</span></span><br><span class="line"><span class="string">特点：</span></span><br><span class="line"><span class="string">子查询放在小括号内</span></span><br><span class="line"><span class="string">子查询一般放在条件的右侧</span></span><br><span class="line"><span class="string">子查询的执行优先于主查询执行，主查询的条件用到了子查询的结果</span></span><br><span class="line"><span class="string">标量子查询，一般搭配着单行操作符使用：&gt;、&gt;=、&lt;、&lt;=、!=、&lt;&gt;、=、&lt;=&gt;</span></span><br><span class="line"><span class="string">列子查询，一般搭配着多行操作符使用：in、not</span> <span class="string">in、any、some、all、exits</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考：-1"><a href="#参考：-1" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108809821]">https://caochenlei.blog.csdn.net/article/details/108809821]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#109;">&#57;&#x33;&#50;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/数据库/">数据库</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>2</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
+  
+    <li><a href="/categories/价值投资/">价值投资</a><small>1</small></li>
+  
+    <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
+  
+    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
+  
+    <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
+      </li>
+    
+      <li>
+        <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 MagicCoderYang
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

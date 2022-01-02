@@ -79,10 +79,13 @@
 
 <h3 id="锁："><a href="#锁：" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化:"></a>MySQL优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br></pre></td></tr></table></figure>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化:"></a>优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">union关键字默认去重，union</span> <span class="string">all可以包含重复项，尽量用union</span> <span class="string">all</span></span><br><span class="line"><span class="number">4</span><span class="string">.字段尽量不要使用null，null可以用默认值代替</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="子查询定义分类特点"><a href="#子查询定义分类特点" class="headerlink" title="子查询定义分类特点:"></a>子查询定义分类特点:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">定义：嵌套在其它语句内部的select语句称为子查询或内查询，外面的语句可以是insert、delete、update、select等，一般select作为外面语句较多，外面如果为select语句，则此语句称为外查询或主查询</span></span><br><span class="line"><span class="string">分类：标量子查询（单行子查询）：结果集为一行一列；列子查询（多行子查询）：结果集为多行一列；</span></span><br><span class="line">      <span class="string">行子查询：结果集为多行多列；表子查询：结果集为多行多列</span></span><br><span class="line"><span class="string">特点：</span></span><br><span class="line"><span class="string">子查询放在小括号内</span></span><br><span class="line"><span class="string">子查询一般放在条件的右侧</span></span><br><span class="line"><span class="string">子查询的执行优先于主查询执行，主查询的条件用到了子查询的结果</span></span><br><span class="line"><span class="string">标量子查询，一般搭配着单行操作符使用：&gt;、&gt;=、&lt;、&lt;=、!=、&lt;&gt;、=、&lt;=&gt;</span></span><br><span class="line"><span class="string">列子查询，一般搭配着多行操作符使用：in、not</span> <span class="string">in、any、some、all、exits</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#51;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -143,7 +146,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -163,6 +166,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
+      </li>
+    
+      <li>
         <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
       </li>
     
@@ -172,14 +183,6 @@
     
       <li>
         <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/08/29/大数据/">大数据</a>
       </li>
     
   </ul>
