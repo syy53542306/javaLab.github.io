@@ -62,6 +62,52 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-16T13:39:01.591Z"><a href="/2021/08/16/Zookeeper/">2021-08-16</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/16/Zookeeper/">Zookeeper</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h3 id="Zookeeper的功能："><a href="#Zookeeper的功能：" class="headerlink" title="Zookeeper的功能："></a>Zookeeper的功能：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.分布式协调:</span> <span class="string">节点值监听器</span></span><br><span class="line"><span class="number">2</span><span class="string">.分布式锁:</span> <span class="string">创建znode</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据/配置信息管理:</span> <span class="string">kafka,dubbo</span></span><br><span class="line"><span class="number">4.</span><span class="string">HA高可用:</span> <span class="string">hadoop、hdfs、yarn主进程挂了切换到备用进程(active</span> <span class="string">node,监听器)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;">&#57;&#51;&#50;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/Zookeeper/">Zookeeper</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-16T13:37:11.910Z"><a href="/2021/08/16/分布式/">2021-08-16</a></time>
       
       
@@ -79,7 +125,7 @@
 <h3 id="分布式锁session方案："><a href="#分布式锁session方案：" class="headerlink" title="分布式锁session方案："></a>分布式锁session方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">JWT</span> <span class="string">Token(无session)</span></span><br><span class="line"><span class="number">2.</span><span class="string">Tomcat</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(Tomcat</span> <span class="string">RedisSessionManager)</span></span><br><span class="line"><span class="number">3.</span><span class="string">Spring</span> <span class="string">Session</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(RedisHttpSessionConfiguration,)</span> <span class="string">spring-session-data-redis</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;">&#57;&#x33;&#x32;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#51;&#x32;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -156,7 +202,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -199,9 +245,11 @@
     </header>
     <div class="entry">
       
-        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h2><h3 id="JMM-java-memory-model-定义："><a href="#JMM-java-memory-model-定义：" class="headerlink" title="JMM(java memory model)定义："></a>JMM(java memory model)定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Java内存模型，就是为了屏蔽系统和硬件的差异，让一套代码在不同平台下能到达相同的访问结果，规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+<h3 id="内存划分"><a href="#内存划分" class="headerlink" title="内存划分"></a>内存划分</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">JMM规定了内存主要划分为主内存和工作内存两种。此处的主内存和工作内存跟JVM内存划分（堆、栈、方法区）是在不同的层次上进行的，如果非要对应起来，主内存对应的是Java堆中的对象实例部分，工作内存对应的是栈中的部分区域，从更底层的来说，主内存对应的是硬件的物理内存，工作内存对应的是寄存器和高速缓存。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存交互八大原子操作："><a href="#内存交互八大原子操作：" class="headerlink" title="内存交互八大原子操作："></a>内存交互八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="string">lock</span> <span class="string">（锁定）:</span> <span class="string">作用于主内存的变量，把一个变量标识为线程独占状态</span></span><br><span class="line"><span class="string">read</span> <span class="string">（读取）:</span> <span class="string">作用于主内存变量，它把一个变量的值从主内存传输到线程的工作内存中，以便随后的load动作使用</span></span><br><span class="line"><span class="string">load</span> <span class="string">（载入）:</span> <span class="string">作用于工作内存的变量，它把read操作从主存中变量放入工作内存中</span></span><br><span class="line"><span class="string">use</span> <span class="string">（使用）:</span> <span class="string">作用于工作内存中的变量，它把工作内存中的变量传输给执行引擎，每当虚拟机遇到一个需要使用到变量的值，就会使用到这个指令</span></span><br><span class="line"><span class="string">assign</span> <span class="string">（赋值）:</span> <span class="string">作用于工作内存中的变量，它把一个从执行引擎中接受到的值放入工作内存的变量副本中</span></span><br><span class="line"><span class="string">store</span> <span class="string">（存储）:</span> <span class="string">作用于主内存中的变量，它把一个从工作内存中一个变量的值传送到主内存中，以便后续的write使用</span></span><br><span class="line"><span class="string">write</span> 　<span class="string">（写入）:</span> <span class="string">作用于主内存中的变量，它把store操作从工作内存中得到的变量的值放入主内存的变量中</span></span><br><span class="line"><span class="string">unlock</span> <span class="string">（解锁）:</span> <span class="string">作用于主内存的变量，它把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
 
@@ -241,7 +289,8 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905]">https://caochenlei.blog.csdn.net/article/details/117566905]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -274,20 +323,38 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-12T13:47:27.280Z"><a href="/2021/08/12/线程/">2021-08-12</a></time>
+        <time datetime="2021-08-12T13:47:27.280Z"><a href="/2021/08/12/并发/">2021-08-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2021/08/12/线程/">进程与线程</a></h1>
+    <h1 class="title"><a href="/2021/08/12/并发/">并发编程</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="JVM创建线程过程："><a href="#JVM创建线程过程：" class="headerlink" title="JVM创建线程过程："></a>JVM创建线程过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行JVM程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
+        <h2 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h2><h3 id="1-Java线程状态"><a href="#1-Java线程状态" class="headerlink" title="1.Java线程状态"></a>1.Java线程状态</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Java</span> <span class="string">中线程状态是用</span> <span class="number">6</span> <span class="string">个</span> <span class="string">enum</span> <span class="string">表示，分别为:</span></span><br><span class="line"><span class="attr">NEW:</span> <span class="string">创建</span></span><br><span class="line"><span class="attr">RUNNABLE:</span> <span class="string">运行</span></span><br><span class="line"><span class="attr">BLOCKED:</span> <span class="string">阻塞，等待IO操作或者其他条件来唤醒</span></span><br><span class="line"><span class="string">WAITING,TIMED_WAITING:</span> <span class="string">睡眠</span></span><br><span class="line"><span class="attr">TERMINATED:</span> <span class="string">终止</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#x39;&#51;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="2-线程打断方法"><a href="#2-线程打断方法" class="headerlink" title="2.线程打断方法"></a>2.线程打断方法</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">interrupt():</span> <span class="string">如果被打断线程正在</span> <span class="string">sleep，wait，join</span> <span class="string">会导致被打断的线程抛出</span> <span class="string">InterruptedException，并清除</span></span><br><span class="line"><span class="string">打断标记；如果打断正在运行的线程，则会设置打断标记，不会抛出异常（亲测）；park</span> <span class="string">的线程被打断，也会设置打断标记</span></span><br><span class="line"><span class="string">isInterrupted():</span> <span class="string">判断当前线程是否被打断</span>	<span class="string">不会清除打断标记</span></span><br><span class="line"><span class="string">interrupted():</span> <span class="string">判断当前线程是否被打断</span>	<span class="string">会清除打断标记</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-对象头"><a href="#3-对象头" class="headerlink" title="3.对象头"></a>3.对象头</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">普通对象头:</span> <span class="string">Mark</span> <span class="string">Word(32bits)|Klass</span> <span class="string">Word(32bits)</span></span><br><span class="line"><span class="string">数组对象头:</span> <span class="string">Mark</span> <span class="string">Word(32bits)|Klass</span> <span class="string">Word(32bits)|array</span> <span class="string">lenght(32bits)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-不同锁状态下的Mark-Word-（32bits虚拟机）"><a href="#4-不同锁状态下的Mark-Word-（32bits虚拟机）" class="headerlink" title="4.不同锁状态下的Mark Word （32bits虚拟机）"></a>4.不同锁状态下的Mark Word （32bits虚拟机）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">锁状态:</span></span><br><span class="line"><span class="attr">normal:</span> <span class="string">hashcode(25bits)|age(4bits)|biased_lock(1bit)(0)|lock_state(2bits)(01)</span></span><br><span class="line"><span class="attr">biased:</span> <span class="string">thread(23bits)|epoch(2bits)|age(4bits)|biased_lock(1bit)(1)|lock_state(2bits)(01)</span></span><br><span class="line"><span class="attr">lightweight_locked:</span> <span class="string">ptr_to_lock_record(30bits)(持有该锁的线程中的锁记录地址&lt;栈中&gt;)|lock_state(2bits)(00)</span></span><br><span class="line"><span class="attr">heaveweight_locked:</span> <span class="string">ptr_to_heavyweight_monitor(30bits)(持有该锁的线程创建的监视器地址&lt;堆中&gt;)|lock_state(2bits)(00)</span></span><br><span class="line"><span class="attr">gc:</span> <span class="string">hashcode(25bits)|age(4bits)|biased_lock(1bit)(0)|lock_state(2bits)(11)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Monitor监视器的结构"><a href="#3-Monitor监视器的结构" class="headerlink" title="3.Monitor监视器的结构"></a>3.Monitor监视器的结构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">WaitSet:</span> <span class="string">条件不满足的线程等待集合</span></span><br><span class="line"><span class="attr">EntryList:</span> <span class="string">条件满足的线程列表（非公平唤醒）</span></span><br><span class="line"><span class="attr">Owner:</span> <span class="string">锁的拥有者线程</span></span><br><span class="line"><span class="string">锁的信息:</span> <span class="string">锁对象的hashCode值，age</span></span><br><span class="line"><span class="attr">ps:</span> <span class="string">Owner</span> <span class="string">线程发现条件不满足，调用</span> <span class="string">wait</span> <span class="string">方法，即可进入</span> <span class="string">WaitSet</span> <span class="string">变为</span> <span class="string">WAITING</span> <span class="string">状态</span></span><br><span class="line"><span class="string">BLOCKED线程会在Owner线程释放锁时唤醒</span></span><br><span class="line"><span class="string">WAITING线程会在Owner线程调用notify或notifyAll时唤醒，唤醒后并仍需进入EntryList重新竞争</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-轻量级锁记录lock-record结构（32bits虚拟机）"><a href="#4-轻量级锁记录lock-record结构（32bits虚拟机）" class="headerlink" title="4.轻量级锁记录lock_record结构（32bits虚拟机）"></a>4.轻量级锁记录lock_record结构（32bits虚拟机）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">lock_record地址(30位)|lock_state(2bits)(00)-&gt;CAS变为hashcode(25bits)|age(4bits)|biased_lock(1bit)(0)</span></span><br><span class="line"><span class="number">2</span><span class="string">.锁对象引用</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-轻量级锁流程"><a href="#5-轻量级锁流程" class="headerlink" title="5.轻量级锁流程"></a>5.轻量级锁流程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.请求获取锁，栈中创建锁记录（Lock</span> <span class="string">Record）对象</span></span><br><span class="line"><span class="number">2</span><span class="string">.让锁记录中Object</span> <span class="string">reference指向锁对象，并尝试用</span> <span class="string">CAS</span> <span class="string">替换</span> <span class="string">Object</span> <span class="string">的</span> <span class="string">Mark</span> <span class="string">Word，将</span> <span class="string">Mark</span> <span class="string">Word</span> <span class="string">的值存入锁记录</span></span><br><span class="line"><span class="number">3.1</span><span class="string">如果</span> <span class="string">CAS</span> <span class="string">替换成功，对象头中存储了锁记录地址和状态</span> <span class="number">00</span> <span class="string">，表示由该线程给对象成功</span></span><br><span class="line"><span class="number">3.2</span><span class="string">如果是其它线程已经持有了该</span> <span class="string">Object</span> <span class="string">的轻量级锁，这时表明有竞争，进入锁膨胀过程，</span></span><br><span class="line"><span class="string">如果是自己执行了</span> <span class="string">synchronized</span> <span class="string">锁重入，那么再添加一条</span> <span class="string">Lock</span> <span class="string">Record</span> <span class="string">作为重入的计数</span></span><br><span class="line"><span class="number">4</span><span class="string">.解锁时如果锁记录的值不为null，这时使用cas将Mark</span> <span class="string">Word的值恢复给对象头，也分两种情况：</span></span><br><span class="line">	<span class="string">成功，则解锁成功</span></span><br><span class="line">	<span class="string">失败，说明轻量级锁进行了锁膨胀或已经升级为重量级锁，进入重量级锁解锁流程</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-锁膨胀定义和流程"><a href="#6-锁膨胀定义和流程" class="headerlink" title="6.锁膨胀定义和流程"></a>6.锁膨胀定义和流程</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">如果在尝试加轻量级锁的过程中，CAS</span> <span class="string">操作无法成功，这时一种情况就是有其它线程为此对象加上了轻量级锁（有竞争），这时需要进行锁膨胀，将轻量级锁变为重量级锁</span></span><br><span class="line"><span class="number">1</span><span class="string">.尝试加轻量级锁失败的线程为锁对象在堆中申请Monitor对象，让锁对象头的ptr_to_heavyweight_monitor指向Monitor的地址，然后自己进入Monitor的</span> <span class="string">EntryList阻塞住</span></span><br><span class="line"><span class="number">2</span><span class="string">.当持有锁的线程退出同步块解锁时，使用</span> <span class="string">CAS</span> <span class="string">将</span> <span class="string">Mark</span> <span class="string">Word</span> <span class="string">的值恢复给对象头，肯定失败。这时会进入重量级解锁流程，即按照</span> <span class="string">Monitor</span> <span class="string">地址找到</span> <span class="string">Monitor</span> <span class="string">对象，设置</span> <span class="string">Owner</span> <span class="string">为</span> <span class="literal">null</span><span class="string">，唤醒</span> <span class="string">EntryList</span> <span class="string">中被阻塞住的线程。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-重量级锁竞争自旋优化"><a href="#7-重量级锁竞争自旋优化" class="headerlink" title="7.重量级锁竞争自旋优化"></a>7.重量级锁竞争自旋优化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.自适应自旋</span></span><br><span class="line"><span class="number">2</span><span class="string">.重试获取重量级锁，成功则执行，失败则进入EntryList阻塞住</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-偏向锁"><a href="#8-偏向锁" class="headerlink" title="8.偏向锁"></a>8.偏向锁</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.默认开启，默认延迟设置对象头为偏向锁，想避免延迟可以添加VM参数</span> <span class="string">-XX:BiasedLockingStartupDelay=0</span> <span class="string">来禁用延迟</span></span><br><span class="line"><span class="string">此时Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x05</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">101</span><span class="string">，thread、epoch、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">。</span></span><br><span class="line"><span class="number">2</span><span class="string">.可以添加</span> <span class="string">VM</span> <span class="string">参数</span> <span class="string">-XX:-UseBiasedLocking</span> <span class="string">来禁用偏向锁，此时对象头Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x01</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">001</span><span class="string">，这时它的</span> <span class="string">hashcode、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">，只有第一次用到</span> <span class="string">hashcode</span> <span class="string">时才会赋值。</span></span><br><span class="line"><span class="attr">ps:</span> <span class="string">一旦调用了对象的</span> <span class="string">hashCode，会导致偏向锁被撤销，这是因为偏向锁的对象</span> <span class="string">Mark</span> <span class="string">Word</span> <span class="string">中存储的是线程</span> <span class="string">id，根本没有地方再存储</span> <span class="string">hashCode</span> <span class="string">的值了，而轻量级锁会在锁记录中记录</span> <span class="string">hashCode，重量级锁会在</span> <span class="string">Monitor</span> <span class="string">中记录</span> <span class="string">hashCode。</span></span><br><span class="line"><span class="number">3</span><span class="string">.当有其它线程使用偏向锁对象时，会将偏向锁升级为轻量级锁，如果竞争继续激烈，轻量级锁会继续膨胀升级到重量级锁</span></span><br><span class="line"><span class="number">4</span><span class="string">.当调用对象的</span> <span class="string">wait/notify</span> <span class="string">方法时，会将偏向锁升级为重量级锁,必须获得此对象的Monitor</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905">https://caochenlei.blog.csdn.net/article/details/117566905</a> </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -300,7 +367,7 @@
         
   
   <div class="categories">
-    <a href="/categories/操作系统/">操作系统</a>
+    <a href="/categories/并发编程/">并发编程</a>
   </div>
 
         
@@ -340,10 +407,10 @@
 
 <h3 id="内存空间："><a href="#内存空间：" class="headerlink" title="内存空间："></a>内存空间：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.用户空间(用户态usermode):</span> <span class="string">低地址，一般的堆栈(用户空间的堆栈)</span></span><br><span class="line"><span class="number">2</span><span class="string">.内核空间(内核态kernelmode):</span> <span class="string">高地址，固定大小的堆栈（内核空间的堆栈，一般为一个内存页的大小）</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br></pre></td></tr></table></figure>
 
-
+<h3 id="线程创建过程："><a href="#线程创建过程：" class="headerlink" title="线程创建过程："></a>线程创建过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#57;&#51;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -399,7 +466,7 @@
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#49;&#x37;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#57;&#x33;&#50;&#54;&#49;&#x37;&#56;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -458,7 +525,7 @@
 <p><img src="http://ww1.sinaimg.cn/large/6c8effc1tw1dmc55axrbsj.jpg" alt="img"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;">&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -508,7 +575,7 @@
 <h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#51;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -610,110 +677,7 @@
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://my.oschina.net/u/134474/blog/1531556]">https://my.oschina.net/u/134474/blog/1531556]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/消息队列/">消息队列</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-08T02:49:17.252Z"><a href="/2021/08/08/RabbitMQ/">2021-08-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/08/RabbitMQ/">RabbitMQ</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><h3 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式:"></a>集群模式:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">镜像集群模式:</span> <span class="string">高可用，但是数据复制度高，复制度=数据节点数量*100%，所以不适用保存大量数据，用来订阅通知比较合适（可以参考Kakfa是怎么降低这个复制度的）</span></span><br><span class="line"><span class="string">普通集群模式:</span> <span class="string">无高可用，只有一台机器保留队列元数据和实际数据，其他机器只保留队列元数据，提高吞吐量</span></span><br><span class="line"><span class="string">单机模式:</span> <span class="string">本地demo用</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="如何保证不丢数据（可靠性）："><a href="#如何保证不丢数据（可靠性）：" class="headerlink" title="如何保证不丢数据（可靠性）："></a>如何保证不丢数据（可靠性）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.生产端:</span></span><br><span class="line"><span class="string">推荐方案：开启confirm模式（异步）</span></span><br><span class="line"><span class="string">其他方案：开启事务（同步）</span></span><br><span class="line"><span class="number">2</span><span class="string">.服务端:</span></span><br><span class="line"><span class="string">开启持久化，包括queue队列，消息(默认持久化，设置MessageDeliveryMode.persisent)，exchange等持久化</span></span><br><span class="line"><span class="number">3</span><span class="string">.消费端:</span></span><br><span class="line"><span class="string">关闭自动ACK，进行手动ACK</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="消息队列如何选型（神图）："><a href="#消息队列如何选型（神图）：" class="headerlink" title="消息队列如何选型（神图）："></a>消息队列如何选型（神图）：</h3><table>
-<thead>
-<tr>
-<th>特性</th>
-<th>ActiveMQ</th>
-<th>RabbitMQ</th>
-<th>RocketMQ</th>
-<th>Kafka</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单机吞吐量</td>
-<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
-<td>同 ActiveMQ</td>
-<td>10 万级，支撑高吞吐</td>
-<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
-</tr>
-<tr>
-<td>topic 数量对吞吐量的影响</td>
-<td></td>
-<td></td>
-<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
-<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
-</tr>
-<tr>
-<td>时效性</td>
-<td>ms 级</td>
-<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
-<td>ms 级</td>
-<td>延迟在 ms 级以内</td>
-</tr>
-<tr>
-<td>可用性</td>
-<td>高，基于主从架构实现高可用</td>
-<td>同 ActiveMQ</td>
-<td>非常高，分布式架构</td>
-<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
-</tr>
-<tr>
-<td>消息可靠性</td>
-<td>有较低的概率丢失数据</td>
-<td>基本不丢</td>
-<td>经过参数优化配置，可以做到 0 丢失</td>
-<td>同 RocketMQ</td>
-</tr>
-<tr>
-<td>功能支持</td>
-<td>MQ 领域的功能极其完备</td>
-<td>基于 erlang 开发，并发能力很强，性能极好，延时很低，适用于做订阅通知</td>
-<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
-<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
-</tr>
-</tbody></table>
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#x6d;">&#x39;&#x33;&#50;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -744,7 +708,7 @@
 <nav id="pagination">
   
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页 &amp;raquo;</a>
   </nav>
 
 </nav>
@@ -772,8 +736,6 @@
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
   
-    <li><a href="/categories/价值投资/">价值投资</a><small>1</small></li>
-  
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
   
     <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
@@ -782,13 +744,19 @@
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
-    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+    <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
+  
+    <li><a href="/categories/投资/">投资</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
     <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
@@ -804,6 +772,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
@@ -817,10 +789,6 @@
     
       <li>
         <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
       </li>
     
   </ul>

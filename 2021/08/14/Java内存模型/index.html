@@ -7,9 +7,7 @@
   <meta name="author" content="MagicCoderYang" />
 
   
-  <meta name="description" content="Java内存模型(JMM)JMM定义：1234规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式特性: 原子性、有序性、可见性主存: 堆和方法区工作内存: 线程私有数据区域
-
-数据同步八大原子操作：123lock-&amp;gt;read-&amp;gt;load-&amp;gt;use-&amp;g" />
+  <meta name="description" content="Java内存模型JMM(java memory model)定义：1234Java内存模型，就是为了屏蔽系统和硬件的差异，让一套代码在不同平台下能到达相同的访问结果，规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式特性: 原子性、有序性、可见性主存: 堆和方法区工作内" />
   
 
   
@@ -75,9 +73,11 @@
     </header>
     <div class="entry">
       
-        <h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><h3 id="JMM定义："><a href="#JMM定义：" class="headerlink" title="JMM定义："></a>JMM定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h2><h3 id="JMM-java-memory-model-定义："><a href="#JMM-java-memory-model-定义：" class="headerlink" title="JMM(java memory model)定义："></a>JMM(java memory model)定义：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Java内存模型，就是为了屏蔽系统和硬件的差异，让一套代码在不同平台下能到达相同的访问结果，规范定义了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式</span></span><br><span class="line"><span class="string">特性:</span> <span class="string">原子性、有序性、可见性</span></span><br><span class="line"><span class="string">主存:</span> <span class="string">堆和方法区</span></span><br><span class="line"><span class="string">工作内存:</span> <span class="string">线程私有数据区域</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="数据同步八大原子操作："><a href="#数据同步八大原子操作：" class="headerlink" title="数据同步八大原子操作："></a>数据同步八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从主内存拷贝到总线</span></span><br><span class="line"><span class="attr">read:</span> <span class="string">将变量从总线拷贝到工作内存</span></span><br></pre></td></tr></table></figure>
+<h3 id="内存划分"><a href="#内存划分" class="headerlink" title="内存划分"></a>内存划分</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">JMM规定了内存主要划分为主内存和工作内存两种。此处的主内存和工作内存跟JVM内存划分（堆、栈、方法区）是在不同的层次上进行的，如果非要对应起来，主内存对应的是Java堆中的对象实例部分，工作内存对应的是栈中的部分区域，从更底层的来说，主内存对应的是硬件的物理内存，工作内存对应的是寄存器和高速缓存。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存交互八大原子操作："><a href="#内存交互八大原子操作：" class="headerlink" title="内存交互八大原子操作："></a>内存交互八大原子操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#lock-&gt;read-&gt;load-&gt;use-&gt;assin-&gt;store-&gt;write-&gt;unlock</span></span><br><span class="line"><span class="string">lock</span> <span class="string">（锁定）:</span> <span class="string">作用于主内存的变量，把一个变量标识为线程独占状态</span></span><br><span class="line"><span class="string">read</span> <span class="string">（读取）:</span> <span class="string">作用于主内存变量，它把一个变量的值从主内存传输到线程的工作内存中，以便随后的load动作使用</span></span><br><span class="line"><span class="string">load</span> <span class="string">（载入）:</span> <span class="string">作用于工作内存的变量，它把read操作从主存中变量放入工作内存中</span></span><br><span class="line"><span class="string">use</span> <span class="string">（使用）:</span> <span class="string">作用于工作内存中的变量，它把工作内存中的变量传输给执行引擎，每当虚拟机遇到一个需要使用到变量的值，就会使用到这个指令</span></span><br><span class="line"><span class="string">assign</span> <span class="string">（赋值）:</span> <span class="string">作用于工作内存中的变量，它把一个从执行引擎中接受到的值放入工作内存的变量副本中</span></span><br><span class="line"><span class="string">store</span> <span class="string">（存储）:</span> <span class="string">作用于主内存中的变量，它把一个从工作内存中一个变量的值传送到主内存中，以便后续的write使用</span></span><br><span class="line"><span class="string">write</span> 　<span class="string">（写入）:</span> <span class="string">作用于主内存中的变量，它把store操作从工作内存中得到的变量的值放入主内存的变量中</span></span><br><span class="line"><span class="string">unlock</span> <span class="string">（解锁）:</span> <span class="string">作用于主内存的变量，它把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="as-if-serial语义："><a href="#as-if-serial语义：" class="headerlink" title="as-if-serial语义："></a>as-if-serial语义：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。 </span><br></pre></td></tr></table></figure>
 
@@ -117,7 +117,8 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905]">https://caochenlei.blog.csdn.net/article/details/117566905]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#x33;&#x32;&#54;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -166,8 +167,6 @@
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
   
-    <li><a href="/categories/价值投资/">价值投资</a><small>1</small></li>
-  
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
   
     <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
@@ -176,13 +175,19 @@
   
     <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
   
-    <li><a href="/categories/操作系统/">操作系统</a><small>2</small></li>
+    <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
+  
+    <li><a href="/categories/投资/">投资</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
     <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
@@ -198,6 +203,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
@@ -211,10 +220,6 @@
     
       <li>
         <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/13/ElasticSearch-理论/">ElasticSearch-理论</a>
       </li>
     
   </ul>
