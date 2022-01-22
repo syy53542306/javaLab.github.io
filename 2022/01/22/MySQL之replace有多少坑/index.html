@@ -3,20 +3,22 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>Zookeeper | JavaBadNote</title>
+  <title>MySQL之replace有多少坑 | JavaBadNote</title>
   <meta name="author" content="MagicCoderYang" />
 
   
-  <meta name="description" content="ZookeeperZookeeper的功能：12341.分布式协调: 节点值监听器2.分布式锁: 创建znode3.元数据/配置信息管理: kafka,dubbo4.HA高可用: hadoop、hdfs、yarn主进程挂了切换到备用进程(active node,监听器)
+  <meta name="description" content="MySQL之replace有多少坑环境：12MySQL5.7ROW模式
 
-参考：[https://d" />
+背景：1234MySQL解决冲突的三种方式：	a.IGNORE;	b.REPLACE INTO;	c.ON DUPLICATE KEY UPDATE;
+
+BUG：121,replace插入语句不包所有字段,在主键冲突时,删除冲" />
   
 
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-  <meta property="og:title" content="Zookeeper" />
+  <meta property="og:title" content="MySQL之replace有多少坑" />
   <meta property="og:site_name" content="JavaBadNote" />
 
   
@@ -65,20 +67,27 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-16T13:39:01.591Z"><a href="/2021/08/16/Zookeeper/">2021-08-16</a></time>
+        <time datetime="2022-01-22T05:13:00.880Z"><a href="/2022/01/22/MySQL之replace有多少坑/">2022-01-22</a></time>
       
       
   
-    <h1 class="title">Zookeeper</h1>
+    <h1 class="title">MySQL之replace有多少坑</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h3 id="Zookeeper的功能："><a href="#Zookeeper的功能：" class="headerlink" title="Zookeeper的功能："></a>Zookeeper的功能：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.分布式协调:</span> <span class="string">节点值监听器</span></span><br><span class="line"><span class="number">2</span><span class="string">.分布式锁:</span> <span class="string">创建znode</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据/配置信息管理:</span> <span class="string">kafka,dubbo</span></span><br><span class="line"><span class="number">4.</span><span class="string">HA高可用:</span> <span class="string">hadoop、hdfs、yarn主进程挂了切换到备用进程(active</span> <span class="string">node,监听器)</span></span><br></pre></td></tr></table></figure>
+        <h2 id="MySQL之replace有多少坑"><a href="#MySQL之replace有多少坑" class="headerlink" title="MySQL之replace有多少坑"></a>MySQL之replace有多少坑</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MySQL5.7</span><br><span class="line">ROW模式</span><br></pre></td></tr></table></figure>
 
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#x33;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.IGNORE;</span><br><span class="line">	b.REPLACE INTO;</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,replace插入语句不包所有字段,在主键冲突时,删除冲突数据,使用语句的数据重新插入,导致不包含的字段以默认值插入,就会有空值情况发生</span><br><span class="line">2.replace在唯一键冲突时候进行删除,然后重新插入新的数据,自增id增加,再主从复制和ROW模式下会产生自增id序号不一致情况,master挂了slave接替时插入新的数据会报Duplicate错误,即使通过alter table auto_increment值解决，但是这样已经造成mater的表很长时间没有写入了</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">尽量不使用replace,使用ON DUPLICATE KEY UPDATE,真的要使用的话,所有字段都必须带上</span><br><span class="line">原因: replace在唯一键冲突时候进行删除,然后重新插入新的数据,导致空值和自增id增加</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34206560/article/details/81007292]">https://blog.csdn.net/qq_34206560/article/details/81007292]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/57855]">https://developer.aliyun.com/article/57855]</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -91,7 +100,7 @@
         
   
   <div class="categories">
-    <a href="/categories/Zookeeper/">Zookeeper</a>
+    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/MySQL/">MySQL</a>
   </div>
 
         

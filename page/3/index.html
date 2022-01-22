@@ -62,6 +62,158 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-08T06:29:49.967Z"><a href="/2021/08/08/JVM内存结构/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/08/JVM内存结构/">JVM内存结构</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h2><h3 id="JVM进程在操作系统中的内存结构："><a href="#JVM进程在操作系统中的内存结构：" class="headerlink" title="JVM进程在操作系统中的内存结构："></a>JVM进程在操作系统中的内存结构：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">JVM虚拟机数据区(JVM分配管理的内存)：</span></span><br><span class="line">    <span class="string">线程独享:</span> <span class="string">程序计数器，java虚拟机栈，本地方法栈</span></span><br><span class="line">    <span class="string">线程共享:</span> <span class="string">堆--新生代(eden,from</span> <span class="string">survior,to</span> <span class="string">survior),老年代</span></span><br><span class="line"><span class="string">本地内存(操心系统分配管理的内存):</span></span><br><span class="line">	<span class="string">线程共享：</span></span><br><span class="line">        <span class="string">元数据区-方法区(取代JDK1.7的永久代):加载类信息,常量,静态变量,即时编译器编译后代码</span></span><br><span class="line">        <span class="string">直接内存</span>    </span><br></pre></td></tr></table></figure>
+
+<h3 id="JVM虚拟机栈内容："><a href="#JVM虚拟机栈内容：" class="headerlink" title="JVM虚拟机栈内容："></a>JVM虚拟机栈内容：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">1:</span> <span class="string">局部变量表(八大原始类型,对象引用,返回地址)</span></span><br><span class="line"><span class="attr">2:</span> <span class="string">操作数栈</span></span><br><span class="line"><span class="attr">3:</span> <span class="string">动态链接</span></span><br><span class="line"><span class="attr">4:</span> <span class="string">方法出口信息</span></span><br><span class="line"><span class="attr">5:</span> <span class="string">...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JVM/">JVM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-08T03:40:47.877Z"><a href="/2021/08/08/Kafka/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/08/Kafka/">Kafka</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h3 id="如何保证不丢数据（可靠性）："><a href="#如何保证不丢数据（可靠性）：" class="headerlink" title="如何保证不丢数据（可靠性）："></a>如何保证不丢数据（可靠性）：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.生产端:</span></span><br><span class="line"><span class="string">设置</span> <span class="string">acks=all</span> <span class="string">：这个是要求每条数据，必须是写入所有</span> <span class="string">replica</span> <span class="string">之后，才能认为是写成功了</span></span><br><span class="line"><span class="string">设置</span> <span class="string">retries=MAX</span> <span class="string">（无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。</span></span><br><span class="line"><span class="number">2</span><span class="string">.服务端:</span></span><br><span class="line"><span class="string">给</span> <span class="string">topic</span> <span class="string">设置</span> <span class="string">replication.factor</span> <span class="string">值必须大于</span> <span class="number">1</span><span class="string">，要求每个</span> <span class="string">partition</span> <span class="string">必须有至少</span> <span class="number">2</span> <span class="string">个副本。</span></span><br><span class="line"><span class="string">设置</span> <span class="string">min.insync.replicas</span> <span class="string">值必须大于</span> <span class="number">1</span><span class="string">，这个是要求一个</span> <span class="string">leader</span> <span class="string">至少感知到有至少一个</span> <span class="string">follower</span> <span class="string">还跟自己保持联系，没掉队，这样才能确保</span> <span class="string">leader</span> <span class="string">挂了还有一个</span> <span class="string">同步的follower可以选举为leader</span></span><br><span class="line"><span class="number">3</span><span class="string">.消费端:</span></span><br><span class="line"><span class="string">手动提交offset，即处理完了再提交</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Producer写入超时"><a href="#Producer写入超时" class="headerlink" title="Producer写入超时"></a>Producer写入超时</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">异常:</span> <span class="attr">org.apache.kafka.common.errors.TimeoutException:</span> <span class="string">Expiring</span> <span class="number">2</span> <span class="string">record(s)</span> <span class="string">for</span> <span class="string">testTopic-0</span> <span class="string">due</span> <span class="string">to</span> <span class="number">64534</span> <span class="string">ms</span> <span class="string">has</span> <span class="string">passed</span> <span class="string">since</span> <span class="string">batch</span> <span class="string">creation</span> <span class="string">plus</span> <span class="string">linger</span> <span class="string">time</span></span><br><span class="line"><span class="string">原因:</span> <span class="string">producer往broker发送数据时是串行的，只有上次batch全部写入broker，并且全部callback函数执行完毕后，才会继续下一次发送。如果上一次发送全部callback函数执行时间超过了request.timeout.ms(默认30s)，就会导致后续batch的message发送时间大于创建时间30s以上，然后被producer丢弃并抛出异常</span></span><br><span class="line"><span class="string">解决:</span> <span class="string">加大request.timeout.ms值或者调整callback，使得batch的callback执行时间在request.timeout.ms之内</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="消息队列如何选型（神图）："><a href="#消息队列如何选型（神图）：" class="headerlink" title="消息队列如何选型（神图）："></a>消息队列如何选型（神图）：</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
+<td>同 ActiveMQ</td>
+<td>10 万级，支撑高吞吐</td>
+<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用</td>
+<td>同 ActiveMQ</td>
+<td>非常高，分布式架构</td>
+<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td>基本不丢</td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>同 RocketMQ</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，并发能力很强，性能极好，延时很低，适用于做订阅通知</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
+</tr>
+</tbody></table>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://my.oschina.net/u/134474/blog/1531556]">https://my.oschina.net/u/134474/blog/1531556]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/消息队列/">消息队列</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-08T02:49:17.252Z"><a href="/2021/08/08/RabbitMQ/">2021-08-08</a></time>
       
       
@@ -132,7 +284,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#51;&#x32;&#x36;&#49;&#55;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;">&#57;&#x33;&#x32;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -238,7 +390,7 @@
 
 <p><img src="https://github.com/doocs/advanced-java/raw/main/docs/high-concurrency/images/kafka-order-02.png" alt="kafka-order-02"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]">https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;">&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -568,105 +720,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-01T08:33:29.763Z"><a href="/2021/08/01/二叉树前序遍历/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/二叉树前序遍历/">二叉树前序遍历</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="二叉树前序遍历"><a href="#二叉树前序遍历" class="headerlink" title="二叉树前序遍历"></a>二叉树前序遍历</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">题:</span><br><span class="line">给定一个二叉树，返回它的前序遍历。</span><br><span class="line">例:</span><br><span class="line">输入: [<span class="number">1</span>,<span class="keyword">null</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="解-c"><a href="#解-c" class="headerlink" title="解(c++)"></a>解(c++)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(root)&#123;</span><br><span class="line">        TreeNode *cur=<span class="literal">NULL</span>;</span><br><span class="line">        stack&lt;TreeNode*&gt; sk;</span><br><span class="line">        sk.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(sk.<span class="built_in">size</span>())&#123;     </span><br><span class="line">            cur=sk.<span class="built_in">top</span>();</span><br><span class="line">            sk.<span class="built_in">pop</span>();</span><br><span class="line">            res.<span class="built_in">push_back</span>(cur-&gt;val);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;right)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;right);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;left)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;left);                </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>解(java)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">16</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>==root)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        getCurThenLeftAndRight(root,res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCurThenLeftAndRight</span><span class="params">(TreeNode cur,List&lt;Integer&gt; res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res.add(cur.val);</span><br><span class="line">        getCurThenLeftAndRight(cur.left,res);</span><br><span class="line">        getCurThenLeftAndRight(cur.right,res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]">https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-01T07:05:19.349Z"><a href="/2021/08/01/指令/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/指令/">常用指令</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.后台执行shell脚本</span><br><span class="line">nohup sh  xxx &amp;   or （nohup curl url)</span><br><span class="line">2.定时脚本</span><br><span class="line">crontab -l   //查看</span><br><span class="line">crontabl -e  //编辑</span><br><span class="line">3.查看磁盘状态</span><br><span class="line">df -h</span><br><span class="line">4.查找进程</span><br><span class="line">ps | grep xxxx</span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
-
-<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start nginx.exe  //启动</span><br><span class="line"></span><br><span class="line">nginx.exe -s stop //停止nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s reload //重新加载nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s quit //退出nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108025749]">https://caochenlei.blog.csdn.net/article/details/108025749]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/常用指令/">常用指令</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
 
 <nav id="pagination">
   
@@ -695,6 +748,8 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>4</small></li>
+  
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
@@ -713,7 +768,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>6</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -722,8 +777,6 @@
     <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
-  
-    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
   
   </ul>
 </div>
@@ -735,6 +788,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之ignore有多少坑/">MySQL之ignore有多少坑</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
       </li>
     
@@ -744,14 +805,6 @@
     
       <li>
         <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
       </li>
     
   </ul>

@@ -62,6 +62,105 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-01T08:33:29.763Z"><a href="/2021/08/01/二叉树前序遍历/">2021-08-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/01/二叉树前序遍历/">二叉树前序遍历</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="二叉树前序遍历"><a href="#二叉树前序遍历" class="headerlink" title="二叉树前序遍历"></a>二叉树前序遍历</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">题:</span><br><span class="line">给定一个二叉树，返回它的前序遍历。</span><br><span class="line">例:</span><br><span class="line">输入: [<span class="number">1</span>,<span class="keyword">null</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="解-c"><a href="#解-c" class="headerlink" title="解(c++)"></a>解(c++)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(root)&#123;</span><br><span class="line">        TreeNode *cur=<span class="literal">NULL</span>;</span><br><span class="line">        stack&lt;TreeNode*&gt; sk;</span><br><span class="line">        sk.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(sk.<span class="built_in">size</span>())&#123;     </span><br><span class="line">            cur=sk.<span class="built_in">top</span>();</span><br><span class="line">            sk.<span class="built_in">pop</span>();</span><br><span class="line">            res.<span class="built_in">push_back</span>(cur-&gt;val);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;right)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;right);</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;left)</span><br><span class="line">                sk.<span class="built_in">push</span>(cur-&gt;left);                </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解(java)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">16</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>==root)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        getCurThenLeftAndRight(root,res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCurThenLeftAndRight</span><span class="params">(TreeNode cur,List&lt;Integer&gt; res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res.add(cur.val);</span><br><span class="line">        getCurThenLeftAndRight(cur.left,res);</span><br><span class="line">        getCurThenLeftAndRight(cur.right,res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]">https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/]</a>: </p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/算法/">算法</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-08-01T07:05:19.349Z"><a href="/2021/08/01/指令/">2021-08-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/01/指令/">常用指令</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.后台执行shell脚本</span><br><span class="line">nohup sh  xxx &amp;   or （nohup curl url)</span><br><span class="line">2.定时脚本</span><br><span class="line">crontab -l   //查看</span><br><span class="line">crontabl -e  //编辑</span><br><span class="line">3.查看磁盘状态</span><br><span class="line">df -h</span><br><span class="line">4.查找进程</span><br><span class="line">ps | grep xxxx</span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
+
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start nginx.exe  //启动</span><br><span class="line"></span><br><span class="line">nginx.exe -s stop //停止nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s reload //重新加载nginx</span><br><span class="line"></span><br><span class="line">nginx.exe -s quit //退出nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108025749]">https://caochenlei.blog.csdn.net/article/details/108025749]</a>:</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/常用指令/">常用指令</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-05-22T07:44:21.242Z"><a href="/2021/05/22/计算机术语/">2021-05-22</a></time>
       
       
@@ -178,6 +277,8 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>4</small></li>
+  
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
@@ -196,7 +297,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>6</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -205,8 +306,6 @@
     <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
-  
-    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
   
   </ul>
 </div>
@@ -218,6 +317,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之ignore有多少坑/">MySQL之ignore有多少坑</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
       </li>
     
@@ -227,14 +334,6 @@
     
       <li>
         <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
       </li>
     
   </ul>

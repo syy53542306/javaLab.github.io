@@ -62,6 +62,111 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2022-01-22T05:13:00.880Z"><a href="/2022/01/22/MySQL之replace有多少坑/">2022-01-22</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="MySQL之replace有多少坑"><a href="#MySQL之replace有多少坑" class="headerlink" title="MySQL之replace有多少坑"></a>MySQL之replace有多少坑</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MySQL5.7</span><br><span class="line">ROW模式</span><br></pre></td></tr></table></figure>
+
+<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.IGNORE;</span><br><span class="line">	b.REPLACE INTO;</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,replace插入语句不包所有字段,在主键冲突时,删除冲突数据,使用语句的数据重新插入,导致不包含的字段以默认值插入,就会有空值情况发生</span><br><span class="line">2.replace在唯一键冲突时候进行删除,然后重新插入新的数据,自增id增加,再主从复制和ROW模式下会产生自增id序号不一致情况,master挂了slave接替时插入新的数据会报Duplicate错误,即使通过alter table auto_increment值解决，但是这样已经造成mater的表很长时间没有写入了</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">尽量不使用replace,使用ON DUPLICATE KEY UPDATE,真的要使用的话,所有字段都必须带上</span><br><span class="line">原因: replace在唯一键冲突时候进行删除,然后重新插入新的数据,导致空值和自增id增加</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34206560/article/details/81007292]">https://blog.csdn.net/qq_34206560/article/details/81007292]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/57855]">https://developer.aliyun.com/article/57855]</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2022-01-22T02:15:02.808Z"><a href="/2022/01/22/MySQL之ignore有多少坑/">2022-01-22</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2022/01/22/MySQL之ignore有多少坑/">MySQL之ignore有多少坑</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="MySQL之ignore有多少坑"><a href="#MySQL之ignore有多少坑" class="headerlink" title="MySQL之ignore有多少坑"></a>MySQL之ignore有多少坑</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- select version();</span><br><span class="line">5.6.23-enterprise-commercial-advanced-log</span><br></pre></td></tr></table></figure>
+
+<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.IGNORE;</span><br><span class="line">	b.REPLACE INTO;</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.insert ignore into有一个需要注意的地方就是，如果某个字段长度超过限制，会被截断插入，不会报错，而insert into则会直接报Data too long for column的错误</span><br><span class="line">2.时间字段类型为NOT NULL,但是插入不存在的日期或者是timestamp超过精度，则会插入空值，不报错</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">禁止使用ignore,使用ON DUPLICATE KEY UPDATE，主要原因是ignore会忽略一些错误而进行插入</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34206560/article/details/81007292]">https://blog.csdn.net/qq_34206560/article/details/81007292]</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2022-01-08T03:43:25.557Z"><a href="/2022/01/08/BadNoteOfEconomy/">2022-01-08</a></time>
       
       
@@ -74,7 +179,7 @@
       
         <h2 id="BadNoteOfEconomy"><a href="#BadNoteOfEconomy" class="headerlink" title="BadNoteOfEconomy"></a>BadNoteOfEconomy</h2><h3 id="财富的底层的逻辑"><a href="#财富的底层的逻辑" class="headerlink" title="财富的底层的逻辑"></a>财富的底层的逻辑</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">劳动技术创建财富:</span> <span class="string">打工</span></span><br><span class="line"><span class="string">金融手段分配财富:</span> <span class="string">证券化加杠杆，直播视频流量放大，权利（印钱发债）</span></span><br><span class="line"><span class="string">不动产储存财富:</span> <span class="string">房地产，黄金</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -144,7 +249,7 @@
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108809821]">https://caochenlei.blog.csdn.net/article/details/108809821]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/108809902]">https://caochenlei.blog.csdn.net/article/details/108809902]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhou-shi-yuan-ISO8859-1/p/14001216.html]">https://www.cnblogs.com/zhou-shi-yuan-ISO8859-1/p/14001216.html]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#111;&#109;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#111;&#109;</a></p>
 
       
     </div>
@@ -201,7 +306,7 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/110132192]">https://caochenlei.blog.csdn.net/article/details/110132192]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -247,7 +352,7 @@
         <h2 id="MySQL-实践"><a href="#MySQL-实践" class="headerlink" title="MySQL-实践"></a>MySQL-实践</h2><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">查看隔离级别</span> <span class="string">SELECT</span> <span class="string">@@tx_isolation;</span></span><br><span class="line"><span class="string">设置隔离级别</span> <span class="string">SET</span> <span class="string">SESSION|GLOBAL</span> <span class="string">TRANSACTION</span> <span class="string">ISOLATION</span> <span class="string">LEVEL</span> <span class="string">隔离级别;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000008131735]">https://segmentfault.com/a/1190000008131735]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -260,7 +365,7 @@
         
   
   <div class="categories">
-    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/部署/">部署</a>
+    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/MySQL/">MySQL</a>
   </div>
 
         
@@ -400,7 +505,7 @@
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/es-write-query-search.md]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cooper20/article/details/108780376]">https://blog.csdn.net/cooper20/article/details/108780376]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#109;">&#x39;&#x33;&#x32;&#54;&#49;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -455,7 +560,7 @@
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cooper20/article/details/108780376]">https://blog.csdn.net/cooper20/article/details/108780376]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/asty9000/article/details/100903593]">https://blog.csdn.net/asty9000/article/details/100903593]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -503,7 +608,7 @@
 <h3 id="基于Hive与HBase的大数据架构"><a href="#基于Hive与HBase的大数据架构" class="headerlink" title="基于Hive与HBase的大数据架构"></a>基于Hive与HBase的大数据架构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">流程:</span></span><br><span class="line"><span class="number">1</span><span class="string">.通过ETL工具将数据源(OLTP系统)抽取到HDFS存储</span></span><br><span class="line"><span class="number">2</span><span class="string">.通过Hive清洗、处理和计算原始数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">HIve清洗处理后的结果，如果是面向海量数据随机查询场景的可存入Hbase</span></span><br><span class="line"><span class="number">4</span><span class="string">.数据应用从HBase查询数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]">https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#x32;&#54;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -517,110 +622,6 @@
   
   <div class="categories">
     <a href="/categories/大数据/">大数据</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-22T07:29:03.374Z"><a href="/2021/08/22/BadNoteOfInvestment/">2021-08-22</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/22/BadNoteOfInvestment/">BadNoteOfInvestment</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="BadNoteOfInvestment"><a href="#BadNoteOfInvestment" class="headerlink" title="BadNoteOfInvestment"></a>BadNoteOfInvestment</h2><h3 id="成长型：白酒芯片半导体电子医药"><a href="#成长型：白酒芯片半导体电子医药" class="headerlink" title="成长型：白酒芯片半导体电子医药"></a>成长型：白酒芯片半导体电子医药</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">口子窖-603589(高档):</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中下-扩张中,消息面正常,交易量放量,趋势可能不稳):</span> <span class="number">70.87</span><span class="string">(理想价位48.86)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中下-扩张中,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">51.44</span><span class="string">(理想价位45.97)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.16</span><span class="string">(理想价位45.98)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">51.55</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">52.75</span><span class="string">(理想价位46.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">50.33</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">50.48</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">55.19</span><span class="string">(理想价位46.37)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中下-扩张中,消息面正常,交易量缩量中,趋势可能不稳):</span> <span class="number">57.97</span><span class="string">(理想价位47.15)</span></span><br><span class="line"><span class="string">新和成-002001(营养品):</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中,消息面正常,交易量稳定,趋势稳定):</span> <span class="number">31.12</span><span class="string">(26.133*400，理想价27.74)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="成熟型：食品家电医药黄金电力"><a href="#成熟型：食品家电医药黄金电力" class="headerlink" title="成熟型：食品家电医药黄金电力"></a>成熟型：食品家电医药黄金电力</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">长江电力-600900(水电):</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中,消息面正常,交易量放量中,趋势不稳):</span> <span class="number">22.70</span><span class="string">(理想价位18.36)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.06</span><span class="string">(理想价位18.40)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.40</span><span class="string">(理想价位18.42)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.31</span><span class="string">(理想价位18.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.31</span><span class="string">(理想价位18.41)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">22.00</span><span class="string">(理想价位18.50)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">20.85</span><span class="string">(理想价位18.50)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">21.00</span><span class="string">(理想价位18.76)</span></span><br><span class="line"><span class="string">美的集团-000333:</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">73.81</span><span class="string">(成本67.02*400，理想价位68.23，盈利2716)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">67.80</span><span class="string">(理想价位64.94)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中,消息面正常,交易量正常,趋势可能不稳):</span> <span class="number">70.04</span><span class="string">(理想价位65.12)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">72.40</span><span class="string">(理想价位65.34)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">68.26</span><span class="string">(理想价位65.53)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">69.60</span><span class="string">(理想价位65.90)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">71.00</span><span class="string">(理想价位65.90)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量正常,趋势稳定):</span> <span class="number">74.50</span><span class="string">(理想价位66.53)</span></span><br><span class="line"><span class="string">云南白药-000538:</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">104.65</span><span class="string">(理想价位87.12)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-26</span><span class="string">(基本面中下,消息面正常,交易量正常,趋势不稳):</span> <span class="number">85.30</span><span class="string">(理想价位83.58)</span></span><br><span class="line"><span class="string">中金黄金-600489:</span></span><br><span class="line"><span class="number">22</span><span class="number">-01</span><span class="number">-03</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.23</span><span class="string">(210924-8.664*1200购买，亏损522)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.78</span><span class="string">(理想价位8.64)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.37</span><span class="string">(210924-8.66购买)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.68</span><span class="string">(210924-8.66购买)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中,消息面正常,交易量小放量,趋势不稳):</span> <span class="number">8.66</span><span class="string">(210924-8.66购买)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="已操作："><a href="#已操作：" class="headerlink" title="已操作："></a>已操作：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">生益科技-600183(覆铜板):</span> <span class="number">-1001</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价23.91)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">25.23</span><span class="string">(买入价24.01)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">22.94</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势可能不稳):</span> <span class="number">23.73</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势不稳):</span> <span class="number">22.32</span><span class="string">(210831以23.58买入，止损21.52)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中上,消息面正常,交易量放量后下跌,趋势不稳):</span> <span class="number">21.66</span><span class="string">(210831以23.58买入，已止损21.52)</span></span><br><span class="line"><span class="string">盈亏:</span> <span class="number">-1001</span></span><br><span class="line"><span class="string">长电科技-600584(芯片封测):</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-22</span><span class="string">(基本面中上,消息面正常,交易量正常,趋势不稳):</span> <span class="number">34.91</span><span class="string">(210823以35.09买入，止损31.13)</span></span><br><span class="line"><span class="number">21</span><span class="number">-08</span><span class="number">-28</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.41</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-05</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.32</span><span class="string">(加仓价位29.74)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-12</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">34.33</span><span class="string">(加仓价位30.09)</span></span><br><span class="line"><span class="number">21</span><span class="number">-09</span><span class="number">-21</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">32.12</span><span class="string">(加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-07</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">32.07</span><span class="string">(止损31.13，加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-17</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">33.25</span><span class="string">(止损31.13，加仓价位30.27)</span></span><br><span class="line"><span class="number">21</span><span class="number">-10</span><span class="number">-24</span><span class="string">(基本面中上,消息面正常,交易量缩量中,趋势不稳):</span> <span class="number">31.19</span><span class="string">(止损31.11)</span></span><br><span class="line"><span class="string">盈亏:</span> <span class="number">-1208</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="基本面消息面技术面"><a href="#基本面消息面技术面" class="headerlink" title="基本面消息面技术面:"></a>基本面消息面技术面:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.平均市盈率</span></span><br><span class="line"><span class="number">2</span><span class="string">.股东变动</span></span><br><span class="line"><span class="number">3</span><span class="string">.净利润变化图二表(2)</span></span><br><span class="line"><span class="number">4</span><span class="string">.经营者,产品,分布,地区,销售额</span></span><br><span class="line"><span class="number">5</span><span class="string">.估值图表</span></span><br><span class="line"><span class="number">6</span><span class="string">.分红</span></span><br><span class="line"><span class="number">7</span><span class="string">.二图总结,公告,财务总结(2)</span></span><br><span class="line"><span class="number">8</span><span class="string">.库存,在建工程,非流动负债,长期借款</span></span><br><span class="line"><span class="number">9</span><span class="string">.营业总成本,研发费用</span></span><br><span class="line"><span class="number">10</span><span class="string">.现金流</span></span><br><span class="line"><span class="number">11</span><span class="string">.消息(2)</span></span><br><span class="line"><span class="number">12</span><span class="string">.成交量,趋势</span></span><br><span class="line"><span class="number">13.618</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/投资/">投资</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-17T14:01:27.665Z"><a href="/2021/08/17/MySQL-理论/">2021-08-17</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/17/MySQL-理论/">MySQL-理论</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="MySQL-理论"><a href="#MySQL-理论" class="headerlink" title="MySQL-理论"></a>MySQL-理论</h2><h3 id="B-树和B树特点："><a href="#B-树和B树特点：" class="headerlink" title="B+树和B树特点："></a>B+树和B树特点：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.多叉平衡搜索树,B+树每个非叶子节点只有索引条件</span></span><br><span class="line"><span class="number">2</span><span class="string">.只有叶子节点存储数据(B树每个节点都可以保存数据)</span></span><br><span class="line"><span class="number">3</span><span class="string">.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)</span></span><br><span class="line"><span class="number">4</span><span class="string">.少量数据B树查询效率高(ETCD中的MVCC)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="锁："><a href="#锁：" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化:"></a>优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">union关键字默认去重，union</span> <span class="string">all可以包含重复项，尽量用union</span> <span class="string">all</span></span><br><span class="line"><span class="number">4</span><span class="string">.字段尽量不要使用null，null可以用默认值代替</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="子查询定义分类特点"><a href="#子查询定义分类特点" class="headerlink" title="子查询定义分类特点:"></a>子查询定义分类特点:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">定义：嵌套在其它语句内部的select语句称为子查询或内查询，外面的语句可以是insert、delete、update、select等，一般select作为外面语句较多，外面如果为select语句，则此语句称为外查询或主查询</span></span><br><span class="line"><span class="string">分类：标量子查询（单行子查询）：结果集为一行一列；列子查询（多行子查询）：结果集为多行一列；</span></span><br><span class="line">      <span class="string">行子查询：结果集为多行多列；表子查询：结果集为多行多列</span></span><br><span class="line"><span class="string">特点：</span></span><br><span class="line"><span class="string">子查询放在小括号内</span></span><br><span class="line"><span class="string">子查询一般放在条件的右侧</span></span><br><span class="line"><span class="string">子查询的执行优先于主查询执行，主查询的条件用到了子查询的结果</span></span><br><span class="line"><span class="string">标量子查询，一般搭配着单行操作符使用：&gt;、&gt;=、&lt;、&lt;=、!=、&lt;&gt;、=、&lt;=&gt;</span></span><br><span class="line"><span class="string">列子查询，一般搭配着多行操作符使用：in、not</span> <span class="string">in、any、some、all、exits</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a>: </p>
-<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/数据库/">数据库</a>
   </div>
 
         
@@ -662,6 +663,8 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>4</small></li>
+  
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
@@ -680,7 +683,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>4</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>6</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -689,8 +692,6 @@
     <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
-  
-    <li><a href="/categories/数据库/部署/">部署</a><small>1</small></li>
   
   </ul>
 </div>
@@ -702,6 +703,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之ignore有多少坑/">MySQL之ignore有多少坑</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
       </li>
     
@@ -711,14 +720,6 @@
     
       <li>
         <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/MySQL-实践/">MySQL-实践</a>
-      </li>
-    
-      <li>
-        <a href="/2021/12/17/博客收藏/">博客网址收藏</a>
       </li>
     
   </ul>
