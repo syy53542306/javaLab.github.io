@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>MySQL之MVCC和幻读 | JavaBadNote</title>
+  <meta name="author" content="MagicCoderYang" />
+
+  
+  <meta name="description" content="MySQL之MVCC和幻读MVCC的含义和作用：1MVCC: 多版本并发控制，解决了脏读和不可重复读的问题，使用快照读解决了部分幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终就是使用间隙锁解决。
+
+当前读和快照读：123451.当前读包括: 显示加锁读操作，在Innodb存" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="MySQL之MVCC和幻读" />
+  <meta property="og:site_name" content="JavaBadNote" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaBadNote" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaBadNote</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2022-01-23T06:55:26.802Z"><a href="/2022/01/23/MySQL之MVCC和幻读/">2022-01-23</a></time>
+      
+      
+  
+    <h1 class="title">MySQL之MVCC和幻读</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="MySQL之MVCC和幻读"><a href="#MySQL之MVCC和幻读" class="headerlink" title="MySQL之MVCC和幻读"></a>MySQL之MVCC和幻读</h2><h3 id="MVCC的含义和作用："><a href="#MVCC的含义和作用：" class="headerlink" title="MVCC的含义和作用："></a>MVCC的含义和作用：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MVCC:</span> <span class="string">多版本并发控制，解决了脏读和不可重复读的问题，使用快照读解决了部分幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终就是使用间隙锁解决。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="当前读和快照读："><a href="#当前读和快照读：" class="headerlink" title="当前读和快照读："></a>当前读和快照读：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.当前读包括:</span> <span class="string">显示加锁读操作，在Innodb存储引擎中DML操作(insert,update,delete隐式添加排它锁)</span></span><br><span class="line">  <span class="string">例子:</span> <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">from</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span> <span class="string">lock</span> <span class="string">in</span> <span class="string">share</span> <span class="string">mode;</span></span><br><span class="line">	   <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">from</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span> <span class="string">for</span> <span class="string">update;</span></span><br><span class="line"><span class="number">2</span><span class="string">.快照读:</span> <span class="string">快照读的前提是隔离级别不是串行级别，串行级别的快照读会退化成当前读。</span></span><br><span class="line">  <span class="string">例子:</span> <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span><span class="string">;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Innodb存储引擎聚簇索引索引隐式字段："><a href="#Innodb存储引擎聚簇索引索引隐式字段：" class="headerlink" title="Innodb存储引擎聚簇索引索引隐式字段："></a>Innodb存储引擎聚簇索引索引隐式字段：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">主键|其他字段|隐式字段</span></span><br><span class="line"><span class="string">隐式字段主要包括:</span></span><br><span class="line">    <span class="attr">DB_TRX_ID:</span> <span class="string">记录创建这条数据上次修改它的事务ID，即用来在版本链对比中的trx_id</span></span><br><span class="line">    <span class="attr">DB_ROLL_PTR:</span> <span class="string">回滚指针，指向这条记录的上一个版本</span></span><br><span class="line">    <span class="attr">delete_flag:</span> <span class="string">记录被更新或删除，这里的删除并不代表真的删除，而是将这条记录的delete</span> <span class="string">flag改为true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="回滚日志："><a href="#回滚日志：" class="headerlink" title="回滚日志："></a>回滚日志：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">undo log细分为俩种，insert时产生的undo log、update，delete时产生的undo log</span><br><span class="line">在Innodb中insert产生的undo log在提交事务之后就会被删除，因为新插入的数据没有历史版本，所以无需维护undo log。</span><br><span class="line">update和delete操作产生的undo log都属于一种类型，在事务回滚时需要，而且在快照读时也需要，则需要维护多个版本信息。只有在快照读和事务回滚不涉及该日志时，对应的日志才会被purge线程统一删除。</span><br><span class="line">purge线程会清理undo log的历史版本，同样也会清理del flag标记的记录。</span><br></pre></td></tr></table></figure>
+
+<h3 id="read-view："><a href="#read-view：" class="headerlink" title="read-view："></a>read-view：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[已提交的事务id1,已提交的事务id2,...]已经创建的最大事务ID</span><br><span class="line">当执行SQL语句查询时会产生一致性视图，也就是read-view，它是由查询的那一时间所有未提交事务ID组成的数组，和已经创建的最大事务ID组成的。</span><br><span class="line">在这个数组中最小的事务ID被称之为min_id，最大事务ID被称之为max_id，查询的数据结果要根据read-view做对比从而得到快照结果。</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本链对比规则："><a href="#版本链对比规则：" class="headerlink" title="版本链对比规则："></a>版本链对比规则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.如果落在trx_id&lt;min_id，表示此版本是已经提交的事务生成的，由于事务已经提交所以数据是可见的</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果落在trx_id&gt;max_id，表示此版本是由将来启动的事务生成的，是肯定不可见的</span></span><br><span class="line"><span class="number">3</span><span class="string">.若在min_id&lt;=trx_id&lt;=max_id时</span></span><br><span class="line">	<span class="string">如果row的trx_id在数组中，表示此版本是由还没提交的事务生成的，不可见，但是当前自己的事务是可见的</span></span><br><span class="line">	<span class="string">如果row的trx_id不在数组中，表明是提交的事务生成了该版本，可见</span></span><br><span class="line"><span class="number">4</span><span class="string">.在这里还有一个特殊情况那就是对于已经删除的数据，在之前的undo</span> <span class="string">log日志讲述时说了update和delete是同一种类型的undo</span> <span class="string">log，同样也可以认为delete就是update的特殊情况。</span></span><br><span class="line"><span class="string">当删除一条数据时会将版本链上最新的数据复制一份，然后将trx_id修改为删除时的trx_id，同时在该记录的头信息中存在一个delete</span> <span class="string">flag标记，将这个标记写上true，用来表示当前记录已经删除。</span></span><br><span class="line"><span class="string">在查询时按照版本链的规则查询到对应的记录，如果delete</span> <span class="string">flag标记位为true，意味着数据已经被删除，则不返回数据。</span></span><br><span class="line"><span class="string">小结:</span> <span class="string">trx_id从最新的版本链取，当trx_id不在read-view的数组中且trx_id不小于min_id，则该版本为最新的可见版本;在同一个事务中后面几次查询会沿用第一次查询语句生成的read-view（前提是隔离级别是在可重复读）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="MVCC和幻读："><a href="#MVCC和幻读：" class="headerlink" title="MVCC和幻读："></a>MVCC和幻读：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.MVCC解决了快照读下的幻读问题</span><br><span class="line">2.在Innodb下解决当前读产生的幻读问题需要手动加锁来解决，引擎采用next-key locks来锁住记录</span><br><span class="line">3.如果事务当中开始进行DML操作，则快照读会失效，转变为当前读，会出现幻读</span><br></pre></td></tr></table></figure>
+
+<h3 id="行锁："><a href="#行锁：" class="headerlink" title="行锁："></a>行锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Record Lock :</span> <span class="string">单个行记录上的锁</span></span><br><span class="line"><span class="attr">Gap Lock:</span> <span class="string">间隙锁,</span> <span class="string">锁定一个范围,</span> <span class="string">但不包括记录本身;</span> <span class="string">GAP锁的目的,</span> <span class="string">是为了防止同一事务的两次当前读,</span> <span class="string">出现幻读的情况</span></span><br><span class="line"><span class="attr">Next-Key Lock :</span> <span class="string">等于Record</span> <span class="string">Lock结合Gap</span> <span class="string">Lock,</span> <span class="string">也就说Next-Key</span> <span class="string">Lock既锁定记录本身也锁定一个范围,</span> <span class="string">特别需要注意的是,</span> <span class="string">InnoDB存储引擎还会对辅助索引下一个键值加上gap</span> <span class="string">lock</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/fangkang7/article/details/114987135]">https://blog.csdn.net/fangkang7/article/details/114987135]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/fangkang7/article/details/115325225]">https://blog.csdn.net/fangkang7/article/details/115325225]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/songhaixing2/article/details/114281977]">https://blog.csdn.net/songhaixing2/article/details/114281977]</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#x37;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/数据库/">数据库</a>, <a href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>2</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
+  
+    <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
+  
+    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
+  
+    <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
+  
+    <li><a href="/categories/投资/">投资</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/经济/">经济</a><small>1</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之ignore有多少坑/">MySQL之ignore有多少坑</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/02/MyBatis/">MyBatis</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 MagicCoderYang
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

@@ -62,6 +62,54 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-29T07:21:34.631Z"><a href="/2021/08/29/大数据/">2021-08-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/29/大数据/">大数据</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><h3 id="Hive与HBase的区别"><a href="#Hive与HBase的区别" class="headerlink" title="Hive与HBase的区别"></a>Hive与HBase的区别</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Hive:</span> <span class="string">主要解决数据处理和计算问题</span></span><br><span class="line"><span class="number">1</span><span class="string">.可以认为是map-reduce的一个包装，hive的意义就是把好写的hive的sql转换为复杂难写的map-reduce程序。</span></span><br><span class="line"><span class="number">2</span><span class="string">.不存储和计算数据，只是一个数据仓库工具，将结构化的HDFS数据存储文件映射为一张数据库逻辑表，并提供简单的sql查询功能，完全依赖于HDFS和MapReduce计算框架</span></span><br><span class="line"><span class="attr">HBase:</span> <span class="string">主要解决实时数据查询问题</span></span><br><span class="line"><span class="number">1</span><span class="string">.可以认为是hdfs的一个包装，本质是数据存储，是个NoSql数据库，部署于hdfs之上，且克服hdfs在随机读写方面的缺点</span></span><br><span class="line"><span class="number">2.</span><span class="string">hbase是物理表，不是逻辑表，提供一个超大的内存hash表，搜索引擎通过它来存储索引，方便查询操作</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="基于Hive与HBase的大数据架构"><a href="#基于Hive与HBase的大数据架构" class="headerlink" title="基于Hive与HBase的大数据架构"></a>基于Hive与HBase的大数据架构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">流程:</span></span><br><span class="line"><span class="number">1</span><span class="string">.通过ETL工具将数据源(OLTP系统)抽取到HDFS存储</span></span><br><span class="line"><span class="number">2</span><span class="string">.通过Hive清洗、处理和计算原始数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">HIve清洗处理后的结果，如果是面向海量数据随机查询场景的可存入Hbase</span></span><br><span class="line"><span class="number">4</span><span class="string">.数据应用从HBase查询数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]">https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/大数据/">大数据</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-22T07:29:03.374Z"><a href="/2021/08/22/BadNoteOfInvestment/">2021-08-22</a></time>
       
       
@@ -80,7 +128,7 @@
 
 <h3 id="基本面消息面技术面"><a href="#基本面消息面技术面" class="headerlink" title="基本面消息面技术面:"></a>基本面消息面技术面:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.平均市盈率</span></span><br><span class="line"><span class="number">2</span><span class="string">.股东变动</span></span><br><span class="line"><span class="number">3</span><span class="string">.净利润变化图二表(2)</span></span><br><span class="line"><span class="number">4</span><span class="string">.经营者,产品,分布,地区,销售额</span></span><br><span class="line"><span class="number">5</span><span class="string">.估值图表</span></span><br><span class="line"><span class="number">6</span><span class="string">.分红</span></span><br><span class="line"><span class="number">7</span><span class="string">.二图总结,公告,财务总结(2)</span></span><br><span class="line"><span class="number">8</span><span class="string">.库存,在建工程,非流动负债,长期借款</span></span><br><span class="line"><span class="number">9</span><span class="string">.营业总成本,研发费用</span></span><br><span class="line"><span class="number">10</span><span class="string">.现金流</span></span><br><span class="line"><span class="number">11</span><span class="string">.消息(2)</span></span><br><span class="line"><span class="number">12</span><span class="string">.成交量,趋势</span></span><br><span class="line"><span class="number">13.618</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -127,13 +175,24 @@
 
 <h3 id="锁："><a href="#锁：" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化:"></a>优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">union关键字默认去重，union</span> <span class="string">all可以包含重复项，尽量用union</span> <span class="string">all</span></span><br><span class="line"><span class="number">4</span><span class="string">.字段尽量不要使用null，null可以用默认值代替</span></span><br></pre></td></tr></table></figure>
+<h3 id="锁：-1"><a href="#锁：-1" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="行锁："><a href="#行锁：" class="headerlink" title="行锁："></a>行锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Record Lock :</span> <span class="string">单个行记录上的锁</span></span><br><span class="line"><span class="attr">Gap Lock:</span> <span class="string">间隙锁,</span> <span class="string">锁定一个范围,</span> <span class="string">但不包括记录本身;</span> <span class="string">GAP锁的目的,</span> <span class="string">是为了防止同一事务的两次当前读,</span> <span class="string">出现幻读的情况</span></span><br><span class="line"><span class="attr">Next-Key Lock :</span> <span class="string">等于Record</span> <span class="string">Lock结合Gap</span> <span class="string">Lock,</span> <span class="string">也就说Next-Key</span> <span class="string">Lock既锁定记录本身也锁定一个范围,</span> <span class="string">特别需要注意的是,</span> <span class="string">InnoDB存储引擎还会对辅助索引下一个键值加上gap</span> <span class="string">lock</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化:"></a>优化:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.一个事务中更新多条数据时,把最可能产生冲突的更新语句放后面,以减少锁的持有事件,提高并发度</span></span><br><span class="line"><span class="number">2</span><span class="string">.减少死锁检测代价:</span></span><br><span class="line">	<span class="string">a.降低事务并发执行or更新同一行数据的事务排队处理</span></span><br><span class="line">	<span class="string">b.热点数据拆分,减少同一条数据并发更新数量,读取时再汇总数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">union关键字默认去重，union</span> <span class="string">all可以包含重复项，尽量用union</span> <span class="string">all</span></span><br><span class="line"><span class="number">4</span><span class="string">.字段尽量不要使用null，null可以用默认值代替</span></span><br><span class="line"><span class="number">5</span><span class="string">.插入不要用replace和ignore进行插入</span></span><br><span class="line"><span class="number">6.</span><span class="string">varchar不要超过255，否则索引失效</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="子查询定义分类特点"><a href="#子查询定义分类特点" class="headerlink" title="子查询定义分类特点:"></a>子查询定义分类特点:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">定义：嵌套在其它语句内部的select语句称为子查询或内查询，外面的语句可以是insert、delete、update、select等，一般select作为外面语句较多，外面如果为select语句，则此语句称为外查询或主查询</span></span><br><span class="line"><span class="string">分类：标量子查询（单行子查询）：结果集为一行一列；列子查询（多行子查询）：结果集为多行一列；</span></span><br><span class="line">      <span class="string">行子查询：结果集为多行多列；表子查询：结果集为多行多列</span></span><br><span class="line"><span class="string">特点：</span></span><br><span class="line"><span class="string">子查询放在小括号内</span></span><br><span class="line"><span class="string">子查询一般放在条件的右侧</span></span><br><span class="line"><span class="string">子查询的执行优先于主查询执行，主查询的条件用到了子查询的结果</span></span><br><span class="line"><span class="string">标量子查询，一般搭配着单行操作符使用：&gt;、&gt;=、&lt;、&lt;=、!=、&lt;&gt;、=、&lt;=&gt;</span></span><br><span class="line"><span class="string">列子查询，一般搭配着多行操作符使用：in、not</span> <span class="string">in、any、some、all、exits</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a>: </p>
-<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#57;&#51;&#50;&#54;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="为什么MySQL的Innodb有两份日志："><a href="#为什么MySQL的Innodb有两份日志：" class="headerlink" title="为什么MySQL的Innodb有两份日志："></a>为什么MySQL的Innodb有两份日志：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">在没有Innodb存储引擎之前，MySQL默认存储引擎是MyIsam，但MyIsam是没有重启恢复能力的，binlog日志也仅用于归档。</span></span><br><span class="line"><span class="string">Innodb是另一家公司以插件的形式引入到Mysql，既然binlog没有重启恢复的能力，那么我就使用redo</span> <span class="string">log来实现重启恢复的功能。这就导致了当你使用Innodb存储引擎时会写俩份日志。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么MySQL的Innodb存储引擎需要两阶段提交"><a href="#为什么MySQL的Innodb存储引擎需要两阶段提交" class="headerlink" title="为什么MySQL的Innodb存储引擎需要两阶段提交:"></a>为什么MySQL的Innodb存储引擎需要两阶段提交:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">update</span> <span class="string">user</span> <span class="string">set</span> <span class="string">age</span> <span class="string">=</span> <span class="string">age</span> <span class="string">+</span> <span class="number">1</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span><span class="string">;</span></span><br><span class="line"><span class="string">先写redo</span> <span class="string">log后写binlog:</span> </span><br><span class="line">    <span class="string">更新语句为age</span> <span class="string">=</span> <span class="string">age</span> <span class="string">+1</span></span><br><span class="line">    <span class="string">将数据写入redo</span> <span class="string">log，MySQL进程异常重启</span></span><br><span class="line">    <span class="string">此时binlog还没有开始写</span></span><br><span class="line">    <span class="string">系统重启后进行数据恢复此时的值为26</span></span><br><span class="line">    <span class="string">需要搭建从库时需要拿binlog进行恢复数据，但此时age</span> <span class="string">=</span> <span class="string">age</span> <span class="string">+1</span> <span class="string">这行的操作是没有记录到binlog的</span></span><br><span class="line">    <span class="string">那么此时的从库就会少这一次的更新，恢复出来的age依然是25，造成与主库数据不一致。</span></span><br><span class="line"><span class="string">先写binlog后写redo</span> <span class="attr">log:</span> </span><br><span class="line">    <span class="string">更新语句为age</span> <span class="string">=</span> <span class="string">age</span> <span class="string">+1</span></span><br><span class="line">    <span class="string">将数据写入binlog，MySQL异常重启</span></span><br><span class="line">    <span class="string">此时redo</span> <span class="string">log</span> <span class="string">还没写</span></span><br><span class="line">    <span class="string">MySQL系统重启，这个更新操作是对于redo</span> <span class="string">log是不存在的，所以重启后的值依然是25</span></span><br><span class="line">    <span class="string">但binlog</span> <span class="string">中的值已经是26了</span></span><br><span class="line">    <span class="string">需要搭建从库时，从库的值是26，主库的值是25，造成主从数据不一致</span></span><br><span class="line">    <span class="string">所以说，如果不使用两阶段提交，那么原库和用它的binlog日志恢复出来的库数据是不一致的。</span></span><br><span class="line"><span class="string">小结:</span> <span class="string">binlog写入成功才算真的成功</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]">https://smartkeyerror.oss-cn-shenzhen.aliyuncs.com/Phyduck/database/%E4%B8%BA%E4%BB%80%E4%B9%88MySQL%E4%BD%BF%E7%94%A8B%2BTree.pdf]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/107640904]">https://caochenlei.blog.csdn.net/article/details/107640904]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]">https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]">https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/songhaixing2/article/details/114281977]">https://blog.csdn.net/songhaixing2/article/details/114281977]</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#57;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -179,7 +238,7 @@
         <h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h3 id="Zookeeper的功能："><a href="#Zookeeper的功能：" class="headerlink" title="Zookeeper的功能："></a>Zookeeper的功能：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.分布式协调:</span> <span class="string">节点值监听器</span></span><br><span class="line"><span class="number">2</span><span class="string">.分布式锁:</span> <span class="string">创建znode</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据/配置信息管理:</span> <span class="string">kafka,dubbo</span></span><br><span class="line"><span class="number">4.</span><span class="string">HA高可用:</span> <span class="string">hadoop、hdfs、yarn主进程挂了切换到备用进程(active</span> <span class="string">node,监听器)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#x33;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#x37;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -229,7 +288,7 @@
 <h3 id="分布式锁session方案："><a href="#分布式锁session方案：" class="headerlink" title="分布式锁session方案："></a>分布式锁session方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">JWT</span> <span class="string">Token(无session)</span></span><br><span class="line"><span class="number">2.</span><span class="string">Tomcat</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(Tomcat</span> <span class="string">RedisSessionManager)</span></span><br><span class="line"><span class="number">3.</span><span class="string">Spring</span> <span class="string">Session</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(RedisHttpSessionConfiguration,)</span> <span class="string">spring-session-data-redis</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -306,7 +365,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#49;&#55;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -394,7 +453,7 @@
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905]">https://caochenlei.blog.csdn.net/article/details/117566905]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;">&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#109;">&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#109;</a></p>
 
       
     </div>
@@ -458,7 +517,7 @@
 <h3 id="8-偏向锁"><a href="#8-偏向锁" class="headerlink" title="8.偏向锁"></a>8.偏向锁</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.默认开启，默认延迟设置对象头为偏向锁，想避免延迟可以添加VM参数</span> <span class="string">-XX:BiasedLockingStartupDelay=0</span> <span class="string">来禁用延迟</span></span><br><span class="line"><span class="string">此时Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x05</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">101</span><span class="string">，thread、epoch、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">。</span></span><br><span class="line"><span class="number">2</span><span class="string">.可以添加</span> <span class="string">VM</span> <span class="string">参数</span> <span class="string">-XX:-UseBiasedLocking</span> <span class="string">来禁用偏向锁，此时对象头Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x01</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">001</span><span class="string">，这时它的</span> <span class="string">hashcode、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">，只有第一次用到</span> <span class="string">hashcode</span> <span class="string">时才会赋值。</span></span><br><span class="line"><span class="attr">ps:</span> <span class="string">一旦调用了对象的</span> <span class="string">hashCode，会导致偏向锁被撤销，这是因为偏向锁的对象</span> <span class="string">Mark</span> <span class="string">Word</span> <span class="string">中存储的是线程</span> <span class="string">id，根本没有地方再存储</span> <span class="string">hashCode</span> <span class="string">的值了，而轻量级锁会在锁记录中记录</span> <span class="string">hashCode，重量级锁会在</span> <span class="string">Monitor</span> <span class="string">中记录</span> <span class="string">hashCode。</span></span><br><span class="line"><span class="number">3</span><span class="string">.当有其它线程使用偏向锁对象时，会将偏向锁升级为轻量级锁，如果竞争继续激烈，轻量级锁会继续膨胀升级到重量级锁</span></span><br><span class="line"><span class="number">4</span><span class="string">.当调用对象的</span> <span class="string">wait/notify</span> <span class="string">方法时，会将偏向锁升级为重量级锁,必须获得此对象的Monitor</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905">https://caochenlei.blog.csdn.net/article/details/117566905</a> </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#x71;&#113;&#46;&#99;&#111;&#109;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#x71;&#113;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -514,7 +573,7 @@
 <h3 id="线程创建过程："><a href="#线程创建过程：" class="headerlink" title="线程创建过程："></a>线程创建过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -570,66 +629,7 @@
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/JVM/">JVM</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-08T07:04:29.393Z"><a href="/2021/08/08/JC/">2021-08-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/08/JC/">JC</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="JC"><a href="#JC" class="headerlink" title="JC"></a>JC</h2><h3 id="如何判断一个对象是否存活："><a href="#如何判断一个对象是否存活：" class="headerlink" title="如何判断一个对象是否存活："></a>如何判断一个对象是否存活：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.引用计数法(难以解决对象之间循环引用)</span>	</span><br><span class="line"><span class="number">2</span><span class="string">.可达性分析法</span></span><br><span class="line">	<span class="attr">GC Root:</span> </span><br><span class="line">		<span class="string">a.Java虚拟机栈中(栈帧中的本地变量表)引用的对象</span></span><br><span class="line">		<span class="string">b.本地方法栈中引用的对象</span></span><br><span class="line">		<span class="string">c.方法区常量引用的对象</span></span><br><span class="line">		<span class="string">b.方法区类静态变量引用的对象</span>        </span><br></pre></td></tr></table></figure>
-
-<h3 id="引用分类："><a href="#引用分类：" class="headerlink" title="引用分类："></a>引用分类：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.强引用:</span> <span class="string">当内存空间不足时,Java虚拟机宁愿抛出OutOfMemoryError错误,使程序异常终止,也不会靠随意回收具有强引用的对象来解决内存不足问题</span></span><br><span class="line"><span class="number">2</span><span class="string">.软引用:</span> <span class="string">当JVM认为内存不足时,才会去试图回收软引用指向的对象.JVM会确保在抛OutOfMemoryError之前,清理软引用指向的对象</span></span><br><span class="line"><span class="number">3</span><span class="string">.弱引用:</span> <span class="string">当</span> <span class="string">JVM</span> <span class="string">进行垃圾回收时，无论内存是否充足，都会回收只被弱引用关联的对象</span></span><br><span class="line"><span class="number">4</span><span class="string">.虚引用:</span> <span class="string">PhantomReference在堆对象被释放之前就被添加到它的ReferenceQueue,内存还没有释放。</span></span><br><span class="line"><span class="string">而软引用和弱引用在添加到对应的ReferenceQueue的时候，其指向真实内存的引用已经被置为空了，相关的内存也已经被释放掉了</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="回收方法区内存："><a href="#回收方法区内存：" class="headerlink" title="回收方法区内存："></a>回收方法区内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>回收废弃常量</span><br><span class="line">    只要常量池中的常量不被任何变量或对象引用，那么这些常量就会被清除掉。</span><br><span class="line"><span class="number">2.</span>无用的类(满足以下三个条件)</span><br><span class="line">	a.该类的所有对象都已经被清除</span><br><span class="line">	b.加载该类的ClassLoader已经被回收</span><br><span class="line">	c.该类的java.lang.Class对象没有在任何地方被引用,无法在任何地方通过反射访问该类的方法</span><br></pre></td></tr></table></figure>
-
-<h3 id="垃圾收集算法："><a href="#垃圾收集算法：" class="headerlink" title="垃圾收集算法："></a>垃圾收集算法：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">新生代:</span> <span class="string">复制算法</span></span><br><span class="line"><span class="string">老年代:</span> <span class="string">标记-清除算法、标记-整理算法</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="对象分配："><a href="#对象分配：" class="headerlink" title="对象分配："></a>对象分配：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.对象优先在 Eden 分配,当 Eden 区没有足够空间进行分配时，虚拟机将发起一次 Minor GC。</span><br><span class="line">2.大对象直接进入老年代(-XX:PretenureSizeThreshold)</span><br><span class="line">3.长期存活的对象将进入老年代(-XXMaxTenuringThreshold)\</span><br><span class="line">4.动态对象年龄判定:如果当前新生代的Survivor中,相同年龄所有对象大小的总和大于Survivor空间的一半,年龄大于该年龄的对象就可以直接进入老年代,无须等到MaxTenuringThreshold中要求的年龄</span><br><span class="line">5.空间分配担保:</span><br><span class="line">JDK6Update24之前：发生MinorGC之前,虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,小于则查看HandlePromotionFailure值是否设置为允许担保失败，允许则检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，是Minor GC，其他情况都Full GC</span><br><span class="line">JDK6Update24之后：只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小，就会进行 Minor GC，否则将进行 Full GC</span><br></pre></td></tr></table></figure>
-
-<h3 id="Full-GC触发条件："><a href="#Full-GC触发条件：" class="headerlink" title="Full GC触发条件："></a>Full GC触发条件：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>System.gc()方法调用(添加参数使得不起效-XX:+ DisableExplicitGC)</span><br><span class="line"><span class="number">2.</span>老年代空间不足</span><br><span class="line"><span class="number">3.</span>永久代空间不足</span><br><span class="line"><span class="number">4.</span>空间分配担保失败</span><br><span class="line"><span class="number">5.</span>统计得到的 Minor GC 晋升到旧生代的平均大小大于老年代的剩余空间</span><br></pre></td></tr></table></figure>
-
-<h3 id="JC日志详解"><a href="#JC日志详解" class="headerlink" title="JC日志详解"></a>JC日志详解</h3><p><img src="http://ww4.sinaimg.cn/large/6c8effc1tw1dmbux7knpoj.jpg" alt="img"></p>
-<p><img src="http://ww1.sinaimg.cn/large/6c8effc1tw1dmc55axrbsj.jpg" alt="img"></p>
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#50;&#54;&#x31;&#55;&#x38;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -684,7 +684,7 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>4</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
@@ -704,7 +704,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>6</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -724,6 +724,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
       </li>
     
@@ -737,10 +741,6 @@
     
       <li>
         <a href="/2022/01/02/MyBatis/">MyBatis</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/02/数据库-理论/">数据库-理论</a>
       </li>
     
   </ul>
