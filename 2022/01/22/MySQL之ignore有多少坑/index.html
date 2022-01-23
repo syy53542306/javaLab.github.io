@@ -9,7 +9,7 @@
   
   <meta name="description" content="MySQL之ignore有多少坑环境：12-- select version();5.6.23-enterprise-commercial-advanced-log
 
-背景：1234MySQL解决冲突的三种方式：	a.IGNORE;	b.REPLACE INTO;	c.ON DUPLICATE KE" />
+背景：1234MySQL解决冲突的三种方式：	a.insert ignore into;	b.REPLACE INTO(唯一键冲突，" />
   
 
   
@@ -77,14 +77,14 @@
       
         <h2 id="MySQL之ignore有多少坑"><a href="#MySQL之ignore有多少坑" class="headerlink" title="MySQL之ignore有多少坑"></a>MySQL之ignore有多少坑</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- select version();</span><br><span class="line">5.6.23-enterprise-commercial-advanced-log</span><br></pre></td></tr></table></figure>
 
-<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.IGNORE;</span><br><span class="line">	b.REPLACE INTO;</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
+<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.insert ignore into;</span><br><span class="line">	b.REPLACE INTO(唯一键冲突，删除后插入，影响条数为2);</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
 
 <h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.insert ignore into有一个需要注意的地方就是，如果某个字段长度超过限制，会被截断插入，不会报错，而insert into则会直接报Data too long for column的错误</span><br><span class="line">2.时间字段类型为NOT NULL,但是插入不存在的日期或者是timestamp超过精度，则会插入空值，不报错</span><br></pre></td></tr></table></figure>
 
 <h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">禁止使用ignore,使用ON DUPLICATE KEY UPDATE，主要原因是ignore会忽略一些错误而进行插入</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34206560/article/details/81007292]">https://blog.csdn.net/qq_34206560/article/details/81007292]</a></p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#x33;&#50;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#57;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
