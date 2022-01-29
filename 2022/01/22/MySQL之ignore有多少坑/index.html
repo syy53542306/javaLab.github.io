@@ -79,12 +79,12 @@
 
 <h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MySQL解决冲突的三种方式：</span><br><span class="line">	a.insert ignore into;</span><br><span class="line">	b.REPLACE INTO(唯一键冲突，删除后插入，影响条数为2);</span><br><span class="line">	c.ON DUPLICATE KEY UPDATE;</span><br></pre></td></tr></table></figure>
 
-<h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.insert ignore into有一个需要注意的地方就是，如果某个字段长度超过限制，会被截断插入，不会报错，而insert into则会直接报Data too long for column的错误</span><br><span class="line">2.时间字段类型为NOT NULL,但是插入不存在的日期或者是timestamp超过精度，则会插入空值，不报错</span><br></pre></td></tr></table></figure>
+<h3 id="BUG："><a href="#BUG：" class="headerlink" title="BUG："></a>BUG：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.insert ignore into有一个需要注意的地方就是，如果某个字段长度超过限制，会被截断插入，不会报错，而insert into则会直接报Data too long for column的错误</span><br><span class="line">2.时间字段类型timestamp和datetime,插入不存在的日期或者是timestamp超过精度，则会插入0000-00-00 00:00:00，在插入时不报错，报错推迟到了查询，查询时候报java.sql.SQLException: Zero date value prohibited的错误</span><br></pre></td></tr></table></figure>
 
 <h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">禁止使用ignore,使用ON DUPLICATE KEY UPDATE，主要原因是ignore会忽略一些错误而进行插入</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34206560/article/details/81007292]">https://blog.csdn.net/qq_34206560/article/details/81007292]</a></p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;">&#x39;&#x33;&#50;&#x36;&#49;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#57;&#51;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
 
       
     </div>
@@ -129,7 +129,7 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
@@ -149,7 +149,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -169,6 +169,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/28/MySQL之大小写敏感/">MySQL之大小写敏感</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
       </li>
     
@@ -182,10 +186,6 @@
     
       <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
   </ul>

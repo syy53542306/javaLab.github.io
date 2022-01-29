@@ -62,6 +62,62 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-08T09:47:22.815Z"><a href="/2021/08/08/类加载过程/">2021-08-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/08/类加载过程/">类加载</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">加载、验证、准备、解析、初始化、使用、卸载（FullGC)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类</span><br><span class="line"><span class="number">2.</span>将二进制字节流所代表的静态结构转化为方法区的运行时数据结构</span><br><span class="line"><span class="number">3.</span>在内存中创建一个代表该类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>文件格式验证：验证字节流是否符合 Class 文件格式的规范，并且能被当前版本的虚拟机处理</span><br><span class="line"><span class="number">2.</span>元数据验证：对字节码描述信息进行语义分析，确保其符合 Java 语法规范</span><br><span class="line"><span class="number">3.</span>方法体验证：对方法体进行语义分析，保证方法在运行时不会出现危害虚拟机的事件。</span><br><span class="line"><span class="number">4.</span>符号引用验证: 本阶段发生在解析阶段，确保解析正常执行</span><br></pre></td></tr></table></figure>
+
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">在方法区中进行分配静态变量并设置初始值为0，常量直接赋初值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JVM/">JVM</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-08T07:04:29.393Z"><a href="/2021/08/08/JC/">2021-08-08</a></time>
       
       
@@ -88,7 +144,7 @@
 <p><img src="http://ww1.sinaimg.cn/large/6c8effc1tw1dmc55axrbsj.jpg" alt="img"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
 <p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]">https://www.cnblogs.com/qq78292959/archive/2011/07/25/2116123.html]</a>: </p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#57;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -138,7 +194,7 @@
 <h3 id="直接内存vs堆内存："><a href="#直接内存vs堆内存：" class="headerlink" title="直接内存vs堆内存："></a>直接内存vs堆内存：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>直接内存申请空间耗费更高的性能</span><br><span class="line"><span class="number">2.</span>直接内存读取 IO 的性能要优于普通的堆内存</span><br><span class="line"><span class="number">3.</span>直接内存作用链： 本地 IO -&gt; 直接内存 -&gt; 本地 IO</span><br><span class="line"><span class="number">4.</span>堆内存作用链：本地 IO -&gt; 直接内存 -&gt; 非直接内存 -&gt; 直接内存 -&gt; 本地 IO</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;">&#x39;&#x33;&#x32;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#57;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -240,7 +296,7 @@
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://my.oschina.net/u/134474/blog/1531556]">https://my.oschina.net/u/134474/blog/1531556]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#56;&#51;&#55;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#55;&#56;&#51;&#55;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;">&#x39;&#51;&#50;&#x36;&#x31;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -343,7 +399,7 @@
 </tr>
 </tbody></table>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]">https://github.com/doocs/advanced-java/blob/main/docs/high-concurrency/how-to-ensure-high-availability-of-message-queues.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -449,7 +505,7 @@
 
 <p><img src="https://github.com/doocs/advanced-java/raw/main/docs/high-concurrency/images/kafka-order-02.png" alt="kafka-order-02"></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]">https://github.com/doocs/advanced-java/edit/main/docs/high-concurrency/why-mq.md]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;">&#57;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -677,57 +733,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-01T09:18:36.837Z"><a href="/2021/08/01/二叉树的后序遍历/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/二叉树的后序遍历/">二叉树后序遍历</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="二叉树后序遍历"><a href="#二叉树后序遍历" class="headerlink" title="二叉树后序遍历"></a>二叉树后序遍历</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">给定一个二叉树，返回它的 后序 遍历。</span><br><span class="line">输入: [<span class="number">1</span>,<span class="keyword">null</span>,<span class="number">2</span>,<span class="number">3</span>]  </span><br><span class="line">   <span class="number">1</span></span><br><span class="line">    \</span><br><span class="line">     <span class="number">2</span></span><br><span class="line">    /</span><br><span class="line">   <span class="number">3</span> </span><br><span class="line">输出: [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="解-c"><a href="#解-c" class="headerlink" title="解(c++)"></a>解(c++)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">postorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(root)&#123;</span><br><span class="line">        stack&lt;TreeNode*&gt; sk;</span><br><span class="line">        TreeNode *cut=<span class="literal">NULL</span>;</span><br><span class="line">        TreeNode *cur=root;<span class="comment">//从下到上的拦截节点，即刚刚添加值后的节点，防止回退</span></span><br><span class="line">        <span class="keyword">while</span>(cur||sk.<span class="built_in">size</span>())&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur)&#123;</span><br><span class="line">                sk.<span class="built_in">push</span>(cur);</span><br><span class="line">                cur=cur-&gt;left;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                cur=sk.<span class="built_in">top</span>();</span><br><span class="line">                <span class="keyword">if</span>(cur-&gt;right&amp;&amp;cur-&gt;right!=cut)</span><br><span class="line">                    cur=cur-&gt;right;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    res.<span class="built_in">push_back</span>(cur-&gt;val);</span><br><span class="line">                    sk.<span class="built_in">pop</span>();</span><br><span class="line">                    cut=cur;</span><br><span class="line">                    cur=<span class="literal">NULL</span>;</span><br><span class="line">                &#125;                        </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>解(java)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ThreadLocal&lt;List&lt;Integer&gt;&gt; threadLocal=<span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">postorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">16</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>==root)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        threadLocal.set(res);</span><br><span class="line">        getLeftThenRightAndCur(root);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getLeftThenRightAndCur</span><span class="params">(TreeNode cur)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur==<span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        getLeftThenRightAndCur(cur.left);</span><br><span class="line">        getLeftThenRightAndCur(cur.right);</span><br><span class="line">        threadLocal.get().add(cur.val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal/submissions/]">https://leetcode-cn.com/problems/binary-tree-postorder-traversal/submissions/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
 
 <nav id="pagination">
   
@@ -756,7 +761,7 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
@@ -776,7 +781,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -796,6 +801,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/28/MySQL之大小写敏感/">MySQL之大小写敏感</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
       </li>
     
@@ -809,10 +818,6 @@
     
       <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
   </ul>

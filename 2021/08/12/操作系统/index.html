@@ -86,7 +86,7 @@
 <h3 id="线程创建过程："><a href="#线程创建过程：" class="headerlink" title="线程创建过程："></a>线程创建过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -131,7 +131,7 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
@@ -151,7 +151,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -171,6 +171,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/28/MySQL之大小写敏感/">MySQL之大小写敏感</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
       </li>
     
@@ -184,10 +188,6 @@
     
       <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
   </ul>

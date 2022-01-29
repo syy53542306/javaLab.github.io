@@ -62,6 +62,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-12-13T13:16:34.166Z"><a href="/2021/12/13/ElasticSearch-实践/">2021-12-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/12/13/ElasticSearch-实践/">ElasticSearch-实践</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="ElasticSearch-实践"><a href="#ElasticSearch-实践" class="headerlink" title="ElasticSearch-实践"></a>ElasticSearch-实践</h2><h3 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Read"><a href="#Read" class="headerlink" title="Read"></a>Read</h3><h3 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">mapping</span> <span class="string">不能删除字段，只能通过重建</span></span><br><span class="line"><span class="number">2</span><span class="string">.文档删除字段，通过脚本更新，利用ctx._source.remove(‘fieldName’)删除</span></span><br><span class="line"><span class="string">POST</span> <span class="string">indexName/_doc/_update_by_query</span></span><br><span class="line">&#123;</span><br><span class="line">	  <span class="attr">&quot;script&quot;:</span> <span class="string">&quot;ctx._source.remove(&#x27;fieldName&#x27;)&quot;</span>,</span><br><span class="line">	  <span class="attr">&quot;query&quot;:</span> &#123;</span><br><span class="line">	    <span class="attr">&quot;bool&quot;:</span> &#123;</span><br><span class="line">	      <span class="attr">&quot;must&quot;:</span> [</span><br><span class="line">	        &#123;</span><br><span class="line">	          <span class="attr">&quot;exists&quot;:</span> &#123;</span><br><span class="line">	            <span class="attr">&quot;field&quot;:</span> <span class="string">&quot;fieldName&quot;</span></span><br><span class="line">	          &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	      ]</span><br><span class="line">	    &#125;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">ctx._source.remove</span></span><br><span class="line"><span class="number">2.</span><span class="string">ctx._source.containsKey</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">GET</span> <span class="string">ip:port,ip:port/_tasks?detailed=true</span></span><br><span class="line"><span class="number">2.</span><span class="string">GET</span> <span class="string">ip:port,ip:port/_tasks/task_id?detailed=true&amp;&amp;group_by=nodes</span></span><br><span class="line"><span class="number">3.</span><span class="string">task_id格式为node_id:task_number</span></span><br><span class="line"><span class="number">4.</span><span class="string">group_by对返回结果进行分组，可选值为nodes（按节点分组）、none（禁用分组）、parents（按父任务分组），默认为nodes)</span></span><br><span class="line"><span class="number">5.</span><span class="string">POST</span> <span class="string">ip:port,ip:port/_tasks/&lt;task_id&gt;/_cancel</span></span><br><span class="line"><span class="number">6.</span><span class="string">POST</span> <span class="string">_tasks/_cancel?nodes=?&amp;actions=?</span></span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cooper20/article/details/108780376]">https://blog.csdn.net/cooper20/article/details/108780376]</a>: </p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/asty9000/article/details/100903593]">https://blog.csdn.net/asty9000/article/details/100903593]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#x33;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#x38;&#x33;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/ElasticSearch/">ElasticSearch</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-29T07:21:34.631Z"><a href="/2021/08/29/大数据/">2021-08-29</a></time>
       
       
@@ -77,7 +132,7 @@
 <h3 id="基于Hive与HBase的大数据架构"><a href="#基于Hive与HBase的大数据架构" class="headerlink" title="基于Hive与HBase的大数据架构"></a>基于Hive与HBase的大数据架构</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">流程:</span></span><br><span class="line"><span class="number">1</span><span class="string">.通过ETL工具将数据源(OLTP系统)抽取到HDFS存储</span></span><br><span class="line"><span class="number">2</span><span class="string">.通过Hive清洗、处理和计算原始数据</span></span><br><span class="line"><span class="number">3.</span><span class="string">HIve清洗处理后的结果，如果是面向海量数据随机查询场景的可存入Hbase</span></span><br><span class="line"><span class="number">4</span><span class="string">.数据应用从HBase查询数据</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]">https://www.cnblogs.com/cainiao-chuanqi/p/12080396.html]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#56;&#51;&#55;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x39;&#51;&#50;&#54;&#49;&#55;&#x38;&#51;&#55;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -128,7 +183,7 @@
 
 <h3 id="基本面消息面技术面"><a href="#基本面消息面技术面" class="headerlink" title="基本面消息面技术面:"></a>基本面消息面技术面:</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.平均市盈率</span></span><br><span class="line"><span class="number">2</span><span class="string">.股东变动</span></span><br><span class="line"><span class="number">3</span><span class="string">.净利润变化图二表(2)</span></span><br><span class="line"><span class="number">4</span><span class="string">.经营者,产品,分布,地区,销售额</span></span><br><span class="line"><span class="number">5</span><span class="string">.估值图表</span></span><br><span class="line"><span class="number">6</span><span class="string">.分红</span></span><br><span class="line"><span class="number">7</span><span class="string">.二图总结,公告,财务总结(2)</span></span><br><span class="line"><span class="number">8</span><span class="string">.库存,在建工程,非流动负债,长期借款</span></span><br><span class="line"><span class="number">9</span><span class="string">.营业总成本,研发费用</span></span><br><span class="line"><span class="number">10</span><span class="string">.现金流</span></span><br><span class="line"><span class="number">11</span><span class="string">.消息(2)</span></span><br><span class="line"><span class="number">12</span><span class="string">.成交量,趋势</span></span><br><span class="line"><span class="number">13.618</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#x32;&#54;&#49;&#x37;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#56;&#51;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -192,7 +247,7 @@
 <p>[<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]">https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]">https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/songhaixing2/article/details/114281977]">https://blog.csdn.net/songhaixing2/article/details/114281977]</a></p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#57;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#51;&#50;&#x36;&#49;&#55;&#x38;&#x33;&#55;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -238,7 +293,7 @@
         <h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h3 id="Zookeeper的功能："><a href="#Zookeeper的功能：" class="headerlink" title="Zookeeper的功能："></a>Zookeeper的功能：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.分布式协调:</span> <span class="string">节点值监听器</span></span><br><span class="line"><span class="number">2</span><span class="string">.分布式锁:</span> <span class="string">创建znode</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据/配置信息管理:</span> <span class="string">kafka,dubbo</span></span><br><span class="line"><span class="number">4.</span><span class="string">HA高可用:</span> <span class="string">hadoop、hdfs、yarn主进程挂了切换到备用进程(active</span> <span class="string">node,监听器)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/zookeeper-application-scenarios]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#x39;&#51;&#50;&#x36;&#x31;&#55;&#56;&#51;&#55;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -288,7 +343,7 @@
 <h3 id="分布式锁session方案："><a href="#分布式锁session方案：" class="headerlink" title="分布式锁session方案："></a>分布式锁session方案：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">JWT</span> <span class="string">Token(无session)</span></span><br><span class="line"><span class="number">2.</span><span class="string">Tomcat</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(Tomcat</span> <span class="string">RedisSessionManager)</span></span><br><span class="line"><span class="number">3.</span><span class="string">Spring</span> <span class="string">Session</span> <span class="string">+</span> <span class="string">Redis</span> <span class="string">(RedisHttpSessionConfiguration,)</span> <span class="string">spring-session-data-redis</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]">https://doocs.gitee.io/advanced-java/#/./docs/distributed-system/distributed-lock-redis-vs-zookeeper]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#x39;&#51;&#50;&#x36;&#49;&#x37;&#56;&#x33;&#x37;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>白嫖来的，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#x39;&#51;&#x32;&#x36;&#49;&#x37;&#56;&#51;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -365,7 +420,7 @@
 <h3 id="Redis-集群模式"><a href="#Redis-集群模式" class="headerlink" title="Redis 集群模式"></a>Redis 集群模式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Redis</span> <span class="string">cluster</span> <span class="string">架构下，每个</span> <span class="string">Redis</span> <span class="string">要放开两个端口号，比如一个是</span> <span class="number">6379</span><span class="string">，另外一个就是</span> <span class="string">加</span> <span class="string">1w</span> <span class="string">的端口号，比如</span> <span class="number">16379</span></span><br><span class="line"><span class="number">16379</span> <span class="string">端口号是用来进行节点间通信的，也就是</span> <span class="string">cluster</span> <span class="string">bus</span> <span class="string">的东西，cluster</span> <span class="string">bus</span> <span class="string">的通信，用来进行故障检测、配置更新、故障转移授权。cluster</span> <span class="string">bus</span> <span class="string">用了一种二进制的协议，</span> <span class="string">gossip</span> <span class="string">协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间</span></span><br><span class="line"><span class="string">采用一致性</span> <span class="string">hash</span> <span class="string">算法</span> <span class="string">hash</span> <span class="string">key</span> <span class="string">找到master节点（因为每次都基于最新的剩余</span> <span class="string">master</span> <span class="string">节点数去取模）</span></span><br><span class="line"><span class="string">集群模式master类似哨兵,进行选举</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]">https://doocs.gitee.io/advanced-java/#/./docs/high-concurrency/why-cache]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x39;&#x33;&#50;&#x36;&#x31;&#55;&#56;&#51;&#x37;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人见解，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x39;&#51;&#50;&#x36;&#x31;&#x37;&#56;&#x33;&#55;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -453,7 +508,7 @@
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109603356]">https://blog.csdn.net/org_hjh/article/details/109603356]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/org_hjh/article/details/109626607]">https://blog.csdn.net/org_hjh/article/details/109626607]</a>: </p>
 <p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905]">https://caochenlei.blog.csdn.net/article/details/117566905]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#109;">&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -517,7 +572,7 @@
 <h3 id="8-偏向锁"><a href="#8-偏向锁" class="headerlink" title="8.偏向锁"></a>8.偏向锁</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.默认开启，默认延迟设置对象头为偏向锁，想避免延迟可以添加VM参数</span> <span class="string">-XX:BiasedLockingStartupDelay=0</span> <span class="string">来禁用延迟</span></span><br><span class="line"><span class="string">此时Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x05</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">101</span><span class="string">，thread、epoch、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">。</span></span><br><span class="line"><span class="number">2</span><span class="string">.可以添加</span> <span class="string">VM</span> <span class="string">参数</span> <span class="string">-XX:-UseBiasedLocking</span> <span class="string">来禁用偏向锁，此时对象头Mark</span> <span class="string">Word</span> <span class="string">值为</span> <span class="number">0x01</span> <span class="string">即最后</span> <span class="number">3</span> <span class="string">位为</span> <span class="number">001</span><span class="string">，这时它的</span> <span class="string">hashcode、age</span> <span class="string">都为</span> <span class="number">0</span><span class="string">，只有第一次用到</span> <span class="string">hashcode</span> <span class="string">时才会赋值。</span></span><br><span class="line"><span class="attr">ps:</span> <span class="string">一旦调用了对象的</span> <span class="string">hashCode，会导致偏向锁被撤销，这是因为偏向锁的对象</span> <span class="string">Mark</span> <span class="string">Word</span> <span class="string">中存储的是线程</span> <span class="string">id，根本没有地方再存储</span> <span class="string">hashCode</span> <span class="string">的值了，而轻量级锁会在锁记录中记录</span> <span class="string">hashCode，重量级锁会在</span> <span class="string">Monitor</span> <span class="string">中记录</span> <span class="string">hashCode。</span></span><br><span class="line"><span class="number">3</span><span class="string">.当有其它线程使用偏向锁对象时，会将偏向锁升级为轻量级锁，如果竞争继续激烈，轻量级锁会继续膨胀升级到重量级锁</span></span><br><span class="line"><span class="number">4</span><span class="string">.当调用对象的</span> <span class="string">wait/notify</span> <span class="string">方法时，会将偏向锁升级为重量级锁,必须获得此对象的Monitor</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://caochenlei.blog.csdn.net/article/details/117566905">https://caochenlei.blog.csdn.net/article/details/117566905</a> </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#x32;&#54;&#x31;&#x37;&#x38;&#x33;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#57;&#x33;&#x32;&#x36;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
       
     </div>
@@ -573,7 +628,7 @@
 <h3 id="线程创建过程："><a href="#线程创建过程：" class="headerlink" title="线程创建过程："></a>线程创建过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#57;&#x33;&#50;&#54;&#x31;&#x37;&#x38;&#51;&#55;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#57;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#51;&#55;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
       
     </div>
@@ -587,62 +642,6 @@
   
   <div class="categories">
     <a href="/categories/操作系统/">操作系统</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-08T09:47:22.815Z"><a href="/2021/08/08/类加载过程/">2021-08-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/08/类加载过程/">类加载</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">加载、验证、准备、解析、初始化、使用、卸载（FullGC)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类</span><br><span class="line"><span class="number">2.</span>将二进制字节流所代表的静态结构转化为方法区的运行时数据结构</span><br><span class="line"><span class="number">3.</span>在内存中创建一个代表该类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>文件格式验证：验证字节流是否符合 Class 文件格式的规范，并且能被当前版本的虚拟机处理</span><br><span class="line"><span class="number">2.</span>元数据验证：对字节码描述信息进行语义分析，确保其符合 Java 语法规范</span><br><span class="line"><span class="number">3.</span>方法体验证：对方法体进行语义分析，保证方法在运行时不会出现危害虚拟机的事件。</span><br><span class="line"><span class="number">4.</span>符号引用验证: 本阶段发生在解析阶段，确保解析正常执行</span><br></pre></td></tr></table></figure>
-
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">在方法区中进行分配静态变量并设置初始值为0，常量直接赋初值</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#57;&#51;&#x32;&#54;&#49;&#55;&#56;&#x33;&#x37;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a></p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/JVM/">JVM</a>
   </div>
 
         
@@ -684,7 +683,7 @@
   
     <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>5</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
@@ -704,7 +703,7 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>7</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
@@ -724,6 +723,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2022/01/28/MySQL之大小写敏感/">MySQL之大小写敏感</a>
+      </li>
+    
+      <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
       </li>
     
@@ -737,10 +740,6 @@
     
       <li>
         <a href="/2022/01/08/BadNoteOfEconomy/">BadNoteOfEconomy</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/02/MyBatis/">MyBatis</a>
       </li>
     
   </ul>
