@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>JavaIO | JavaBadNote</title>
+  <meta name="author" content="MagicCoderYang" />
+
+  
+  <meta name="description" content="JavaIOJava内存拷贝方式121.device(磁盘，网卡)---(通过DMA&amp;lt;Direct Memory Access&amp;gt;方式)---&amp;gt;内核2.内核-&amp;gt;应用内存（堆）
+
+Java零拷贝方式12345671.MMAP内存映射：DMA加载磁盘数据到kernel buffer" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="JavaIO" />
+  <meta property="og:site_name" content="JavaBadNote" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="JavaBadNote" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">JavaBadNote</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/archives">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2022-02-26T13:41:43.473Z"><a href="/2022/02/26/JavaIO/">2022-02-26</a></time>
+      
+      
+  
+    <h1 class="title">JavaIO</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="JavaIO"><a href="#JavaIO" class="headerlink" title="JavaIO"></a>JavaIO</h2><h3 id="Java内存拷贝方式"><a href="#Java内存拷贝方式" class="headerlink" title="Java内存拷贝方式"></a>Java内存拷贝方式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="string">device(磁盘，网卡)---(通过DMA&lt;Direct</span> <span class="string">Memory</span> <span class="string">Access&gt;方式)---&gt;内核</span></span><br><span class="line"><span class="number">2</span><span class="string">.内核-&gt;应用内存（堆）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Java零拷贝方式"><a href="#Java零拷贝方式" class="headerlink" title="Java零拷贝方式"></a>Java零拷贝方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>MMAP内存映射：DMA加载磁盘数据到kernel buffer后，应用程序缓冲区(application buffers)和内核缓冲区(kernel buffer)进行映射,mmap内存映射将会经历：<span class="number">3</span>次拷贝: <span class="number">1</span>次cpu copy，<span class="number">2</span>次DMA copy,一次读写一共需要<span class="number">4</span>次上下文切换</span><br><span class="line"><span class="number">2.</span>sendfile:当调用sendfile()时，DMA将磁盘数据复制到kernel buffer，然后将内核中的kernel buffer直接拷贝到socket buffer；</span><br><span class="line">一旦数据全都拷贝到socket buffer，sendfile()系统调用将会<span class="keyword">return</span>、代表数据转化的完成。</span><br><span class="line">socket buffer里的数据就能在网络传输了。sendfile会经历：<span class="number">3</span>次拷贝，<span class="number">1</span>次CPU copy <span class="number">2</span>次DMA copy，一次读写一共需要<span class="number">2</span>次上下文切换</span><br><span class="line"><span class="number">3.</span>Sendfile With DMA Scatter/Gather Copy：Scatter/Gather可以看作是sendfile的增强版，批量sendfile。Scatter/Gather会经历<span class="number">2</span>次拷贝: <span class="number">0</span>次cpu copy，<span class="number">2</span>次DMA copy</span><br><span class="line"><span class="number">4.</span>splice：数据从磁盘读取到OS内核缓冲区后，在内核缓冲区直接可将其转成内核空间其他数据buffer，而不需要拷贝到用户空间。直接将输入输出两个内核空间的buffer进行set up pipe。</span><br><span class="line">splice会经历 <span class="number">2</span>次拷贝: <span class="number">0</span>次cpu copy <span class="number">2</span>次DMA copy，一次读写一共需要<span class="number">2</span>次上下文切换</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6862877857258045453]">https://juejin.cn/post/6862877857258045453]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#55;&#x38;&#51;&#x37;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/JavaIO/">JavaIO</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ElasticSearch/">ElasticSearch</a><small>2</small></li>
+  
+    <li><a href="/categories/JMM/">JMM</a><small>1</small></li>
+  
+    <li><a href="/categories/JVM/">JVM</a><small>3</small></li>
+  
+    <li><a href="/categories/JavaIO/">JavaIO</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
+  
+    <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
+  
+    <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
+  
+    <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
+  
+    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
+  
+    <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
+  
+    <li><a href="/categories/常用指令/">常用指令</a><small>1</small></li>
+  
+    <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
+  
+    <li><a href="/categories/投资/">投资</a><small>1</small></li>
+  
+    <li><a href="/categories/搜索/">搜索</a><small>1</small></li>
+  
+    <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
+  
+    <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/经济/">经济</a><small>1</small></li>
+  
+    <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2023/11/11/搜索/">搜索技巧</a>
+      </li>
+    
+      <li>
+        <a href="/2022/02/26/JavaIO/">JavaIO</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/28/MySQL之大小写敏感/">MySQL之大小写敏感</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
+      </li>
+    
+      <li>
+        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2023 MagicCoderYang
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
