@@ -9,7 +9,8 @@
   
   <meta name="description" content="类加载类的生命周期1加载、验证、准备、解析、初始化、使用、卸载（FullGC)
 
-加载1231.类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类2.将二进制字节流所代表的静态结构" />
+
+加载1231.类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类2.将二进制字节流所代表的静态结" />
   
 
   
@@ -77,6 +78,7 @@
       
         <h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">加载、验证、准备、解析、初始化、使用、卸载（FullGC)</span></span><br></pre></td></tr></table></figure>
 
+<p><img src="D:\yyProject\javaLab\source\imag\JVM结构模型.png"></p>
 <h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>类加载器(引导类，扩展类，应用类)通过类的全限定名获取该类的二进制字节流，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的，再由类加载器创建数组中的元素类</span><br><span class="line"><span class="number">2.</span>将二进制字节流所代表的静态结构转化为方法区的运行时数据结构</span><br><span class="line"><span class="number">3.</span>在内存中创建一个代表该类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</span><br></pre></td></tr></table></figure>
 
 <h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>文件格式验证：验证字节流是否符合 Class 文件格式的规范，并且能被当前版本的虚拟机处理</span><br><span class="line"><span class="number">2.</span>元数据验证：对字节码描述信息进行语义分析，确保其符合 Java 语法规范</span><br><span class="line"><span class="number">3.</span>方法体验证：对方法体进行语义分析，保证方法在运行时不会出现危害虚拟机的事件。</span><br><span class="line"><span class="number">4.</span>符号引用验证: 本阶段发生在解析阶段，确保解析正常执行</span><br></pre></td></tr></table></figure>
@@ -88,7 +90,7 @@
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">收集静态变量赋值操作和静态代码块，构建类构造器</span> <span class="string">&lt;clinit&gt;()并执行</span></span><br><span class="line"><span class="string">&lt;clinit&gt;()</span> <span class="string">方法不需要显式调用父类构造器，虚拟机会保证在子类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法执行之前，父类的</span> <span class="string">&lt;clinit&gt;()</span> <span class="string">方法已经执行完毕。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]">https://github.com/doocs/jvm/blob/main/docs/01-jvm-memory-structure.md]</a>:</p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x39;&#51;&#x32;&#54;&#x31;&#55;&#x38;&#x33;&#x37;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#x39;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#x37;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -151,8 +153,6 @@
   
     <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
   
-    <li><a href="/categories/投资/">投资</a><small>1</small></li>
-  
     <li><a href="/categories/搜索/">搜索</a><small>1</small></li>
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
@@ -162,8 +162,6 @@
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
-  
-    <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   

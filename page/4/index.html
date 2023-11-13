@@ -62,107 +62,6 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2021-08-01T14:14:07.735Z"><a href="/2021/08/01/归并排序/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/归并排序/">归并排序</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="归并排序–统计数组中的逆序对"><a href="#归并排序–统计数组中的逆序对" class="headerlink" title="归并排序–统计数组中的逆序对"></a>归并排序–统计数组中的逆序对</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。</span><br><span class="line">输入: [<span class="number">7</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br><span class="line">输出: <span class="number">5</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="思"><a href="#思" class="headerlink" title="思:"></a>思:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>定位数组索引中间值，递归排序左边和右边</span><br><span class="line"><span class="number">2.</span>合并最边已经排序好的数组和右边已经排序好数组</span><br><span class="line"><span class="number">3.</span>递归截止判断条件为数组只有一个元素时候，一个元素肯定有序了</span><br></pre></td></tr></table></figure>
-
-<h3 id="解-java"><a href="#解-java" class="headerlink" title="解(java)"></a>解(java)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reversePairs</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.length==<span class="number">0</span>||nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] arrayTmp= <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">        sort(nums,<span class="number">0</span>,nums.length-<span class="number">1</span>,arrayTmp);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> beg,<span class="keyword">int</span> end,<span class="keyword">int</span>[] arrayTmp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(beg&gt;=end)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid=beg+(end-beg)/<span class="number">2</span>;<span class="comment">//尽量避免溢出</span></span><br><span class="line">        sort(nums,beg,mid,arrayTmp);</span><br><span class="line">        sort(nums,mid+<span class="number">1</span>,end,arrayTmp);</span><br><span class="line">        System.arraycopy(nums,beg,arrayTmp,beg,end-beg+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> begA=beg;</span><br><span class="line">        <span class="keyword">int</span> begB=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> start=beg;</span><br><span class="line">        <span class="keyword">while</span>(begA&lt;=mid&amp;&amp;begB&lt;=end)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arrayTmp[begA]&gt;arrayTmp[begB])&#123;</span><br><span class="line">                res+=(mid-begA+<span class="number">1</span>);<span class="comment">//本题关键点，统计以(?,arrayTmp[begB])形式的逆序对</span></span><br><span class="line">                nums[start++]=arrayTmp[begB++];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                nums[start++]=arrayTmp[begA++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(begA&lt;=mid)&#123;</span><br><span class="line">            System.arraycopy(arrayTmp,begA,nums,start,mid-begA+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(begB&lt;=end)&#123;</span><br><span class="line">            System.arraycopy(arrayTmp,begB,nums,start,end-begB+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/]">https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-01T12:31:32.073Z"><a href="/2021/08/01/二叉树的前中后遍历特点/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/二叉树的前中后遍历特点/">二叉树前中后序遍历特点</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="二叉树前中后序遍历特点"><a href="#二叉树前中后序遍历特点" class="headerlink" title="二叉树前中后序遍历特点"></a>二叉树前中后序遍历特点</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。</span><br><span class="line">假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</span><br><span class="line">Input: preorder = [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="number">15</span>,<span class="number">7</span>], inorder = [<span class="number">9</span>,<span class="number">3</span>,<span class="number">15</span>,<span class="number">20</span>,<span class="number">7</span>]</span><br><span class="line">Output: [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="思"><a href="#思" class="headerlink" title="思"></a>思</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">前序遍历特点(根-&gt;左-&gt;右):</span> <span class="string">遍历后根节点第一个</span></span><br><span class="line"><span class="string">中序遍历特点(左-&gt;根-&gt;右):</span> <span class="string">遍历后，根节点左边为左子树，右边为右子树</span></span><br><span class="line"><span class="string">后序遍历特点(左-&gt;右-&gt;根):</span> <span class="string">遍历后根节点为最后一个</span></span><br></pre></td></tr></table></figure>
-
-<p>解(java)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">buildTree</span><span class="params">(<span class="keyword">int</span>[] preorder, <span class="keyword">int</span>[] inorder)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span>(preorder.length==<span class="number">0</span>||inorder.length==<span class="number">0</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">          <span class="keyword">if</span>(preorder.length==<span class="number">1</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(preorder[<span class="number">0</span>]);</span><br><span class="line">          <span class="keyword">if</span>(inorder.length==<span class="number">1</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(inorder[<span class="number">0</span>]);</span><br><span class="line">          TreeNode root=construct(preorder,<span class="number">0</span>,preorder.length-<span class="number">1</span>,inorder,<span class="number">0</span>,inorder.length-<span class="number">1</span>);</span><br><span class="line">          <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">construct</span><span class="params">(<span class="keyword">int</span> [] pre,<span class="keyword">int</span> beg,<span class="keyword">int</span> end,<span class="keyword">int</span> [] in,<span class="keyword">int</span> beg2,<span class="keyword">int</span> end2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(beg&gt;=pre.length||end&lt;<span class="number">0</span>||beg2&gt;=in.length||end2&lt;<span class="number">0</span>||beg&gt;end||beg2&gt;end2)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode root=<span class="keyword">new</span> TreeNode(pre[beg]);</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=beg2;i&lt;=end2;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(in[i]==root.val)&#123;</span><br><span class="line">                index=i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        root.left=construct(pre,beg+<span class="number">1</span>,beg+<span class="number">1</span>+index-<span class="number">1</span>-beg2+<span class="number">1</span>-<span class="number">1</span>,in,beg2,index-<span class="number">1</span>);</span><br><span class="line">        root.right=construct(pre,beg+<span class="number">1</span>+index-<span class="number">1</span>-beg2+<span class="number">1</span>-<span class="number">1</span>+<span class="number">1</span>,end,in,index+<span class="number">1</span>,end2);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/submissions/]">https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/submissions/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2021-08-01T09:18:36.837Z"><a href="/2021/08/01/二叉树的后序遍历/">2021-08-01</a></time>
       
       
@@ -374,51 +273,51 @@
     </header>
     <div class="entry">
       
-        <h2 id="计算机术语"><a href="#计算机术语" class="headerlink" title="计算机术语"></a>计算机术语</h2><h3 id="A"><a href="#A" class="headerlink" title="A"></a>A</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="计算机术语"><a href="#计算机术语" class="headerlink" title="计算机术语"></a>计算机术语</h2><h3 id="A"><a href="#A" class="headerlink" title="A"></a>A</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AOT: Ahead of Time Compilation</span><br><span class="line">AQS: AbstractQueuedSynchronizer </span><br><span class="line">ARP: Address Resolution Protocol (地址解析协议)</span><br></pre></td></tr></table></figure>
 
-<h3 id="B"><a href="#B" class="headerlink" title="B"></a>B</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="B"><a href="#B" class="headerlink" title="B"></a>B</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BER: Bit Error Rate (误码率)</span><br></pre></td></tr></table></figure>
 
-<h3 id="C"><a href="#C" class="headerlink" title="C"></a>C</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="C"><a href="#C" class="headerlink" title="C"></a>C</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CSRF: Cross Site Request Forgery (跨站请求伪造)</span><br><span class="line">CSS: Cascading Style Sheets (层叠样式表)</span><br><span class="line">XSS: Cross Site Scripting (跨站脚本攻击) </span><br><span class="line">CRC: Cyclic Redundancy Check (循环冗余检验)</span><br></pre></td></tr></table></figure>
 
-<h3 id="D"><a href="#D" class="headerlink" title="D"></a>D</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">DML:</span> <span class="string">数据操纵语言(Data</span> <span class="string">Manipulation</span> <span class="string">Lanaguage)</span></span><br><span class="line"><span class="attr">DDL:</span> <span class="string">数据定义语言(Data</span> <span class="string">Definition</span> <span class="string">Language)</span></span><br><span class="line"><span class="attr">DCL:</span> <span class="string">数据库控制语言(Data</span> <span class="string">Control</span> <span class="string">Language)</span></span><br><span class="line"><span class="attr">DQL:</span> <span class="string">数据查询语言(Data</span> <span class="string">Query</span> <span class="string">Language)</span></span><br></pre></td></tr></table></figure>
+<h3 id="D"><a href="#D" class="headerlink" title="D"></a>D</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">DML:</span> <span class="string">Data</span> <span class="string">Manipulation</span> <span class="string">Lanaguage</span> <span class="string">(数据操纵语言)</span></span><br><span class="line"><span class="attr">DDL:</span> <span class="string">Data</span> <span class="string">Definition</span> <span class="string">Language</span> <span class="string">(数据定义语言)</span></span><br><span class="line"><span class="attr">DCL:</span> <span class="string">Data</span> <span class="string">Control</span> <span class="string">Language</span> <span class="string">(数据库控制语言)</span></span><br><span class="line"><span class="attr">DQL:</span> <span class="string">Data</span> <span class="string">Query</span> <span class="string">Language</span> <span class="string">(数据查询语言)</span></span><br><span class="line"><span class="attr">DNS:</span> <span class="string">Domain</span> <span class="string">Name</span> <span class="string">System</span> <span class="string">(域名管理系统)</span></span><br><span class="line"><span class="attr">DHCP:</span> <span class="string">Dynamic</span> <span class="string">Host</span> <span class="string">Configuration</span> <span class="string">Protocol</span> <span class="string">(动态主机配置协议)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="E"><a href="#E" class="headerlink" title="E"></a>E</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="F"><a href="#F" class="headerlink" title="F"></a>F</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="F"><a href="#F" class="headerlink" title="F"></a>F</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FTP: File Transfer Protocol(文件传输协议)</span><br><span class="line">FRR: fast retransmit and recovery</span><br></pre></td></tr></table></figure>
 
 <h3 id="G"><a href="#G" class="headerlink" title="G"></a>G</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="H"><a href="#H" class="headerlink" title="H"></a>H</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="H"><a href="#H" class="headerlink" title="H"></a>H</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP: Hypertext Transfer Protocol(超文本传输协议)</span><br></pre></td></tr></table></figure>
 
-<h3 id="I"><a href="#I" class="headerlink" title="I"></a>I</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ISA:</span> <span class="string">指令集架构(Instruction</span> <span class="string">Set</span> <span class="string">Architecture)</span></span><br><span class="line"><span class="attr">IR:</span> <span class="string">指令寄存器(Instruction</span> <span class="string">Register)</span></span><br><span class="line"><span class="attr">ID:</span> <span class="string">指令译码器(Instruction</span> <span class="string">Decoder)</span></span><br></pre></td></tr></table></figure>
+<h3 id="I"><a href="#I" class="headerlink" title="I"></a>I</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ISA:</span> <span class="string">Instruction</span> <span class="string">Set</span> <span class="string">Architecture</span> <span class="string">(指令集架构)</span></span><br><span class="line"><span class="attr">IR:</span> <span class="string">Instruction</span> <span class="string">Register</span> <span class="string">(指令寄存器)</span></span><br><span class="line"><span class="attr">ID:</span> <span class="string">Instruction</span> <span class="string">Decoder</span> <span class="string">(指令译码器)</span></span><br><span class="line"><span class="attr">ICMP:</span> <span class="string">Internet</span> <span class="string">Control</span> <span class="string">Message</span> <span class="string">Protocol</span> <span class="string">(互联网控制报文协议)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="J"><a href="#J" class="headerlink" title="J"></a>J</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">JMM:</span> <span class="string">Java内存模型(Java</span> <span class="string">Memory</span> <span class="string">Model)</span></span><br></pre></td></tr></table></figure>
+<h3 id="J"><a href="#J" class="headerlink" title="J"></a>J</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">JMM:</span> <span class="string">Java</span> <span class="string">Memory</span> <span class="string">Model</span> <span class="string">(Java内存模型)</span></span><br><span class="line"><span class="attr">JIT:</span> <span class="string">Just</span> <span class="string">in</span> <span class="string">Time</span> <span class="string">Compilation</span></span><br><span class="line"><span class="attr">JWT:</span> <span class="string">JSON</span> <span class="string">Web</span> <span class="string">Token</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="K"><a href="#K" class="headerlink" title="K"></a>K</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="L"><a href="#L" class="headerlink" title="L"></a>L</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LRU:</span> <span class="string">最近最少使用(Least</span> <span class="string">Recently</span> <span class="string">Used)</span></span><br></pre></td></tr></table></figure>
+<h3 id="L"><a href="#L" class="headerlink" title="L"></a>L</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LRU:</span> <span class="string">最近最少使用(Least</span> <span class="string">Recently</span> <span class="string">Used)</span></span><br><span class="line"><span class="attr">LAN:</span> <span class="string">Local</span> <span class="string">Area</span> <span class="string">Network</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="M"><a href="#M" class="headerlink" title="M"></a>M</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="M"><a href="#M" class="headerlink" title="M"></a>M</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MMU: Memory Management Unit (内存管理单元)</span><br><span class="line">MAC: Media Access Control Address (媒体访问控制地址)</span><br><span class="line">MAN: Metropolitan Area Network (城域网)</span><br><span class="line">MTU: Maximum Transfer Uint</span><br></pre></td></tr></table></figure>
 
-<h3 id="N"><a href="#N" class="headerlink" title="N"></a>N</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">NRT:</span> <span class="string">准实时(near</span> <span class="string">real-time)</span></span><br></pre></td></tr></table></figure>
+<h3 id="N"><a href="#N" class="headerlink" title="N"></a>N</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">NRT:</span> <span class="string">near</span> <span class="string">real-time</span> <span class="string">(准实时)</span></span><br><span class="line"><span class="attr">NAT:</span> <span class="string">Network</span> <span class="string">Address</span> <span class="string">Translation</span> <span class="string">(网络地址转换协议)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="O"><a href="#O" class="headerlink" title="O"></a>O</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">OC:</span> <span class="string">操作控制器(Operation</span> <span class="string">Controller)</span></span><br></pre></td></tr></table></figure>
+<h3 id="O"><a href="#O" class="headerlink" title="O"></a>O</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">OC:</span> <span class="string">Operation</span> <span class="string">Controller</span> <span class="string">(操作控制器)</span></span><br><span class="line"><span class="attr">OSPF:</span> <span class="string">Open</span> <span class="string">Shortest</span> <span class="string">Path</span> <span class="string">First</span> <span class="string">(开放式最短路径优先)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="P"><a href="#P" class="headerlink" title="P"></a>P</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">POJO:</span> <span class="string">简单无规则java对象(plian</span> <span class="string">ordinary</span> <span class="string">java</span> <span class="string">object)</span></span><br></pre></td></tr></table></figure>
+<h3 id="P"><a href="#P" class="headerlink" title="P"></a>P</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">POJO:</span> <span class="string">简单无规则java对象(plian</span> <span class="string">ordinary</span> <span class="string">java</span> <span class="string">object)</span></span><br><span class="line"><span class="attr">PCB:</span> <span class="string">Process</span> <span class="string">Control</span> <span class="string">Block</span></span><br><span class="line"><span class="attr">PAN:</span> <span class="string">Personal</span> <span class="string">Area</span> <span class="string">Network</span></span><br><span class="line"><span class="attr">PPP:</span> <span class="string">Point-to-Point</span> <span class="string">Protocol</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QUIC: Quick UDP Internet Connections (快速UDP网络连接)</span><br></pre></td></tr></table></figure>
 
-<h3 id="R"><a href="#R" class="headerlink" title="R"></a>R</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="R"><a href="#R" class="headerlink" title="R"></a>R</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RIP: Routing Information Protocol (路由信息协议)</span><br><span class="line">RBAC: Role-Based Access Control (基于角色的权限访问控制)</span><br><span class="line">RTT: round-trip time</span><br></pre></td></tr></table></figure>
 
-<h3 id="S"><a href="#S" class="headerlink" title="S"></a>S</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="S"><a href="#S" class="headerlink" title="S"></a>S</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SPI:Service Provider Interface </span><br><span class="line">SSH: Secure Shell Protocol(安全的网络传输协议)</span><br><span class="line">SMTP: Simple Mail Transfer Protocol(简单邮件发送协议)</span><br><span class="line">SSO: Single Sign On (单点登录)</span><br></pre></td></tr></table></figure>
 
-<h3 id="T"><a href="#T" class="headerlink" title="T"></a>T</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TCL：事务控制语言(Transaction Control Language)</span><br></pre></td></tr></table></figure>
+<h3 id="T"><a href="#T" class="headerlink" title="T"></a>T</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TCL：Transaction Control Language (事务控制语言)</span><br><span class="line">TLB: Translation Lookaside Buffer (为快表)</span><br><span class="line">TCP: Transmission Control Protocol (传输控制协议)</span><br><span class="line">TLD: Top-Level Domain (顶级域名服务器)</span><br><span class="line">TPDU: Transport Protocol Data Unit (运输协议数据单元)</span><br></pre></td></tr></table></figure>
 
-<h3 id="U"><a href="#U" class="headerlink" title="U"></a>U</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="U"><a href="#U" class="headerlink" title="U"></a>U</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UDP: User Datagram Protocol (用户数据协议)</span><br><span class="line">URI: Uniform Resource Identifier (是统一资源标志符) </span><br><span class="line">URL: Uniform Resource Locator (统一资源定位符) </span><br></pre></td></tr></table></figure>
 
-<h3 id="V"><a href="#V" class="headerlink" title="V"></a>V</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="V"><a href="#V" class="headerlink" title="V"></a>V</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VPN: Virtual Private Network (虚拟专用网络)</span><br></pre></td></tr></table></figure>
 
-<h3 id="W"><a href="#W" class="headerlink" title="W"></a>W</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="W"><a href="#W" class="headerlink" title="W"></a>W</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WAN: Wide Area Network (广域网)</span><br></pre></td></tr></table></figure>
 
 <h3 id="X"><a href="#X" class="headerlink" title="X"></a>X</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -498,8 +397,6 @@
   
     <li><a href="/categories/并发编程/">并发编程</a><small>1</small></li>
   
-    <li><a href="/categories/投资/">投资</a><small>1</small></li>
-  
     <li><a href="/categories/搜索/">搜索</a><small>1</small></li>
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
@@ -509,8 +406,6 @@
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
-  
-    <li><a href="/categories/经济/">经济</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
