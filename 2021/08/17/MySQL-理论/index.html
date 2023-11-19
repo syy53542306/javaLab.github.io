@@ -7,9 +7,7 @@
   <meta name="author" content="MagicCoderYang" />
 
   
-  <meta name="description" content="MySQL-理论B+树和B树特点：12341.多叉平衡搜索树,B+树每个非叶子节点只有索引条件2.只有叶子节点存储数据(B树每个节点都可以保存数据)3.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)4.少量数据B树查询效率高(ETCD中的MVCC)
-
-锁：1234567" />
+  <meta name="description" content="MySQL-理论MySQL架构：123456连接器： 身份认证和权限相关(登录 MySQL 的时候)。查询缓存： 执行查询语句的时候，会先查询缓存（MySQL 8.0 版本后移除，因为这个功能不太实用）。分析器：没有命中缓存SQL语句就会经过分析器，分析器会看你的SQL语句要干嘛，再检查语法是否正确" />
   
 
   
@@ -75,7 +73,9 @@
     </header>
     <div class="entry">
       
-        <h2 id="MySQL-理论"><a href="#MySQL-理论" class="headerlink" title="MySQL-理论"></a>MySQL-理论</h2><h3 id="B-树和B树特点："><a href="#B-树和B树特点：" class="headerlink" title="B+树和B树特点："></a>B+树和B树特点：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.多叉平衡搜索树,B+树每个非叶子节点只有索引条件</span></span><br><span class="line"><span class="number">2</span><span class="string">.只有叶子节点存储数据(B树每个节点都可以保存数据)</span></span><br><span class="line"><span class="number">3</span><span class="string">.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)</span></span><br><span class="line"><span class="number">4</span><span class="string">.少量数据B树查询效率高(ETCD中的MVCC)</span></span><br></pre></td></tr></table></figure>
+        <h2 id="MySQL-理论"><a href="#MySQL-理论" class="headerlink" title="MySQL-理论"></a>MySQL-理论</h2><h3 id="MySQL架构："><a href="#MySQL架构：" class="headerlink" title="MySQL架构："></a>MySQL架构：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">连接器：</span> <span class="string">身份认证和权限相关(登录</span> <span class="string">MySQL</span> <span class="string">的时候)。</span></span><br><span class="line"><span class="string">查询缓存：</span> <span class="string">执行查询语句的时候，会先查询缓存（MySQL</span> <span class="number">8.0</span> <span class="string">版本后移除，因为这个功能不太实用）。</span></span><br><span class="line"><span class="string">分析器：没有命中缓存SQL语句就会经过分析器，分析器会看你的SQL语句要干嘛，再检查语法是否正确。</span></span><br><span class="line"><span class="string">优化器：</span> <span class="string">按照</span> <span class="string">MySQL</span> <span class="string">认为最优的方案去执行。</span></span><br><span class="line"><span class="string">执行器：执行语句然后从存储引擎返回数据。执行语句之前会先判断是否有权限，没有报错。</span></span><br><span class="line"><span class="string">插件式存储引擎：负责数据存储和读取，插件式架构，支持</span> <span class="string">InnoDB、MyISAM、Memory</span> <span class="string">等多种存储引擎。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="B-树和B树特点："><a href="#B-树和B树特点：" class="headerlink" title="B+树和B树特点："></a>B+树和B树特点：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.多叉平衡搜索树,B+树每个非叶子节点只有索引条件</span></span><br><span class="line"><span class="number">2</span><span class="string">.只有叶子节点存储数据(B树每个节点都可以保存数据)</span></span><br><span class="line"><span class="number">3</span><span class="string">.叶子节点双向链表连接以优化范围查询(B树要回溯才能范围查询,更多随机I/O)</span></span><br><span class="line"><span class="number">4</span><span class="string">.少量数据B树查询效率高(ETCD中的MVCC)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="锁："><a href="#锁：" class="headerlink" title="锁："></a>锁：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.全局锁:</span> <span class="string">对数据库实力加锁全库逻辑备份,MySQL提高全局读锁(FTWRL:flush</span> <span class="string">tables</span> <span class="string">with</span> <span class="string">read</span> <span class="string">lock;unlock</span> <span class="string">tables)</span></span><br><span class="line"><span class="number">2</span><span class="string">.表锁:</span> <span class="string">lock</span> <span class="string">tables</span> <span class="string">T</span> <span class="string">read/write(读锁,线程自己也只能读,写锁,线程自己可读写)</span></span><br><span class="line"><span class="number">3</span><span class="string">.元数据锁(MDL):</span> <span class="string">CURD操作时先获取MDL读锁,修改表结构时获取MDL写锁,在MYSQL5.7</span> <span class="string">online</span> <span class="string">DDL已经比较完善</span></span><br><span class="line"><span class="number">4</span><span class="string">.行锁:</span> <span class="string">InnoDB支持,MyISAM不支持</span></span><br><span class="line"><span class="number">5.</span><span class="string">range锁:</span> </span><br><span class="line"><span class="number">6</span><span class="string">.间隙锁:</span></span><br><span class="line"><span class="number">7</span><span class="string">.死锁:</span> </span><br><span class="line">	<span class="string">a.等待超时:</span> <span class="string">innodb_lock_wait_timeout(默认50s)</span></span><br><span class="line">	<span class="string">b.开启死锁检测:</span> <span class="string">innodb_deadlock_deteck=on(发生死锁时回滚一个事务)</span></span><br></pre></td></tr></table></figure>
 
@@ -96,7 +96,7 @@
 <p>[<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]">https://mp.weixin.qq.com/s?__biz=MzU1OTUzODgyNg==&amp;mid=2247486210&amp;idx=1&amp;sn=a246dfd6e849a8c8e08c83bfea332b73&amp;chksm=fc14fce7cb6375f1944abd1d743b971c8253dfa11cbd3d30a5e49a71e54b49f687fac452dc3b&amp;scene=178&amp;cur_album_id=2015004473084936195#rd]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]">https://www.mdnice.com/writing/3903e190243d4f7eb248af58c6ab7b12]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/songhaixing2/article/details/114281977]">https://blog.csdn.net/songhaixing2/article/details/114281977]</a></p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;">&#57;&#51;&#x32;&#x36;&#x31;&#x37;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#51;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#111;&#109;">&#57;&#51;&#50;&#x36;&#x31;&#55;&#56;&#x33;&#x37;&#64;&#113;&#113;&#x2e;&#99;&#111;&#109;</a></p>
 
       
     </div>
@@ -143,15 +143,13 @@
   
     <li><a href="/categories/JavaIO/">JavaIO</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>7</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
   
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
-  
-    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
   
@@ -163,11 +161,13 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>9</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/网址收藏/">网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
@@ -179,6 +179,10 @@
 <div class="widget tag">
   <h3 class="title">最新文章</h3>
   <ul class="entry">
+    
+      <li>
+        <a href="/2023/11/19/MySQL-索引/">MySQL-索引</a>
+      </li>
     
       <li>
         <a href="/2023/11/11/搜索/">搜索技巧</a>
@@ -194,10 +198,6 @@
     
       <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
       </li>
     
   </ul>

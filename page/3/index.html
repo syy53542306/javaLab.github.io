@@ -62,6 +62,62 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2021-08-12T13:15:08.655Z"><a href="/2021/08/12/操作系统/">2021-08-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2021/08/12/操作系统/">操作系统</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="CPU组成："><a href="#CPU组成：" class="headerlink" title="CPU组成："></a>CPU组成：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.控制单元:</span></span><br><span class="line">	<span class="string">指令寄存器IR（Instruction</span> <span class="string">Register）</span></span><br><span class="line">	<span class="string">指令译码器ID（Instruction</span> <span class="string">Decoder）</span></span><br><span class="line">	<span class="string">操作控制器OC（Operation</span> <span class="string">Controller）-发信号</span></span><br><span class="line">	<span class="string">...</span></span><br><span class="line"><span class="number">2</span><span class="string">.运算单元(接收信号):</span> </span><br><span class="line">	<span class="string">算术运算（包括加减乘数等基本运算及其附加运算）</span></span><br><span class="line">	<span class="string">逻辑运算（包括移位、逻辑测试或两个值比较）</span></span><br><span class="line"><span class="number">3</span><span class="string">.存储单元:</span> </span><br><span class="line">	<span class="string">CPU片内缓存Cache(我理解的是L1,L2)</span></span><br><span class="line">	<span class="string">寄存器组(专用寄存器、通用寄存器)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CPU缓存结构-i5-8265u"><a href="#CPU缓存结构-i5-8265u" class="headerlink" title="CPU缓存结构(i5-8265u)"></a>CPU缓存结构(i5-8265u)</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">寄存器</span></span><br><span class="line"><span class="attr">L1:</span> <span class="string">分为数据缓存和指令缓存，逻辑核独占(256K)</span></span><br><span class="line"><span class="attr">L2:</span> <span class="string">物理核独占，逻辑核共享(1MB)</span></span><br><span class="line"><span class="attr">L3:</span> <span class="string">所有物理核共享(6MB)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="局部性原理："><a href="#局部性原理：" class="headerlink" title="局部性原理："></a>局部性原理：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.时间局部性（Temporal</span> <span class="string">Locality）:</span> <span class="string">如果一个信息项正在被访问，那么在近期它很可能还会被再次访问,比如循环、递归、方法的反复调用等。</span></span><br><span class="line"><span class="number">2</span><span class="string">.空间局部性（Spatial</span> <span class="string">Locality）:</span> <span class="string">如果一个存储器的位置被引用，那么将来他附近的位置也会被引用,比如顺序执行的代码、连续创建的两个对象、数组等。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CPU运行级别："><a href="#CPU运行级别：" class="headerlink" title="CPU运行级别："></a>CPU运行级别：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ring0,ring1,ring2,ring3</span></span><br><span class="line"><span class="string">Linux与Windows只用到了2个级别</span></span><br><span class="line"><span class="attr">ring0:</span> <span class="string">操作系统内部内部程序指令运行所需级别</span></span><br><span class="line"><span class="attr">ring3:</span> <span class="string">第三方程序运行所需级别</span></span><br><span class="line"><span class="string">第三方程序如果要调用操作系统内部函数功能，由于运行安全级别不够,必须切换CPU运行状态从ring3切换到ring0,然后执行系统函数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内存空间："><a href="#内存空间：" class="headerlink" title="内存空间："></a>内存空间：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.用户空间(用户态usermode):</span> <span class="string">低地址，一般的堆栈(用户空间的堆栈)</span></span><br><span class="line"><span class="number">2</span><span class="string">.内核空间(内核态kernelmode):</span> <span class="string">高地址，固定大小的堆栈（内核空间的堆栈，一般为一个内存页的大小）</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="线程创建过程："><a href="#线程创建过程：" class="headerlink" title="线程创建过程："></a>线程创建过程：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">step1:</span> <span class="string">CPU从ring3切换ring0创建线程</span></span><br><span class="line"><span class="attr">step2:</span> <span class="string">创建完毕,CPU从ring0切换回ring3</span></span><br><span class="line"><span class="attr">step3:</span> <span class="string">线程执行程序</span></span><br><span class="line"><span class="attr">step4:</span> <span class="string">线程执行完毕，销毁还得切会ring0</span></span><br><span class="line"><span class="string">进程与线程其实有两个堆栈，分别运行与用户态与内核态。</span></span><br><span class="line"><span class="string">进程是OS(操作系统)资源分配的最小单位</span></span><br><span class="line"><span class="string">线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light</span> <span class="string">Weight</span> <span class="string">Process）</span></span><br><span class="line"><span class="string">CPU密集型（CPU</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">CPU核数</span> <span class="string">+</span> <span class="number">1</span><span class="string">（现代CPU支持超线程）</span></span><br><span class="line"><span class="string">IO密集型（I/O</span> <span class="string">bound）线程数一般设置为：线程数</span> <span class="string">=</span> <span class="string">((线程等待时间</span> <span class="string">+</span> <span class="string">线程CPU时间)</span> <span class="string">/</span> <span class="string">线程CPU时间)</span> <span class="string">*</span> <span class="string">CPU数目</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889076335369519118]">https://juejin.cn/post/6889076335369519118]</a>: </p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#57;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#109;">&#57;&#x33;&#x32;&#x36;&#49;&#55;&#x38;&#51;&#55;&#64;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/操作系统/">操作系统</a>
+  </div>
+
+        
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2021-08-08T09:47:22.815Z"><a href="/2021/08/08/类加载过程/">2021-08-08</a></time>
       
       
@@ -683,57 +739,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2021-08-01T12:31:32.073Z"><a href="/2021/08/01/二叉树的前中后遍历特点/">2021-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2021/08/01/二叉树的前中后遍历特点/">二叉树前中后序遍历特点</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="二叉树前中后序遍历特点"><a href="#二叉树前中后序遍历特点" class="headerlink" title="二叉树前中后序遍历特点"></a>二叉树前中后序遍历特点</h2><h3 id="题："><a href="#题：" class="headerlink" title="题："></a>题：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。</span><br><span class="line">假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</span><br><span class="line">Input: preorder = [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="number">15</span>,<span class="number">7</span>], inorder = [<span class="number">9</span>,<span class="number">3</span>,<span class="number">15</span>,<span class="number">20</span>,<span class="number">7</span>]</span><br><span class="line">Output: [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="思"><a href="#思" class="headerlink" title="思"></a>思</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">前序遍历特点(根-&gt;左-&gt;右):</span> <span class="string">遍历后根节点第一个</span></span><br><span class="line"><span class="string">中序遍历特点(左-&gt;根-&gt;右):</span> <span class="string">遍历后，根节点左边为左子树，右边为右子树</span></span><br><span class="line"><span class="string">后序遍历特点(左-&gt;右-&gt;根):</span> <span class="string">遍历后根节点为最后一个</span></span><br></pre></td></tr></table></figure>
-
-<p>解(java)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">buildTree</span><span class="params">(<span class="keyword">int</span>[] preorder, <span class="keyword">int</span>[] inorder)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span>(preorder.length==<span class="number">0</span>||inorder.length==<span class="number">0</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">          <span class="keyword">if</span>(preorder.length==<span class="number">1</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(preorder[<span class="number">0</span>]);</span><br><span class="line">          <span class="keyword">if</span>(inorder.length==<span class="number">1</span>)</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(inorder[<span class="number">0</span>]);</span><br><span class="line">          TreeNode root=construct(preorder,<span class="number">0</span>,preorder.length-<span class="number">1</span>,inorder,<span class="number">0</span>,inorder.length-<span class="number">1</span>);</span><br><span class="line">          <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">construct</span><span class="params">(<span class="keyword">int</span> [] pre,<span class="keyword">int</span> beg,<span class="keyword">int</span> end,<span class="keyword">int</span> [] in,<span class="keyword">int</span> beg2,<span class="keyword">int</span> end2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(beg&gt;=pre.length||end&lt;<span class="number">0</span>||beg2&gt;=in.length||end2&lt;<span class="number">0</span>||beg&gt;end||beg2&gt;end2)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode root=<span class="keyword">new</span> TreeNode(pre[beg]);</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=beg2;i&lt;=end2;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(in[i]==root.val)&#123;</span><br><span class="line">                index=i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        root.left=construct(pre,beg+<span class="number">1</span>,beg+<span class="number">1</span>+index-<span class="number">1</span>-beg2+<span class="number">1</span>-<span class="number">1</span>,in,beg2,index-<span class="number">1</span>);</span><br><span class="line">        root.right=construct(pre,beg+<span class="number">1</span>+index-<span class="number">1</span>-beg2+<span class="number">1</span>-<span class="number">1</span>+<span class="number">1</span>,end,in,index+<span class="number">1</span>,end2);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p>[<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/submissions/]">https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/submissions/]</a>: </p>
-
-      
-    </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/算法/">算法</a>
-  </div>
-
-        
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
 
 <nav id="pagination">
   
@@ -764,15 +769,13 @@
   
     <li><a href="/categories/JavaIO/">JavaIO</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>7</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
   
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
-  
-    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
   
@@ -784,11 +787,13 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>9</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/网址收藏/">网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
@@ -800,6 +805,10 @@
 <div class="widget tag">
   <h3 class="title">最新文章</h3>
   <ul class="entry">
+    
+      <li>
+        <a href="/2023/11/19/MySQL-索引/">MySQL-索引</a>
+      </li>
     
       <li>
         <a href="/2023/11/11/搜索/">搜索技巧</a>
@@ -815,10 +824,6 @@
     
       <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
       </li>
     
   </ul>

@@ -7,9 +7,9 @@
   <meta name="author" content="MagicCoderYang" />
 
   
-  <meta name="description" content="MySQL之MVCC和幻读MVCC的含义和作用：1MVCC: 多版本并发控制，解决了脏读和不可重复读的问题，使用快照读解决了部分幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终就是使用间隙锁解决。
+  <meta name="description" content="MySQL之MVCC和幻读MVCC的含义和作用：1MVCC: 多版本并发控制，解决了脏读和不可重复读的问题，MVCC解决了快照读下的幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终是使用间隙锁解决。
 
-当前读和快照读：123451.当前读包括: 显示加锁读操作，在Innodb存" />
+当前读和快照读：123451.当前读包括: 显示加锁读操作，在Innodb" />
   
 
   
@@ -75,7 +75,7 @@
     </header>
     <div class="entry">
       
-        <h2 id="MySQL之MVCC和幻读"><a href="#MySQL之MVCC和幻读" class="headerlink" title="MySQL之MVCC和幻读"></a>MySQL之MVCC和幻读</h2><h3 id="MVCC的含义和作用："><a href="#MVCC的含义和作用：" class="headerlink" title="MVCC的含义和作用："></a>MVCC的含义和作用：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MVCC:</span> <span class="string">多版本并发控制，解决了脏读和不可重复读的问题，使用快照读解决了部分幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终就是使用间隙锁解决。</span></span><br></pre></td></tr></table></figure>
+        <h2 id="MySQL之MVCC和幻读"><a href="#MySQL之MVCC和幻读" class="headerlink" title="MySQL之MVCC和幻读"></a>MySQL之MVCC和幻读</h2><h3 id="MVCC的含义和作用："><a href="#MVCC的含义和作用：" class="headerlink" title="MVCC的含义和作用："></a>MVCC的含义和作用：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MVCC:</span> <span class="string">多版本并发控制，解决了脏读和不可重复读的问题，MVCC解决了快照读下的幻读问题，但是在修改时还是使用当前读，所以还是存在幻读问题，幻读问题最终是使用间隙锁解决。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="当前读和快照读："><a href="#当前读和快照读：" class="headerlink" title="当前读和快照读："></a>当前读和快照读：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.当前读包括:</span> <span class="string">显示加锁读操作，在Innodb存储引擎中DML操作(insert,update,delete隐式添加排它锁)</span></span><br><span class="line">  <span class="string">例子:</span> <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">from</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span> <span class="string">lock</span> <span class="string">in</span> <span class="string">share</span> <span class="string">mode;</span></span><br><span class="line">	   <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">from</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span> <span class="string">for</span> <span class="string">update;</span></span><br><span class="line"><span class="number">2</span><span class="string">.快照读:</span> <span class="string">快照读的前提是隔离级别不是串行级别，串行级别的快照读会退化成当前读。</span></span><br><span class="line">  <span class="string">例子:</span> <span class="string">select</span> <span class="string">id</span> <span class="string">name</span> <span class="string">user</span> <span class="string">where</span> <span class="string">id</span> <span class="string">=</span> <span class="number">1</span><span class="string">;</span></span><br></pre></td></tr></table></figure>
 
@@ -85,7 +85,7 @@
 
 <h3 id="read-view："><a href="#read-view：" class="headerlink" title="read-view："></a>read-view：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[已提交的事务id1,已提交的事务id2,...]已经创建的最大事务ID</span><br><span class="line">当执行SQL语句查询时会产生一致性视图，也就是read-view，它是由查询的那一时间所有未提交事务ID组成的数组，和已经创建的最大事务ID组成的。</span><br><span class="line">在这个数组中最小的事务ID被称之为min_id，最大事务ID被称之为max_id，查询的数据结果要根据read-view做对比从而得到快照结果。</span><br></pre></td></tr></table></figure>
 
-<h3 id="版本链对比规则："><a href="#版本链对比规则：" class="headerlink" title="版本链对比规则："></a>版本链对比规则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">.如果落在trx_id&lt;min_id，表示此版本是已经提交的事务生成的，由于事务已经提交所以数据是可见的</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果落在trx_id&gt;max_id，表示此版本是由将来启动的事务生成的，是肯定不可见的</span></span><br><span class="line"><span class="number">3</span><span class="string">.若在min_id&lt;=trx_id&lt;=max_id时</span></span><br><span class="line">	<span class="string">如果row的trx_id在数组中，表示此版本是由还没提交的事务生成的，不可见，但是当前自己的事务是可见的</span></span><br><span class="line">	<span class="string">如果row的trx_id不在数组中，表明是提交的事务生成了该版本，可见</span></span><br><span class="line"><span class="number">4</span><span class="string">.在这里还有一个特殊情况那就是对于已经删除的数据，在之前的undo</span> <span class="string">log日志讲述时说了update和delete是同一种类型的undo</span> <span class="string">log，同样也可以认为delete就是update的特殊情况。</span></span><br><span class="line"><span class="string">当删除一条数据时会将版本链上最新的数据复制一份，然后将trx_id修改为删除时的trx_id，同时在该记录的头信息中存在一个delete</span> <span class="string">flag标记，将这个标记写上true，用来表示当前记录已经删除。</span></span><br><span class="line"><span class="string">在查询时按照版本链的规则查询到对应的记录，如果delete</span> <span class="string">flag标记位为true，意味着数据已经被删除，则不返回数据。</span></span><br><span class="line"><span class="string">小结:</span> <span class="string">trx_id从最新的版本链取，当trx_id不在read-view的数组中且trx_id不小于min_id，则该版本为最新的可见版本;在同一个事务中后面几次查询会沿用第一次查询语句生成的read-view（前提是隔离级别是在可重复读）</span></span><br></pre></td></tr></table></figure>
+<h3 id="版本链对比规则："><a href="#版本链对比规则：" class="headerlink" title="版本链对比规则："></a>版本链对比规则：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">小结:</span> <span class="string">trx_id从最新的版本链取，当trx_id不在read-view的数组中且trx_id不小于min_id，则该版本为最新的可见版本;在同一个事务中后面几次查询会沿用第一次查询语句生成的read-view（前提是隔离级别是在可重复读）</span></span><br><span class="line"><span class="string">规则:</span></span><br><span class="line"><span class="number">1</span><span class="string">.如果落在trx_id&lt;min_id，表示此版本是已经提交的事务生成的，由于事务已经提交所以数据是可见的</span></span><br><span class="line"><span class="number">2</span><span class="string">.如果落在trx_id&gt;max_id，表示此版本是由将来启动的事务生成的，是肯定不可见的</span></span><br><span class="line"><span class="number">3</span><span class="string">.若在min_id&lt;=trx_id&lt;=max_id时</span></span><br><span class="line">	<span class="string">如果row的trx_id在数组中，表示此版本是由还没提交的事务生成的，不可见，但是当前自己的事务是可见的</span></span><br><span class="line">	<span class="string">如果row的trx_id不在数组中，表明是提交的事务生成了该版本，可见</span></span><br><span class="line"><span class="number">4</span><span class="string">.在这里还有一个特殊情况那就是对于已经删除的数据，在之前的undo</span> <span class="string">log日志讲述时说了update和delete是同一种类型的undo</span> <span class="string">log，同样也可以认为delete就是update的特殊情况。</span></span><br><span class="line"><span class="string">当删除一条数据时会将版本链上最新的数据复制一份，然后将trx_id修改为删除时的trx_id，同时在该记录的头信息中存在一个delete</span> <span class="string">flag标记，将这个标记写上true，用来表示当前记录已经删除。</span></span><br><span class="line"><span class="string">在查询时按照版本链的规则查询到对应的记录，如果delete</span> <span class="string">flag标记位为true，意味着数据已经被删除，则不返回数据。</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="MVCC和幻读："><a href="#MVCC和幻读：" class="headerlink" title="MVCC和幻读："></a>MVCC和幻读：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.MVCC解决了快照读下的幻读问题</span><br><span class="line">2.在Innodb下解决当前读产生的幻读问题需要手动加锁来解决，引擎采用next-key locks来锁住记录</span><br><span class="line">3.如果事务当中开始进行DML操作，则快照读会失效，转变为当前读，会出现幻读</span><br></pre></td></tr></table></figure>
 
@@ -94,7 +94,7 @@
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/fangkang7/article/details/114987135]">https://blog.csdn.net/fangkang7/article/details/114987135]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/fangkang7/article/details/115325225]">https://blog.csdn.net/fangkang7/article/details/115325225]</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/songhaixing2/article/details/114281977]">https://blog.csdn.net/songhaixing2/article/details/114281977]</a></p>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;">&#x39;&#51;&#50;&#54;&#49;&#x37;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><p>个人烂笔头，欢迎指正和交流，<a href="mailto:&#x39;&#x33;&#x32;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;">&#x39;&#x33;&#x32;&#54;&#49;&#55;&#56;&#x33;&#55;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a></p>
 
       
     </div>
@@ -141,15 +141,13 @@
   
     <li><a href="/categories/JavaIO/">JavaIO</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>6</small></li>
+    <li><a href="/categories/数据库/MySQL/">MySQL</a><small>7</small></li>
   
     <li><a href="/categories/Redis/">Redis</a><small>1</small></li>
   
     <li><a href="/categories/Zookeeper/">Zookeeper</a><small>1</small></li>
   
     <li><a href="/categories/分布式/">分布式</a><small>1</small></li>
-  
-    <li><a href="/categories/博客网址收藏/">博客网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/大数据/">大数据</a><small>1</small></li>
   
@@ -161,11 +159,13 @@
   
     <li><a href="/categories/操作系统/">操作系统</a><small>1</small></li>
   
-    <li><a href="/categories/数据库/">数据库</a><small>8</small></li>
+    <li><a href="/categories/数据库/">数据库</a><small>9</small></li>
   
     <li><a href="/categories/消息队列/">消息队列</a><small>3</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>7</small></li>
+  
+    <li><a href="/categories/网址收藏/">网址收藏</a><small>1</small></li>
   
     <li><a href="/categories/计算机术语/">计算机术语</a><small>1</small></li>
   
@@ -177,6 +177,10 @@
 <div class="widget tag">
   <h3 class="title">最新文章</h3>
   <ul class="entry">
+    
+      <li>
+        <a href="/2023/11/19/MySQL-索引/">MySQL-索引</a>
+      </li>
     
       <li>
         <a href="/2023/11/11/搜索/">搜索技巧</a>
@@ -192,10 +196,6 @@
     
       <li>
         <a href="/2022/01/23/MySQL之MVCC和幻读/">MySQL之MVCC和幻读</a>
-      </li>
-    
-      <li>
-        <a href="/2022/01/22/MySQL之replace有多少坑/">MySQL之replace有多少坑</a>
       </li>
     
   </ul>
